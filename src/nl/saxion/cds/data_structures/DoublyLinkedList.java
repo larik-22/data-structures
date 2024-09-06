@@ -179,11 +179,6 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
 
         //Easy way
         current.setValue(value);
-
-        //Better way
-//        Node<T> newNode = new Node<>(value);
-//        Node<T> currentPrev = current.getPrevious();
-
     }
 
     /**
@@ -262,7 +257,7 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
      */
     @Override
     public T removeAt(int index) throws IndexOutOfBoundsException {
-        if(index > size || index < 0){
+        if(index >= size || index < 0){
             throw new IndexOutOfBoundsException("Invalid index");
         }
 
@@ -277,11 +272,11 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
                 current = current.getNext();
             }
 
-            Node currentPrev = current.getPrevious();
-            currentPrev.setNext(current.getNext());
-            current.getNext().setPrevious(currentPrev);
+            Node<T> currentPrev = current.getPrevious();
+            Node<T> currentNext = current.getNext();
+            currentPrev.setNext(currentNext);
+            currentNext.setPrevious(currentPrev);
             T value = current.getValue();
-            current = null;
             size--;
 
             return value;
@@ -291,13 +286,35 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
     /**
      * Removes the element on the "index"th position in the list.
      * Throws an ValueNotFoundException if the value is not in the list
-     *
      * @param value value to remove
      * @throws ValueNotFoundException value not found
      */
     @Override
     public void remove(T value) throws ValueNotFoundException {
+        if (isEmpty()) {
+            throw new ValueNotFoundException("Value not found in the list");
+        }
 
+        Node<T> current = head;
+
+        int currentIndex = 0;
+        while (current != null) {
+            if (current.getValue().equals(value)) {
+                if (current.equals(head)) {
+                    removeFirst();
+                } else if (current.equals(tail)) {
+                    removeLast();
+                } else {
+                    removeAt(currentIndex);
+                }
+                return;
+            }
+
+            current = current.getNext();
+            currentIndex++;
+        }
+
+        throw new ValueNotFoundException("Value not found in the list");
     }
 
     /**
@@ -307,7 +324,24 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
      */
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new DlIterator();
+    }
+
+    private class DlIterator implements Iterator<T> {
+        private Node<T> current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public T next() {
+            T value = current.getValue();
+            current = current.getNext();
+            return value;
+        }
+
     }
 
     /**
@@ -342,16 +376,16 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
         return "";
     }
 
-    public void print(){
-        System.out.print("[");
-        Node current = head;
-
-        System.out.print(current.getValue() + ", ");
-        while(current.getNext() != null){
-            current = current.getNext();
-            System.out.print(current.getValue() + ", ");
-        }
-        System.out.print("]");
-        System.out.println();
-    }
+//    public void print(){
+//        System.out.print("[");
+//        Node current = head;
+//
+//        System.out.print(current.getValue() + ", ");
+//        while(current.getNext() != null){
+//            current = current.getNext();
+//            System.out.print(current.getValue() + ", ");
+//        }
+//        System.out.print("]");
+//        System.out.println();
+//    }
 }
