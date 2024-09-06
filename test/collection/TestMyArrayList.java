@@ -18,6 +18,7 @@ public class TestMyArrayList {
 
     @BeforeEach
     void createExampleList() {
+
         list = new MyArrayList<>();
         list.addLast("2");
         list.addLast("23");
