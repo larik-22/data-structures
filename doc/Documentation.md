@@ -13,7 +13,7 @@ I was confused with method `remove()` at first, as it wasn't clear if it should 
 
 I have had some troubles with `graphViz()` method as I have never used `DOT` language before. 
 After spending some time reading the documentation and still not being able to visualize the nodes, I began to surf through internet. 
-I stumbled upon a stack overflow post where I found a script for visualizing doubly linked list.
+I stumbled upon a [stack overflow post](https://stackoverflow.com/questions/70441786/draw-doubly-linked-list-using-graphviz)   where I found a script for visualizing doubly linked list.
 After that I have used chatGPT to achieve getting same script output based on elements inside my list.
 
 When it comes to testing, I went a bit overboard and tested every method with multiple test cases, including edge cases.
