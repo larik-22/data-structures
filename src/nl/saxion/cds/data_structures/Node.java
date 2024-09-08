@@ -3,7 +3,8 @@ package nl.saxion.cds.data_structures;
 import java.util.Iterator;
 import java.util.Objects;
 
-public class Node<T>{
+//make accept only printable objects, those that have a toString method implemented
+public class Node<T> {
     private T value;
     private Node<T> next, previous;
 
@@ -35,6 +36,8 @@ public class Node<T>{
         this.value = value;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,5 +45,4 @@ public class Node<T>{
         Node<?> node = (Node<?>) o;
         return Objects.equals(value, node.value);
     }
-
 }

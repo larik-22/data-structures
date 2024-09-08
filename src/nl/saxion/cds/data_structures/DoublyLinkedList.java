@@ -4,6 +4,7 @@ import nl.saxion.cds.collection.EmptyCollectionException;
 import nl.saxion.cds.collection.SaxList;
 import nl.saxion.cds.collection.ValueNotFoundException;
 
+import java.awt.print.Printable;
 import java.util.Iterator;
 
 public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
@@ -318,6 +319,36 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
     }
 
     /**
+     * Removes all elements with the given value from the list.
+     * Throws an ValueNotFoundException if the value is not in the list
+     * @param value value to remove
+     * @throws ValueNotFoundException value not found
+     */
+    public void removeAll(T value) throws ValueNotFoundException {
+        if (isEmpty()) {
+            throw new ValueNotFoundException("Value not found in the list");
+        }
+
+        Node<T> current = head;
+
+        int currentIndex = 0;
+        while (current != null) {
+            if (current.getValue().equals(value)) {
+                if (current.equals(head)) {
+                    removeFirst();
+                } else if (current.equals(tail)) {
+                    removeLast();
+                } else {
+                    removeAt(currentIndex);
+                }
+            }
+
+            current = current.getNext();
+            currentIndex++;
+        }
+    }
+
+    /**
      * Returns an iterator over elements of type {@code T}.
      *
      * @return an Iterator.
@@ -373,19 +404,28 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
      */
     @Override
     public String graphViz(String name) {
-        return "";
-    }
+        StringBuilder sb = new StringBuilder();
+        sb.append("digraph \"").append(name).append("\" {\n");
+        sb.append("    rankdir=LR;\n");
+        sb.append("    node [shape=record];\n");
 
-//    public void print(){
-//        System.out.print("[");
-//        Node current = head;
-//
-//        System.out.print(current.getValue() + ", ");
-//        while(current.getNext() != null){
-//            current = current.getNext();
-//            System.out.print(current.getValue() + ", ");
-//        }
-//        System.out.print("]");
-//        System.out.println();
-//    }
+        Node<T> current = head;
+        int index = 0;
+        while (current != null) {
+            sb.append("    n").append(index).append(" [label=\"{ <ref1> | <data> ")
+                    .append(current.getValue().toString()).append(" | <ref2> }\"];\n");
+
+            current = current.getNext();
+            index++;
+        }
+
+        for (int i = 0; i < index - 1; i++) {
+            sb.append("    n").append(i).append(":ref2:c -> n").append(i + 1).append(":data:n [arrowhead=vee, arrowtail=dot, dir=both, tailclip=false];\n");
+            sb.append("    n").append(i + 1).append(":ref1:c -> n").append(i).append(":data:s [arrowhead=vee, arrowtail=dot, dir=both, tailclip=false];\n");
+        }
+
+        sb.append("}");
+
+        return sb.toString();
+    }
 }

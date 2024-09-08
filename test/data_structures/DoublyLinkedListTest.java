@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,7 +22,6 @@ public class DoublyLinkedListTest {
         assertTrue(list.isEmpty());
     }
 
-    /*TODO: Ask Meneer Frederik about those kind of tests*/
     @Test
     public void GivenList_WhenAddingLastItems_ConfirmCorrectListSize(){
         testStringList.addLast("Hello");
@@ -32,7 +32,6 @@ public class DoublyLinkedListTest {
         assertEquals(3, testStringList.size());
     }
 
-    /*TODO: Ask Meneer Frederik about those kind of tests*/
     @Test
     public void GivenList_WhenAddingFirstItems_ConfirmCorrectListSize(){
         testStringList.addFirst("Hello");
@@ -290,10 +289,37 @@ public class DoublyLinkedListTest {
 
         Iterator<String> iterator = testStringList.iterator();
         assertEquals("Hello", iterator.next());
+        assertTrue(iterator.hasNext());
         assertEquals("World", iterator.next());
+        assertTrue(iterator.hasNext());
         assertEquals("To", iterator.next());
+        assertTrue(iterator.hasNext());
         assertEquals("You", iterator.next());
-        assertEquals(false, iterator.hasNext());
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    public void GivenEmptyList_WhenUsingIterator_ConfirmHasNextIsFalse(){
+        // Case 1: List is empty
+        Iterator<String> iterator = testStringList.iterator();
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    public void GivenVisualizedList_WhenUsingGraphViz_ConfirmResultsEqual(){
+        testStringList.addLast("Hello");
+        testStringList.addLast("World");
+
+        String expectedOutput = "digraph \"Dl\" {\n" +
+                "    rankdir=LR;\n" +
+                "    node [shape=record];\n" +
+                "    n0 [label=\"{ <ref1> | <data> Hello | <ref2> }\"];\n" +
+                "    n1 [label=\"{ <ref1> | <data> World | <ref2> }\"];\n" +
+                "    n0:ref2:c -> n1:data:n [arrowhead=vee, arrowtail=dot, dir=both, tailclip=false];\n" +
+                "    n1:ref1:c -> n0:data:s [arrowhead=vee, arrowtail=dot, dir=both, tailclip=false];\n" +
+                "}";
+
+        assertEquals(expectedOutput, testStringList.graphViz("Dl"));
     }
 
     @BeforeEach
