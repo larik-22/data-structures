@@ -16,14 +16,14 @@ public class DoublyLinkedListTest {
     DoublyLinkedList<String> testStringList = new DoublyLinkedList<>();
 
     @Test
-    public void GivenEmptyList_WhenCheckingSize_ConfirmSizeIsZeroAndEmpty(){
+    public void givenEmptyList_WhenCheckingSize_ConfirmSizeIsZeroAndEmpty(){
         DoublyLinkedList<String> list = new DoublyLinkedList<>();
         assertEquals(0, list.size());
         assertTrue(list.isEmpty());
     }
 
     @Test
-    public void GivenList_WhenAddingLastItems_ConfirmCorrectListSize(){
+    public void givenList_WhenAddingLastItems_ConfirmCorrectListSize(){
         testStringList.addLast("Hello");
         assertEquals(1, testStringList.size());
         testStringList.addLast("World");
@@ -33,7 +33,7 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenList_WhenAddingFirstItems_ConfirmCorrectListSize(){
+    public void givenList_WhenAddingFirstItems_ConfirmCorrectListSize(){
         testStringList.addFirst("Hello");
         assertEquals(1, testStringList.size());
         testStringList.addFirst("World");
@@ -43,21 +43,21 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenListWithElement_WhenAddingToInvalidIndex_ExceptionIsThrown(){
+    public void givenListWithElement_WhenAddingToInvalidIndex_ExceptionIsThrown(){
         testStringList.addLast("Hello");
         assertThrows(IndexOutOfBoundsException.class, () -> testStringList.addAt(2, "World"));
         assertThrows(IndexOutOfBoundsException.class, () -> testStringList.addAt(-1, "World"));
     }
 
     @Test
-    public void GivenEmptyList_WhenAddingElementToIndexZero_ElementIsAddedA(){
+    public void givenEmptyList_WhenAddingElementToIndexZero_ElementIsAddedA(){
         testStringList.addAt(0, "Hello");
         assertEquals(1, testStringList.size());
         assertEquals("Hello", testStringList.get(0));
     }
 
     @Test
-    public void GivenListWithElements_WhenAddingElementAtTakenIndex_AddsItemAtCorrectPosition(){
+    public void givenListWithElements_WhenAddingElementAtTakenIndex_AddsItemAtCorrectPosition(){
         testStringList.addLast("Hello");
         testStringList.addLast("World");
         testStringList.addLast("!");
@@ -68,21 +68,21 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenListWithOneItem_WhenRemovingLastItem_ConfirmSizeZero(){
+    public void givenListWithOneItem_WhenRemovingLastItem_ConfirmSizeZero(){
         testStringList.addLast("Hello");
         testStringList.removeLast();
         assertEquals(0, testStringList.size());
     }
 
     @Test
-    public void GivenListWithOneItem_WhenRemovingFirstItem_ConfirmSizeZero(){
+    public void givenListWithOneItem_WhenRemovingFirstItem_ConfirmSizeZero(){
         testStringList.addLast("Hello");
         testStringList.removeFirst();
         assertEquals(0, testStringList.size());
     }
 
     @Test
-    public void GivenListWithItems_WhenRemovingFirstItem_ConfirmCorrectValueIsDeleted(){
+    public void givenListWithItems_WhenRemovingFirstItem_ConfirmCorrectValueIsDeleted(){
         testStringList.addFirst("Hello");
         testStringList.addLast("World");
         testStringList.addLast("!");
@@ -95,7 +95,7 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenListWithItems_WhenRemovingLastItem_ConfirmCorrectValueIsDeleted(){
+    public void givenListWithItems_WhenRemovingLastItem_ConfirmCorrectValueIsDeleted(){
         testStringList.addFirst("Hello");
         testStringList.addLast("World");
         testStringList.addLast("!");
@@ -108,7 +108,7 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenEmptyList_WhenRemovingItemAtIncorrectIndex_ExceptionIsThrown(){
+    public void givenEmptyList_WhenRemovingItemAtIncorrectIndex_ExceptionIsThrown(){
         testStringList.addLast("Hello");
 
         assertThrows(IndexOutOfBoundsException.class, () -> testStringList.removeAt(1));
@@ -116,14 +116,14 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenListWithOneItem_WhenRemovingItemAtIndexZero_ConfirmSizeZero(){
+    public void givenListWithOneItem_WhenRemovingItemAtIndexZero_ConfirmSizeZero(){
         testStringList.addAt(0, "Hello");
         testStringList.removeAt(0);
         assertEquals(0, testStringList.size());
     }
 
     @Test
-    public void GivenListWithItems_WhenRemovingLastItemByIndex_ConfirmSizeOneAndCorrectValueIsLeft(){
+    public void givenListWithItems_WhenRemovingLastItemByIndex_ConfirmSizeOneAndCorrectValueIsLeft(){
         testStringList.addAt(0, "Hello");
         testStringList.addAt(1, "World");
         testStringList.removeAt(1);
@@ -132,7 +132,7 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenListWithItems_WhenDeletingItem_ConfirmCorrectValueIsDeleted(){
+    public void givenListWithItems_WhenDeletingItem_ConfirmCorrectValueIsDeleted(){
         testStringList.addFirst("Hello");
         testStringList.addLast("World");
         testStringList.addLast("!");
@@ -142,14 +142,14 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenEmptyList_WhenRemovingElements_ExceptionIsThrown(){
+    public void givenEmptyList_WhenRemovingElements_ExceptionIsThrown(){
         assertThrows(EmptyCollectionException.class, () -> testStringList.removeLast());
         assertThrows(EmptyCollectionException.class, () -> testStringList.removeFirst());
         assertThrows(IndexOutOfBoundsException.class, () -> testStringList.removeAt(0));
     }
 
     @Test
-    public void GivenList_WhenGettingElementByIndex_ConfirmCorrectValuesReturned(){
+    public void givenList_WhenGettingElementByIndex_ConfirmCorrectValuesReturned(){
         testStringList.addLast("Hello");
         testStringList.addLast("World");
         testStringList.addLast("!");
@@ -160,7 +160,7 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenList_WhenGettingElementByIncorrectIndex_ConfirmExceptionIsThrown(){
+    public void givenList_WhenGettingElementByIncorrectIndex_ConfirmExceptionIsThrown(){
         assertThrows(IndexOutOfBoundsException.class, () -> {
             testStringList.get(-1);
         });
@@ -176,7 +176,7 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenList_WhenSettingElementAtIncorrectIndex_ExceptionIsThrown(){
+    public void givenList_WhenSettingElementAtIncorrectIndex_ExceptionIsThrown(){
         assertThrows(IndexOutOfBoundsException.class, () -> {
             testStringList.set(-1, "Hello");
         });
@@ -192,7 +192,7 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenListWithItems_WhenSettingItems_ConfirmValuesAreChangedCorrectly(){
+    public void givenListWithItems_WhenSettingItems_ConfirmValuesAreChangedCorrectly(){
         testStringList.addLast("Hello");
         testStringList.addLast("World");
         testStringList.addLast("!");
@@ -205,14 +205,14 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenEmptyList_WhenCheckedIfContainsElement_ExceptionIsThrown(){
+    public void givenEmptyList_WhenCheckedIfContainsElement_ExceptionIsThrown(){
         assertThrows(EmptyCollectionException.class, () -> {
             testStringList.contains("1");
         });
     }
 
     @Test
-    public void GivenListWithElement_WhenCheckingIfListContainsThatElement_ConfirmReturnsTrue(){
+    public void givenListWithElement_WhenCheckingIfListContainsThatElement_ConfirmReturnsTrue(){
         testStringList.addLast("Hello");
         testStringList.addLast("World");
 
@@ -220,7 +220,7 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenList_WhenCheckingIfContainsWrongElement_FalseIsReturned(){
+    public void givenList_WhenCheckingIfContainsWrongElement_FalseIsReturned(){
         testStringList.addLast("Hello");
         testStringList.addLast("World");
 
@@ -228,7 +228,7 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenList_WhenRemovingItemByIncorrectValue_ExceptionIsThrown(){
+    public void givenList_WhenRemovingItemByIncorrectValue_ExceptionIsThrown(){
         testStringList.addLast("Hello");
         assertThrows(ValueNotFoundException.class, () -> {
             testStringList.remove("World");
@@ -237,14 +237,14 @@ public class DoublyLinkedListTest {
 
     /*** Todo: Write about it in docs //// AAAAASK IF YOU SHOULD USE OTHER EXCEPTION ***/
     @Test
-    public void GivenEmptyList_WhenRemovingItemByValue_ExceptionIsThrown(){
+    public void givenEmptyList_WhenRemovingItemByValue_ExceptionIsThrown(){
         assertThrows(ValueNotFoundException.class, () -> {
             testStringList.remove("World");
         });
     }
 
     @Test
-    public void GivenListWithElements_WhenRemovingIncorrectItemsByValue_ExceptionIsThrown(){
+    public void givenListWithElements_WhenRemovingIncorrectItemsByValue_ExceptionIsThrown(){
         assertThrows(ValueNotFoundException.class, () -> {
             testStringList.addLast("Hello");
             testStringList.addLast("World");
@@ -256,7 +256,7 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenListWithOneElement_WhenRemovingItemByValue_ListSizeIsZero(){
+    public void givenListWithOneElement_WhenRemovingItemByValue_ListSizeIsZero(){
         testStringList.addLast("Hello");
         testStringList.remove("Hello");
 
@@ -264,7 +264,7 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void GivenListWithElements_WhenRemovingItemByValue_ListSizeIsCorrect(){
+    public void givenListWithElements_WhenRemovingItemByValue_ListSizeIsCorrect(){
         testStringList.addLast("Hello");
         testStringList.addLast("World");
         testStringList.addLast("To");
@@ -281,7 +281,7 @@ public class DoublyLinkedListTest {
 
     // test the iterator
     @Test
-    public void GivenList_WhenUsingIterator_ConfirmCorrectValues(){
+    public void givenList_WhenUsingIterator_ConfirmCorrectValuesAreReturned(){
         testStringList.addLast("Hello");
         testStringList.addLast("World");
         testStringList.addLast("To");
@@ -289,24 +289,66 @@ public class DoublyLinkedListTest {
 
         Iterator<String> iterator = testStringList.iterator();
         assertEquals("Hello", iterator.next());
-        assertTrue(iterator.hasNext());
         assertEquals("World", iterator.next());
-        assertTrue(iterator.hasNext());
         assertEquals("To", iterator.next());
-        assertTrue(iterator.hasNext());
         assertEquals("You", iterator.next());
-        assertFalse(iterator.hasNext());
     }
 
     @Test
-    public void GivenEmptyList_WhenUsingIterator_ConfirmHasNextIsFalse(){
+    public void givenList_WhenUsingIterator_ConfirmCorrectNextBehaviour(){
+        testStringList.addLast("Hello");
+        testStringList.addLast("World");
+        testStringList.addLast("To");
+        testStringList.addLast("You");
+
+        Iterator<String> iterator = testStringList.iterator();
+        iterator.next();
+        assertTrue(iterator.hasNext());
+
+        iterator.next();
+        assertTrue(iterator.hasNext());
+
+        iterator.next();
+        assertTrue(iterator.hasNext());
+
+        iterator.next();
+        assertFalse(iterator.hasNext());
+    }
+
+//    @Test
+//    public void GivenEmptyList_WhenRemovingAllElements_ExceptionIsThrown(){
+//        assertThrows(ValueNotFoundException.class, () -> {
+//           testStringList.removeAll("Exception");
+//        });
+//    }
+
+//    @Test
+//    public void GivenListWithValues_WhenRemovingAllElementInstances_ConfirmElementIsRemovedFromEverywhere(){
+//        testStringList.addLast("Hello");
+//        testStringList.addLast("World");
+//        testStringList.addLast("World");
+//        testStringList.addLast("World");
+//        testStringList.addLast("Hello");
+//        testStringList.addLast("Hello");
+//        testStringList.addLast("Hello");
+//        testStringList.addLast("World");
+//        testStringList.addLast("World");
+//        testStringList.addLast("World");
+//        testStringList.addLast("Hello");
+//
+//        testStringList.removeAll("Hello");
+//        testStringList.print();
+//    }
+
+    @Test
+    public void givenEmptyList_WhenUsingIterator_ConfirmHasNextIsFalse(){
         // Case 1: List is empty
         Iterator<String> iterator = testStringList.iterator();
         assertFalse(iterator.hasNext());
     }
 
     @Test
-    public void GivenVisualizedList_WhenUsingGraphViz_ConfirmResultsEqual(){
+    public void givenVisualizedList_WhenUsingGraphViz_ConfirmResultsEqual(){
         testStringList.addLast("Hello");
         testStringList.addLast("World");
 

@@ -318,35 +318,39 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
         throw new ValueNotFoundException("Value not found in the list");
     }
 
-    /**
-     * Removes all elements with the given value from the list.
-     * Throws an ValueNotFoundException if the value is not in the list
-     * @param value value to remove
-     * @throws ValueNotFoundException value not found
-     */
-    public void removeAll(T value) throws ValueNotFoundException {
-        if (isEmpty()) {
-            throw new ValueNotFoundException("Value not found in the list");
-        }
-
-        Node<T> current = head;
-
-        int currentIndex = 0;
-        while (current != null) {
-            if (current.getValue().equals(value)) {
-                if (current.equals(head)) {
-                    removeFirst();
-                } else if (current.equals(tail)) {
-                    removeLast();
-                } else {
-                    removeAt(currentIndex);
-                }
-            }
-
-            current = current.getNext();
-            currentIndex++;
-        }
-    }
+//    /**
+//     * Removes all elements with the given value from the list.
+//     * Throws an ValueNotFoundException if the value is not in the list
+//     * @param value value to remove
+//     * @throws ValueNotFoundException value not found
+//     */
+//    public void removeAll(T value) throws ValueNotFoundException {
+//        if (isEmpty()) {
+//            throw new ValueNotFoundException("Value not found in the list");
+//        }
+//
+//        Node<T> current = head;
+//
+//        if(!this.contains(value)) return;
+//
+//        while (this.contains(value)) {
+//            if (current.getValue().equals(value)) {
+//                if (current.equals(head)) {
+//                    removeFirst();
+//                } else if (current.equals(tail)) {
+//                    removeLast();
+//                } else {
+//                    Node<T> currentPrev = current.getPrevious();
+//                    Node<T> currentNext = current.getNext();
+//                    currentPrev.setNext(currentNext);
+//                    currentNext.setPrevious(currentPrev);
+//                    size--;
+//                }
+//            }
+//
+//            current = current.getNext();
+//        }
+//    }
 
     /**
      * Returns an iterator over elements of type {@code T}.

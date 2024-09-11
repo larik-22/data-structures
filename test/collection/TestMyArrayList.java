@@ -247,4 +247,30 @@ public class TestMyArrayList {
         assertEquals(v, list3.get(i));
         assertEquals(SaxSearchable.NOT_FOUND, list3.linearSearch(-1));
     }
+
+    @Test
+    void GivenList_WhenUsingBinarySearch_CorrectIndexIsReturned(){
+        MyArrayList<Integer> nums = new MyArrayList<>();
+        nums.addLast(1);
+        nums.addLast(2);
+        nums.addLast(3);
+        nums.addLast(4);
+        nums.addLast(5);
+        nums.addLast(6);
+        nums.addLast(7);
+        nums.addLast(8);
+        nums.addLast(9);
+        nums.addLast(10);
+
+        assertEquals(0, nums.binarySearch(Integer::compareTo, 1));
+        assertEquals(1, nums.binarySearch(Integer::compareTo, 2));
+        assertEquals(2, nums.binarySearch(Integer::compareTo, 3));
+        assertEquals(3, nums.binarySearch(Integer::compareTo, 4));
+        assertEquals(4, nums.binarySearch(Integer::compareTo, 5));
+        assertEquals(5, nums.binarySearch(Integer::compareTo, 6));
+        assertEquals(6, nums.binarySearch(Integer::compareTo, 7));
+        assertEquals(7, nums.binarySearch(Integer::compareTo, 8));
+        assertEquals(8, nums.binarySearch(Integer::compareTo, 9));
+        assertEquals(9, nums.binarySearch(Integer::compareTo, 10));
+    }
 }

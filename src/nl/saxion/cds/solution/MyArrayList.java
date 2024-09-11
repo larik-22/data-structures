@@ -281,7 +281,25 @@ public class MyArrayList<V> implements SaxList<V>, SaxSearchable<V>, SaxSortable
 
     @Override
     public int binarySearch(Comparator<V> comparator, V element) {
-        // TODO: implement binarySearch()
+        // while low <= high, calculate mid, compare element with mid, adjust low and high
+        int low = 0;
+        int high = size;
+
+        do {
+            int middle = low + (high - low) / 2;
+            int compare = comparator.compare(get(middle), element);
+
+            if(compare == 0){
+                return middle;
+            } else if (compare > 0){
+                high = middle;
+            } else {
+                low = middle + 1;
+            }
+
+
+        } while (low < high);
+
         return SaxSearchable.NOT_FOUND;
     }
 
