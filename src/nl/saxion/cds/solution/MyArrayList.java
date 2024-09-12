@@ -61,7 +61,6 @@ public class MyArrayList<V> implements SaxList<V>, SaxSearchable<V>, SaxSortable
         elements[index] = value;
     }
 
-
     @Override
     public void set(int index, V value) throws IndexOutOfBoundsException {
         if (index < 0 || index >= size)
@@ -185,7 +184,14 @@ public class MyArrayList<V> implements SaxList<V>, SaxSearchable<V>, SaxSortable
 
     @Override
     public boolean isSorted(Comparator<V> comparator) {
-        // TODO: implement isSorted()
+        if(comparator == null) return false;
+
+        for (int i = 0; i < size - 1; i++){
+            if (comparator.compare(get(i), get(i+1)) > 0){
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -257,16 +263,29 @@ public class MyArrayList<V> implements SaxList<V>, SaxSearchable<V>, SaxSortable
      * @param end        right index
      * @return the current index of the pivot
      */
-    private int splitInPlace(Comparator<V> comparator, int begin, int end) {
+    //TODO: dont forget to change back to private
+    public int splitInPlace(Comparator<V> comparator, int begin, int end) {
         V pivot = get(begin); // first element (at begin) as pivot
+        /*
+        * We go all the way from the right to the left.
+        * We are looking for an element that is smaller than the pivot.
+        * If we find one, we swap it with the element at the current index.
+        * After loop, we still need to swap the pivot with the element at the current index.
+        * */
+//        int left = begin;
+//        int right = end;
+//        int index = right;
+        int idx = end + 1;
+        for (int i = end; i > begin; i--){
+            if(comparator.compare(get(i), pivot) < 0){
+                idx--;
+                swap(i, idx);
+            }
+        }
 
-        int left = begin;
-        int right = end;
-        int index = right;
-
-        // TODO: complete splitInPlace()
-
-        return right; // Returns index of pivot
+        idx--;
+        swap(begin, idx);
+        return idx;
     }
 
     @Override
@@ -282,6 +301,8 @@ public class MyArrayList<V> implements SaxList<V>, SaxSearchable<V>, SaxSortable
     @Override
     public int binarySearch(Comparator<V> comparator, V element) {
         // while low <= high, calculate mid, compare element with mid, adjust low and high
+        if(!isSorted(comparator)) return SaxSearchable.NOT_FOUND;
+
         int low = 0;
         int high = size;
 

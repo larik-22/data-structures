@@ -6,7 +6,7 @@ import nl.saxion.cds.collection.ValueNotFoundException;
 import nl.saxion.cds.solution.MyArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import java.util.Arrays;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -249,6 +249,27 @@ public class TestMyArrayList {
     }
 
     @Test
+    void GivenSortedList_WhenUsingIsSorted_ConfirmTrueReturned() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        list.addLast(1);
+        list.addLast(2);
+        list.addLast(3);
+        list.addLast(4);
+        list.addLast(5);
+        assertTrue(list.isSorted(Integer::compareTo));
+    }
+
+    @Test
+    void GivenUnsortedList_WhenCheckingIfSorted_ConfirmFalseReturned(){
+        MyArrayList<Integer> list = new MyArrayList<>();
+        list.addLast(4);
+        list.addLast(2);
+        list.addLast(8);
+
+        assertFalse(list.isSorted(Integer::compareTo));
+    }
+
+    @Test
     void GivenList_WhenUsingBinarySearch_CorrectIndexIsReturned(){
         MyArrayList<Integer> nums = new MyArrayList<>();
         nums.addLast(1);
@@ -272,5 +293,36 @@ public class TestMyArrayList {
         assertEquals(7, nums.binarySearch(Integer::compareTo, 8));
         assertEquals(8, nums.binarySearch(Integer::compareTo, 9));
         assertEquals(9, nums.binarySearch(Integer::compareTo, 10));
+    }
+
+    @Test
+    void GivenUnsortedList_WhenUsingBinarySearch_ConfirmNegativeValueReturned(){
+        MyArrayList<Integer> nums = new MyArrayList<>();
+        nums.addLast(100);
+        nums.addLast(20);
+        nums.addLast(31);
+        nums.addLast(22);
+        nums.addLast(5);
+
+        assertEquals(-1, nums.binarySearch(Integer::compareTo, 100));
+    }
+
+    @Test
+    void test_the_test(){
+        MyArrayList<Integer> list = new MyArrayList<>();
+        list.addLast(9);
+        list.addLast(4);
+        list.addLast(7);
+        list.addLast(10);
+        list.addLast(3);
+        list.addLast(6);
+        list.addLast(17);
+
+        int i = list.splitInPlace(Integer::compareTo, 0, list.size() - 1);
+        // assert pivot index is correct
+        System.out.printf("Pivot index: %d\n", i);
+        System.out.println(list.toString());
+
+        assertEquals(2, i);
     }
 }
