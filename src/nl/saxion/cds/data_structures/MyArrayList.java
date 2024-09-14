@@ -1,4 +1,4 @@
-package nl.saxion.cds.solution;
+package nl.saxion.cds.data_structures;
 
 import nl.saxion.cds.collection.*;
 
@@ -214,6 +214,39 @@ public class MyArrayList<V> implements SaxList<V>, SaxSearchable<V>, SaxSortable
     }
 
     /**
+     * My own selection sort implementation
+     * @param comparator method to compare two generic objects
+     */
+    public void selectionSort(Comparator<V> comparator){
+        int start = 0;
+
+        while (start < size){
+            for (int i = start; i < size; i++) {
+                if(comparator.compare(get(i), get(start)) < 0){
+                    swap(i, start);
+                }
+            }
+
+            start++;
+        }
+    }
+
+    /**
+     * My own insertion sort implementation
+     * @param comparator method to compare two generic objects
+     */
+    public void insertionSort(Comparator<V> comparator){
+        for (int i = 1; i < size; i++) {
+            int j = i;
+
+            while (j > 0 && comparator.compare(get(j - 1), get(j)) > 0){
+                swap(j-1, j);
+                j = j - 1;
+            }
+        }
+    }
+
+    /**
      * Swap the elements on the given position.
      *
      * @param index1 first element index
@@ -265,7 +298,6 @@ public class MyArrayList<V> implements SaxList<V>, SaxSearchable<V>, SaxSortable
      */
     //TODO: dont forget to change back to private
     public int splitInPlace(Comparator<V> comparator, int begin, int end) {
-        V pivot = get(begin); // first element (at begin) as pivot
         /*
         * We go all the way from the right to the left.
         * We are looking for an element that is smaller than the pivot.
@@ -275,16 +307,22 @@ public class MyArrayList<V> implements SaxList<V>, SaxSearchable<V>, SaxSortable
 //        int left = begin;
 //        int right = end;
 //        int index = right;
+
+        /*
+         * TODO: write in documentation about my implementation and ask if i am allowed to use it.
+        **/
+        V pivot = get(begin); // first element (at begin) as pivot
+
         int idx = end + 1;
         for (int i = end; i > begin; i--){
-            if(comparator.compare(get(i), pivot) < 0){
+            if(comparator.compare(get(i), pivot) > 0){
                 idx--;
-                swap(i, idx);
+                swap(idx, i);
             }
         }
 
         idx--;
-        swap(begin, idx);
+        swap(idx, begin);
         return idx;
     }
 

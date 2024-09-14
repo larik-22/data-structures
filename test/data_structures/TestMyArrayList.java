@@ -1,12 +1,12 @@
-package collection;
+package data_structures;
 
 import nl.saxion.cds.collection.EmptyCollectionException;
 import nl.saxion.cds.collection.SaxSearchable;
 import nl.saxion.cds.collection.ValueNotFoundException;
-import nl.saxion.cds.solution.MyArrayList;
+import nl.saxion.cds.data_structures.MyArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.Arrays;
+
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -308,7 +308,7 @@ public class TestMyArrayList {
     }
 
     @Test
-    void test_the_test(){
+    void GivenListOfIntegers_WhenSearchingForPivot_ConfirmCorrectPivotIndexIsReturned(){
         MyArrayList<Integer> list = new MyArrayList<>();
         list.addLast(9);
         list.addLast(4);
@@ -319,10 +319,51 @@ public class TestMyArrayList {
         list.addLast(17);
 
         int i = list.splitInPlace(Integer::compareTo, 0, list.size() - 1);
-        // assert pivot index is correct
-        System.out.printf("Pivot index: %d\n", i);
-        System.out.println(list.toString());
+        assertEquals(4, i);
+    }
 
-        assertEquals(2, i);
+    @Test
+    void GivenListOfIntegers_WhenQuickSorting_ConfirmIsSorted(){
+        MyArrayList<Integer> list = new MyArrayList<>();
+        list.addLast(9);
+        list.addLast(4);
+        list.addLast(7);
+        list.addLast(10);
+        list.addLast(3);
+        list.addLast(6);
+        list.addLast(17);
+
+        list.quickSort(Integer::compareTo);
+        assertTrue(list.isSorted(Integer::compareTo));
+    }
+
+    @Test
+    void GivenUnsortedList_WhenUsingSelectionSort_ConfirmListIsSorted(){
+        MyArrayList<Integer> list = new MyArrayList<>();
+        list.addLast(9);
+        list.addLast(4);
+        list.addLast(7);
+        list.addLast(10);
+        list.addLast(3);
+        list.addLast(6);
+        list.addLast(17);
+
+        list.selectionSort(Integer::compareTo);
+        assertTrue(list.isSorted(Integer::compareTo));
+    }
+
+    @Test
+    void GivenUnsortedList_WhenUsingInsertionSort_ConfirmListIsSorted(){
+        MyArrayList<Integer> list = new MyArrayList<>();
+        list.addLast(9);
+        list.addLast(4);
+        list.addLast(7);
+        list.addLast(10);
+        list.addLast(3);
+        list.addLast(6);
+        list.addLast(17);
+
+        list.insertionSort(Integer::compareTo);
+        assertTrue(list.isSorted(Integer::compareTo));
     }
 }
