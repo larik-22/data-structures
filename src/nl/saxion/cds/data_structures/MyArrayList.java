@@ -36,6 +36,16 @@ public class MyArrayList<V> implements SaxList<V>, SaxSearchable<V>, SaxSortable
         return false;
     }
 
+    //TODO: write a test for this method and write in docs about it.
+    /**
+     * Clear all elements from the list and set the size to 0.
+     */
+    public void clear() {
+        // Clear all elements and set to minimum size
+        elements = new Object[MINIMUM_SIZE];
+        size = 0;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public V get(int index) throws IndexOutOfBoundsException {

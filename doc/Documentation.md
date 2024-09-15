@@ -1,7 +1,12 @@
-# Algoritmen en klassen
+# Algorithms and classes
 
 ## MijnArrayList
-Implementation: [mijn implementatie](../src/nl/saxion/cds/collection/MyArrayList.java)
+Implementation: [mijn implementatie](../src/nl/saxion/cds/data_structures/MyArrayList.java)
+
+As I started building my own utility Csv Reader, based on the ArrayList, I had to add one additional method `clear()`. 
+
+This needed  as I had to clear my own list instance on every line read. Otherwise, it would be eventually filled with all the data from the file and reading column by index wouldn't work properly.
+This method simply sets the size of the list to 0 and internal array to default minimum size.
 
 ## DoublyLinkedList
 Implementation: [my implementation](../src/nl/saxion/cds/data_structures/DoublyLinkedList.java);
@@ -19,18 +24,33 @@ After that I have used chatGPT to achieve getting same script output based on el
 When it comes to testing, I went a bit overboard and tested every method with multiple test cases, including edge cases.
 I have achieved 100% coverage just out of curiosity, but I believe it was a good practice to do so.
 
+## Utilities
+
+### CsvReader
+Implementation: [my implementation](../src/nl/saxion/cds/utils/CsvReader.java);
+
+For reading data from Csv files, I have implemented my own utility class `CsvReader`.
+I had one implemented during SDP course, so I took most of the code from there and adjusted it to use `MyArrayList` instead of `ArrayList`.
+I have tested most of the methods, achieving 95% coverage.
+
+### LambdaReader
+Implementation: [my implementation](../src/nl/saxion/cds/utils/LambdaReader.java);
+
+This class is basically a CsvReader, but more advanced. It is useful, when you need to read a specific Class type from the file and put them in the list.
+I learned this technique during the SDP course and had implementation ready, however I also adjusted it to use `MyArrayList` instead of `ArrayList`.
+
 ### My binary search algorithm
-Classificatie: O(Log(N))
+Classification: O(Log(N))
 
 Implementation:
 
 ### My linear search algorithm
-Classificatie: O(N)
+Classification: O(N)
 
 Implementation:
 
 ### My QuickSort algorithm
-Classificatie:
+Classification:
 
 Implementation:
 
@@ -53,12 +73,12 @@ Implementation:
 Implementation:
 
 ### My iterative depth first search algorithms
-Classificatie:
+Classification:
 
 Implementation:
 
 ### My iterative breadth first search algorithm
-Classificatie:
+Classification:
 
 Implementation:
 

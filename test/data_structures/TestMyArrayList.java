@@ -366,4 +366,19 @@ public class TestMyArrayList {
         list.insertionSort(Integer::compareTo);
         assertTrue(list.isSorted(Integer::compareTo));
     }
+
+    @Test
+    void GivenListWithItems_WhenClearing_ConfirmListIsEmpty(){
+        MyArrayList<Integer> list = new MyArrayList<>();
+        list.addLast(9);
+        list.addLast(4);
+        list.addLast(7);
+        list.addLast(10);
+        list.addLast(3);
+        list.addLast(6);
+        list.addLast(17);
+
+        list.clear();
+        assertTrue(list.isEmpty());
+    }
 }

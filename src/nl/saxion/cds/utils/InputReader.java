@@ -1,5 +1,7 @@
 package nl.saxion.cds.utils;
 
+import nl.saxion.cds.data_structures.MyArrayList;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,9 +23,10 @@ public class InputReader {
         return userInput;
     }
 
-    public static String askForTextVariations(String message, List<String> variations, boolean caseSpecific){
+    public static String askForTextVariations(String message, MyArrayList<String> variations, boolean caseSpecific){
         String userInput = askForNonBlankText(message);
         boolean isValid = false;
+
         do {
             for (String variation : variations){
                 if(caseSpecific){
