@@ -11,7 +11,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestMyArrayList {
+public class MyArrayListTest {
     // Make sure a lot of resizing has to be done
     private static final int BIG_NUMBER_OF_ELEMENTS = 5000;
     private MyArrayList<String> list;

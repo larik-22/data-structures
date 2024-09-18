@@ -47,12 +47,30 @@ Implementation:
 ### My linear search algorithm
 Classification: O(N)
 
+It is O(N) because it has to go through the whole input N to find the element.
+
 Implementation:
 
 ### My QuickSort algorithm
-Classification:
+Classification: O(n log(n))
+
+The N log(N) comes from the fact that it has to divide the array log(N) times and then sort the array n times.
 
 Implementation:
+
+### My selectionSort algorithm
+
+Classification: O(n^2)
+
+It is O(n^2) because it has to go through the whole input N to find the smallest element and then swap it with the first element. Then it has to go through the rest of the array N-1 to find the next smallest element and so on.
+
+Implementation:
+
+### My insertionSort algorithm
+
+Classification: O(n^2)
+
+It is O(n^2) because it 
 
 ## My BST
 Implementation:

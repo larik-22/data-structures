@@ -361,6 +361,7 @@ public class DoublyLinkedListTest {
                 "    n1:ref1:c -> n0:data:s [arrowhead=vee, arrowtail=dot, dir=both, tailclip=false];\n" +
                 "}";
 
+        System.out.println(testStringList.graphViz("Dl"));
         assertEquals(expectedOutput, testStringList.graphViz("Dl"));
     }
 

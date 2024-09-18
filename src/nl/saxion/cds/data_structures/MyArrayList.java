@@ -314,26 +314,22 @@ public class MyArrayList<V> implements SaxList<V>, SaxSearchable<V>, SaxSortable
         * If we find one, we swap it with the element at the current index.
         * After loop, we still need to swap the pivot with the element at the current index.
         * */
-//        int left = begin;
-//        int right = end;
-//        int index = right;
-
         /*
          * TODO: write in documentation about my implementation and ask if i am allowed to use it.
         **/
         V pivot = get(begin); // first element (at begin) as pivot
 
-        int idx = end + 1;
+        int index = end + 1;
         for (int i = end; i > begin; i--){
             if(comparator.compare(get(i), pivot) > 0){
-                idx--;
-                swap(idx, i);
+                index--;
+                swap(index, i);
             }
         }
 
-        idx--;
-        swap(idx, begin);
-        return idx;
+        index--;
+        swap(index, begin);
+        return index;
     }
 
     @Override
