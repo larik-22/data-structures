@@ -24,6 +24,32 @@ After that I have used chatGPT to achieve getting same script output based on el
 When it comes to testing, I went a bit overboard and tested every method with multiple test cases, including edge cases.
 I have achieved 100% coverage just out of curiosity, but I believe it was a good practice to do so.
 
+## MyQueue
+Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MyQueue.java);
+
+I have implemented queue with the help of `MyDoublyLinkedList`.
+I understand, that it might be slightly overkill to use doubly linked list for queue, and singly linked list would be enough. We don't actually move in two directions and all this extra functionality is not needed.
+
+However, I have decided to use doubly linked list, as I have already implemented and it was fairly easy to adjust it to be used as a queue.
+
+## MyStack
+Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MyStack.java);
+
+Same as with the queue, I have implemented stack with the help of `MyDoublyLinkedList`.
+Again, it might be not the best choice to use doubly linked list, but I have decided to use it, as I have already created it.
+
+
+## MyHashMap (Separate Chaining)
+Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MySpHashMap.java);
+
+I have decided to pick separate chaining hash map as it is the most common and easiest to implement.
+I have tried doing the open addressing one with linear probing, but I have been struggling with implementing `rehash()` method properly.
+
+When it comes to my implementation, I have used `MyArrayList` as a bucket for storing the elements.
+I also track all the keys in a separate list, so I can easily iterate over them when needed.
+I have tested most of the methods, achieving 95% coverage, but fairly speaking, some of the tests are not really necessary.
+I have spent an hour or so trying to test the inner class `Entry` and SPECIFICALLY the `equals()` method. After some time, I found a stack overflow thread helping me to test it properly.
+
 ## Utilities
 
 ### CsvReader
@@ -42,35 +68,56 @@ I learned this technique during the SDP course and had implementation ready, how
 ### My binary search algorithm
 Classification: O(Log(N))
 
-Implementation:
+It is O(Log(N)) because it has to divide the array in half log(N) times to find the element.
+
+I have implemented binary search during the lecture, as our teacher were explaining the algorithm and showed us some pseudocode.
+The whole concept is fairly straightforward, but I always messed up the indexes.
 
 ### My linear search algorithm
 Classification: O(N)
 
 It is O(N) because it has to go through the whole input N to find the element.
 
-Implementation:
+The linear search was already implemented in the `MyArrayList` class, so I didn't have to implement it again.
+It is by far the simplest search algorithm and I have used it many times before.
 
 ### My QuickSort algorithm
 Classification: O(n log(n))
 
-The N log(N) comes from the fact that it has to divide the array log(N) times and then sort the array n times.
 
-Implementation:
+Quicksort is O(N log N) because it works by repeatedly splitting the list into smaller halves, which takes log N steps. Then it sorts each part, which takes N.
+
+I had the most struggles with the QuickSort algorithm. It is beautiful and elegant, I was getting the concept, but I just couldn't wrap my head around the implementation.
+
+I have spent more than two hours watching videos on YouTube and it was getting more and more confusing, because apparently there is different ways to implement it.
+
+I have finally found a course on Algorithms, given by famous engineer and blogger PrimeAgen. He had taught his own course on algorithms, and luckily there were two lectures dedicated to it.
+I found his explanation the best to me. He implemented algorithm with the audience using TypeScript and used pivot as the last element.
+However, I, for the sake of practice, have decided to use the first element as a pivot. 
+
+Reference: [PrimeAgen QuickSort](https://frontendmasters.com/courses/algorithms/)
 
 ### My selectionSort algorithm
 
 Classification: O(n^2)
 
-It is O(n^2) because it has to go through the whole input N to find the smallest element and then swap it with the first element. Then it has to go through the rest of the array N-1 to find the next smallest element and so on.
+It's O(n^2) because it has two nested loops.
+One loop to select an element of Array one by one
+Another loop to compare that element with every other Array element
 
-Implementation:
+We were given a choice to implement either selection or insertion sort. I have decided to try both.
+It was fairly easy, but I still had to watch explanatory video on YouTube to get the concept right.
 
 ### My insertionSort algorithm
 
 Classification: O(n^2)
 
-It is O(n^2) because it 
+It is O(n^2) because it also has two nested loops.
+One loop to select an element of the array one by one.
+Another loop to compare that element with the already sorted elements in the array and shift them if needed.
+
+I have implemented insertion sort as well, as I wanted to try both sorting algorithms. It was a bit more challenging to me than selection sort, but I have managed to implement it 
+also with help of YouTube videos.
 
 ## My BST
 Implementation:
