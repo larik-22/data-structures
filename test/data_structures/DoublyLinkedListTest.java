@@ -176,6 +176,24 @@ public class DoublyLinkedListTest {
     }
 
     @Test
+    public void givenListWithItem_WhenGettingItemByValue_ConfirmCorrectItemReturned(){
+        testStringList.addLast("Hello");
+        assertEquals("Hello", testStringList.get("Hello"));
+    }
+
+    @Test
+    public void givenListWithItems_WhenGettingNonExistentItemByValue_ConfirmExceptionIsThrown(){
+        assertThrows(ValueNotFoundException.class, () -> {
+            testStringList.get("World");
+        });
+
+        testStringList.addLast("Hello");
+        assertThrows(ValueNotFoundException.class, () -> {
+            testStringList.get("World");
+        });
+    }
+
+    @Test
     public void givenList_WhenSettingElementAtIncorrectIndex_ExceptionIsThrown(){
         assertThrows(IndexOutOfBoundsException.class, () -> {
             testStringList.set(-1, "Hello");
@@ -202,13 +220,6 @@ public class DoublyLinkedListTest {
 
         testStringList.set(1, "There");
         assertEquals("There", testStringList.get(1));
-    }
-
-    @Test
-    public void givenEmptyList_WhenCheckedIfContainsElement_ExceptionIsThrown(){
-        assertThrows(EmptyCollectionException.class, () -> {
-            testStringList.contains("1");
-        });
     }
 
     @Test

@@ -24,8 +24,8 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
      * @return if the value is in the collection
      */
     @Override
-    public boolean contains(T value) throws EmptyCollectionException {
-        if(isEmpty()) throw new EmptyCollectionException();
+    public boolean contains(T value) {
+        if(isEmpty()) return false;
 
         Node<T> current = head;
         while(current.getNext() != null){
@@ -58,6 +58,21 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
         }
 
         return current.getValue();
+    }
+
+    public T get(T value) throws ValueNotFoundException {
+        if(isEmpty()) throw new ValueNotFoundException("Value not found in the list");
+
+        Node<T> current = head;
+        while(current != null){
+            if(current.getValue().equals(value)){
+                return current.getValue();
+            }
+
+            current = current.getNext();
+        }
+
+        throw new ValueNotFoundException("Value not found in the list");
     }
 
     /**
@@ -317,40 +332,6 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
 
         throw new ValueNotFoundException("Value not found in the list");
     }
-
-//    /**
-//     * Removes all elements with the given value from the list.
-//     * Throws an ValueNotFoundException if the value is not in the list
-//     * @param value value to remove
-//     * @throws ValueNotFoundException value not found
-//     */
-//    public void removeAll(T value) throws ValueNotFoundException {
-//        if (isEmpty()) {
-//            throw new ValueNotFoundException("Value not found in the list");
-//        }
-//
-//        Node<T> current = head;
-//
-//        if(!this.contains(value)) return;
-//
-//        while (this.contains(value)) {
-//            if (current.getValue().equals(value)) {
-//                if (current.equals(head)) {
-//                    removeFirst();
-//                } else if (current.equals(tail)) {
-//                    removeLast();
-//                } else {
-//                    Node<T> currentPrev = current.getPrevious();
-//                    Node<T> currentNext = current.getNext();
-//                    currentPrev.setNext(currentNext);
-//                    currentNext.setPrevious(currentPrev);
-//                    size--;
-//                }
-//            }
-//
-//            current = current.getNext();
-//        }
-//    }
 
     /**
      * Returns an iterator over elements of type {@code T}.
