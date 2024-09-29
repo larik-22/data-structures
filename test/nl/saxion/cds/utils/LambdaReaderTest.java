@@ -1,7 +1,6 @@
-package utils;
+package nl.saxion.cds.utils;
 
 import nl.saxion.cds.data_structures.MyArrayList;
-import nl.saxion.cds.utils.LambdaReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

@@ -4,11 +4,10 @@ import nl.saxion.cds.collection.EmptyCollectionException;
 import nl.saxion.cds.collection.SaxList;
 import nl.saxion.cds.collection.ValueNotFoundException;
 
-import java.awt.print.Printable;
 import java.util.Iterator;
 
 public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
-    private Node<T> head, tail;
+    private MyDllNode<T> head, tail;
     private int size;
 
     public DoublyLinkedList() {
@@ -27,7 +26,7 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
     public boolean contains(T value) {
         if(isEmpty()) return false;
 
-        Node<T> current = head;
+        MyDllNode<T> current = head;
         while(current.getNext() != null){
             if(current.getValue().equals(value)){
                 return true;
@@ -52,7 +51,7 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
             throw new IndexOutOfBoundsException("Invalid index");
         }
 
-        Node<T> current = head;
+        MyDllNode<T> current = head;
         for (int i = 0; i < index; i++) {
             current = current.getNext();
         }
@@ -63,7 +62,7 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
     public T get(T value) throws ValueNotFoundException {
         if(isEmpty()) throw new ValueNotFoundException("Value not found in the list");
 
-        Node<T> current = head;
+        MyDllNode<T> current = head;
         while(current != null){
             if(current.getValue().equals(value)){
                 return current.getValue();
@@ -82,7 +81,7 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
      */
     @Override
     public void addLast(T value) {
-        Node<T> newNode = new Node<>(value);
+        MyDllNode<T> newNode = new MyDllNode<>(value);
 
         if(isEmpty()){
             head = newNode;
@@ -112,7 +111,7 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
      */
     @Override
     public void addFirst(T value) {
-        Node<T> newNode = new Node<>(value);
+        MyDllNode<T> newNode = new MyDllNode<>(value);
 
         if(isEmpty()){
             head = newNode;
@@ -156,14 +155,14 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
         } else if(index == size) {
             addLast(value);
         } else {
-            Node<T> current = head;
+            MyDllNode<T> current = head;
             for (int i = 0; i < index; i++) {
                 current = current.getNext();
             }
             // 1. take the previous of the current node and set its next to the new node
             // 2. take the new node and set its previous to the previous of the current node
-            Node<T> newNode = new Node<>(value);
-            Node<T> currentPrev = current.getPrevious();
+            MyDllNode<T> newNode = new MyDllNode<>(value);
+            MyDllNode<T> currentPrev = current.getPrevious();
 
             currentPrev.setNext(newNode);
             newNode.setPrevious(currentPrev);
@@ -188,7 +187,7 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
             throw new IndexOutOfBoundsException("Invalid index");
         }
 
-        Node<T> current = head;
+        MyDllNode<T> current = head;
         for (int i = 0; i < index; i++) {
             current = current.getNext();
         }
@@ -282,14 +281,14 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
         } else if (index == size - 1){
             return removeLast();
         } else {
-            Node<T> current = head;
+            MyDllNode<T> current = head;
 
             for (int i = 0; i < index; i++) {
                 current = current.getNext();
             }
 
-            Node<T> currentPrev = current.getPrevious();
-            Node<T> currentNext = current.getNext();
+            MyDllNode<T> currentPrev = current.getPrevious();
+            MyDllNode<T> currentNext = current.getNext();
             currentPrev.setNext(currentNext);
             currentNext.setPrevious(currentPrev);
             T value = current.getValue();
@@ -311,7 +310,7 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
             throw new ValueNotFoundException("Value not found in the list");
         }
 
-        Node<T> current = head;
+        MyDllNode<T> current = head;
 
         int currentIndex = 0;
         while (current != null) {
@@ -344,7 +343,7 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
     }
 
     private class DlIterator implements Iterator<T> {
-        private Node<T> current = head;
+        private MyDllNode<T> current = head;
 
         @Override
         public boolean hasNext() {
@@ -394,7 +393,7 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
         sb.append("    rankdir=LR;\n");
         sb.append("    node [shape=record];\n");
 
-        Node<T> current = head;
+        MyDllNode<T> current = head;
         int index = 0;
         while (current != null) {
             sb.append("    n").append(index).append(" [label=\"{ <ref1> | <data> ")

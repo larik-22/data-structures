@@ -1,4 +1,4 @@
-package data_structures;
+package nl.saxion.cds.data_structures;
 
 import nl.saxion.cds.collection.EmptyCollectionException;
 import nl.saxion.cds.collection.SaxSearchable;
@@ -137,6 +137,7 @@ public class MyArrayListTest {
         list.remove(null);
         list.remove(null);
         list.remove(null);
+
         // Remove element using the iterator.
         var iterator = list.iterator();
         while (iterator.hasNext()) {
@@ -380,5 +381,87 @@ public class MyArrayListTest {
 
         list.clear();
         assertTrue(list.isEmpty());
+    }
+
+    @Test
+    void GivenListWithElements_WhenSwappingElements_ThenElementsAreSwapped() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        list.addLast(1);
+        list.addLast(2);
+        list.addLast(3);
+
+        // Swap first and last elements
+        list.swap(0, 2);
+
+        assertEquals(3, list.get(0));
+        assertEquals(2, list.get(1));
+        assertEquals(1, list.get(2));
+    }
+
+    @Test
+    void GivenListWithElements_WhenSwappingSameIndex_ThenElementsRemainUnchanged() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        list.addLast(1);
+        list.addLast(2);
+        list.addLast(3);
+
+        // Swap element with itself
+        list.swap(1, 1);
+
+        assertEquals(1, list.get(0));
+        assertEquals(2, list.get(1));
+        assertEquals(3, list.get(2));
+    }
+
+    @Test
+    void GivenListWithElements_WhenSwappingInvalidIndices_ThenAssertionErrorThrown() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        list.addLast(1);
+        list.addLast(2);
+        list.addLast(3);
+
+        assertThrows(AssertionError.class, () -> list.swap(-1, 2));
+        assertThrows(AssertionError.class, () -> list.swap(0, 3));
+    }
+
+    @Test
+    void GivenEmptyList_WhenCheckingIfSorted_ThenTrueReturned() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        assertTrue(list.isSorted(Integer::compareTo));
+    }
+
+    @Test
+    void GivenSingleElementList_WhenCheckingIfSorted_ThenTrueReturned() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        list.addLast(1);
+        assertTrue(list.isSorted(Integer::compareTo));
+    }
+
+    @Test
+    void GivenListWithAllNullValues_WhenCheckingIfSorted_ThenTrueReturned() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        list.addLast(null);
+        list.addLast(null);
+        list.addLast(null);
+        assertTrue(list.isSorted(Integer::compareTo));
+    }
+
+    @Test
+    void GivenListWithMixedNullAndNonNullValues_WhenCheckingIfSorted_ThenFalseReturned() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        list.addLast(null);
+        list.addLast(1);
+        list.addLast(null);
+        assertFalse(list.isSorted(Integer::compareTo));
+    }
+
+    @Test
+    void GivenListWithNullValuesAtEnd_WhenCheckingIfSorted_ThenTrueReturned() {
+        MyArrayList<Integer> list = new MyArrayList<>();
+        list.addLast(1);
+        list.addLast(2);
+        list.addLast(null);
+        list.addLast(null);
+        assertFalse(list.isSorted(Integer::compareTo));
     }
 }

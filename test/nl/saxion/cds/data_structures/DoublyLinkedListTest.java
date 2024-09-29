@@ -1,14 +1,11 @@
-package data_structures;
+package nl.saxion.cds.data_structures;
 
 import nl.saxion.cds.collection.EmptyCollectionException;
 import nl.saxion.cds.collection.ValueNotFoundException;
-import nl.saxion.cds.data_structures.DoublyLinkedList;
-import nl.saxion.cds.data_structures.Node;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -326,12 +323,10 @@ public class DoublyLinkedListTest {
         assertFalse(iterator.hasNext());
     }
 
-//    @Test
-//    public void GivenEmptyList_WhenRemovingAllElements_ExceptionIsThrown(){
-//        assertThrows(ValueNotFoundException.class, () -> {
-//           testStringList.removeAll("Exception");
-//        });
-//    }
+    @Test
+    public void GivenEmptyList_WhenCheckingIfEmpty_ConfirmIsEmpty(){
+        assertFalse(testStringList.contains(""));
+    }
 
 //    @Test
 //    public void GivenListWithValues_WhenRemovingAllElementInstances_ConfirmElementIsRemovedFromEverywhere(){

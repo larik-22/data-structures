@@ -1,14 +1,13 @@
 package nl.saxion.cds.data_structures;
 
-import java.util.Iterator;
 import java.util.Objects;
 
 //make accept only printable objects, those that have a toString method implemented
-public class Node<T> {
+public class MyDllNode<T> {
     private T value;
-    private Node<T> next, previous;
+    private MyDllNode<T> next, previous;
 
-    public Node(T value) {
+    public MyDllNode(T value) {
         this.value = value;
     }
 
@@ -16,19 +15,19 @@ public class Node<T> {
         return value;
     }
 
-    public Node<T> getNext() {
+    public MyDllNode<T> getNext() {
         return next;
     }
 
-    public void setNext(Node<T> next) {
+    public void setNext(MyDllNode<T> next) {
         this.next = next;
     }
 
-    public Node<T> getPrevious() {
+    public MyDllNode<T> getPrevious() {
         return previous;
     }
 
-    public void setPrevious(Node<T> previous) {
+    public void setPrevious(MyDllNode<T> previous) {
         this.previous = previous;
     }
 
@@ -40,7 +39,7 @@ public class Node<T> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Node<?> node = (Node<?>) o;
+        MyDllNode<?> node = (MyDllNode<?>) o;
         return Objects.equals(value, node.value);
     }
 }

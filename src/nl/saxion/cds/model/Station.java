@@ -3,7 +3,6 @@ package nl.saxion.cds.model;
 import nl.saxion.cds.data_structures.MyArrayList;
 
 public class Station {
-    //code,name,country,type,latitude,longitude
     private final String code, name, country, type;
 
     private final double latitude, longitude;

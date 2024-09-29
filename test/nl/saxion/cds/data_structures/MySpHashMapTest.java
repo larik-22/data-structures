@@ -1,4 +1,4 @@
-package data_structures;
+package nl.saxion.cds.data_structures;
 
 import nl.saxion.cds.collection.DuplicateKeyException;
 import nl.saxion.cds.collection.KeyNotFoundException;
@@ -123,20 +123,6 @@ public class MySpHashMapTest {
         assertTrue(map.getKeys().contains(1));
         assertTrue(map.getKeys().contains(2));
         assertTrue(map.getKeys().contains(3));
-    }
-
-    // Farming of branch coverage percentage, really GARBAGE tests.
-    @Test
-    public void GivenEntry_WhenComparingToAnotherEntry_ConfirmEqualsMethodWorks() {
-        assertTrue(new MySpHashMap<Integer, String>().new Entry<>(1, "one").equals(new MySpHashMap<Integer, String>().new Entry<>(1, "one")));
-        assertFalse(new MySpHashMap<Integer, String>().new Entry<>(1, "one").equals(new MySpHashMap<Integer, String>().new Entry<>(2, "two")));
-
-        //compare to different class
-        assertFalse(new MySpHashMap<Integer, String>().new Entry<>(1, "one").equals("one"));
-
-        var entry = new MySpHashMap<Integer, String>().new Entry<>(1, "one");
-        assertTrue(entry.equals(entry));
-        assertFalse(entry.equals(null));
     }
 
     @BeforeEach

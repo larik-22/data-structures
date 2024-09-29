@@ -1,4 +1,4 @@
-package utils;
+package nl.saxion.cds.utils;
 
 import nl.saxion.cds.utils.CsvReader;
 import org.junit.jupiter.api.BeforeEach;

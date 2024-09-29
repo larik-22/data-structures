@@ -194,10 +194,17 @@ public class MyArrayList<V> implements SaxList<V>, SaxSearchable<V>, SaxSortable
 
     @Override
     public boolean isSorted(Comparator<V> comparator) {
-        if(comparator == null) return false;
+        if (comparator == null) return false;
 
-        for (int i = 0; i < size - 1; i++){
-            if (comparator.compare(get(i), get(i+1)) > 0){
+        for (int i = 0; i < size - 1; i++) {
+            V current = get(i);
+            V next = get(i + 1);
+
+            if (current == null && next != null) {
+                continue;
+            } else if (current != null && next == null) {
+                return false;
+            } else if (current != null && next != null && comparator.compare(current, next) > 0) {
                 return false;
             }
         }

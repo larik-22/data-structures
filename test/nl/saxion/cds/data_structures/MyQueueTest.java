@@ -1,4 +1,4 @@
-package data_structures;
+package nl.saxion.cds.data_structures;
 
 import nl.saxion.cds.data_structures.MyQueue;
 import org.junit.jupiter.api.BeforeEach;
