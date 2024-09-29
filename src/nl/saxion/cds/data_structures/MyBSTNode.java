@@ -19,6 +19,14 @@ public class MyBSTNode<K, V> {
         return right;
     }
 
+    public void setLeft(MyBSTNode<K, V> left) {
+        this.left = left;
+    }
+
+    public void setRight(MyBSTNode<K, V> right) {
+        this.right = right;
+    }
+
     public MyBSTNode(K key, V value) {
         this.entry = new Entry<>(key, value);
         this.left = null;

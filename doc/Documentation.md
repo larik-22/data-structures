@@ -24,31 +24,6 @@ After that I have used chatGPT to achieve getting same script output based on el
 When it comes to testing, I went a bit overboard and tested every method with multiple test cases, including edge cases.
 I have achieved 100% coverage just out of curiosity, but I believe it was a good practice to do so.
 
-## MyQueue
-Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MyQueue.java);
-
-I have implemented queue with the help of `MyDoublyLinkedList`.
-I understand, that it might be slightly overkill to use doubly linked list for queue, and singly linked list would be enough. We don't actually move in two directions and all this extra functionality is not needed.
-
-However, I have decided to use doubly linked list, as I have already implemented and it was fairly easy to adjust it to be used as a queue.
-
-## MyStack
-Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MyStack.java);
-
-Same as with the queue, I have implemented stack with the help of `MyDoublyLinkedList`.
-Again, it might be not the best choice to use doubly linked list, but I have decided to use it, as I have already created it.
-
-
-## MyHashMap (Separate Chaining)
-Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MySpHashMap.java);
-
-I have decided to pick separate chaining hash map as it is the most common and easiest to implement.
-I have tried doing the open addressing one with linear probing, but I have been struggling with implementing `rehash()` method properly.
-
-When it comes to my implementation, I have used `MyArrayList` as a bucket for storing the elements.
-I also track all the keys in a separate list, so I can easily iterate over them when needed.
-I have tested most of the methods, achieving 95% coverage, but fairly speaking, some of the tests are not really necessary.
-I have spent an hour or so trying to test the inner class `Entry` and SPECIFICALLY the `equals()` method. After some time, I found a stack overflow thread helping me to test it properly.
 
 ## Utilities
 
@@ -122,17 +97,33 @@ also with help of YouTube videos.
 ## My BST
 Implementation:
 
-## My HashMap
-Implementation:
+## MyHashMap (Separate Chaining)
+Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MySpHashMap.java);
+
+I have decided to pick separate chaining hash map as it is the most common and easiest to implement.
+I have tried doing the open addressing one with linear probing, but I have been struggling with implementing `rehash()` method properly.
+
+When it comes to my implementation, I have used `MyArrayList` as a bucket for storing the elements.
+I also track all the keys in a separate list, so I can easily iterate over them when needed.
+I have tested most of the methods, achieving 95% coverage, but fairly speaking, some of the tests are not really necessary.
+I have spent an hour or so trying to test the inner class `Entry` and SPECIFICALLY the `equals()` method. After some time, I found a stack overflow thread helping me to test it properly.
 
 ## My MinHeap
 Implementation:
 
-## My Stack
-Implementation:
+## MyQueue
+Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MyQueue.java);
 
-## My Queue
-Implementation:
+I have implemented queue with the help of `MyDoublyLinkedList`.
+I understand, that it might be slightly overkill to use doubly linked list for queue, and singly linked list would be enough. We don't actually move in two directions and all this extra functionality is not needed.
+
+However, I have decided to use doubly linked list, as I have already implemented and it was fairly easy to adjust it to be used as a queue.
+
+## MyStack
+Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MyStack.java);
+
+Same as with the queue, I have implemented stack with the help of `MyDoublyLinkedList`.
+Again, it might be not the best choice to use doubly linked list, but I have decided to use it, as I have already created it.
 
 ## My Graph
 Implementation:

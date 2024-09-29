@@ -19,8 +19,13 @@ public class MyBST<K extends Comparable<K>, V> implements SaxBinaryTree<K, V> {
     }
 
     // testing purposes only
-    protected MyBSTNode<K, V> getRoot(){
+    protected MyBSTNode<K, V> getRoot() {
         return root;
+    }
+
+    // for avl tree
+    protected void setRoot(MyBSTNode<K, V> root) {
+        this.root = root;
     }
 
     @Override
@@ -82,6 +87,36 @@ public class MyBST<K extends Comparable<K>, V> implements SaxBinaryTree<K, V> {
     @Override
     public int size() {
         return size;
+    }
+
+    /**
+     * TODO: write in docs
+     * Finds the parent of the given node.
+     * @param key The key of the node whose parent is to be found.
+     * @return The parent node, or null if the node is the root or not found.
+     */
+    protected MyBSTNode<K, V> findParent(K key) {
+        if (root == null || root.getEntry().getKey().equals(key)) {
+            return null;
+        }
+
+        MyBSTNode<K, V> parent = null;
+        MyBSTNode<K, V> current = root;
+
+        while (current != null) {
+            int cmp = comparator.compare(key, current.getEntry().getKey());
+            if (cmp == 0) {
+                return parent;
+            } else if (cmp < 0) {
+                parent = current;
+                current = current.getLeft();
+            } else {
+                parent = current;
+                current = current.getRight();
+            }
+        }
+
+        return null;
     }
 
     public String graphViz(String name) {
