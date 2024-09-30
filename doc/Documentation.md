@@ -95,7 +95,24 @@ I have implemented insertion sort as well, as I wanted to try both sorting algor
 also with help of YouTube videos.
 
 ## My BST
-Implementation:
+Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MyBST.java);
+
+I have created a normal binary search tree (without balancing) first to refresh my memory on how it works.
+I have struggled the most with `.remove()` method and had to watch a couple of tutorials to get the concept right.
+At the end of the day, I have managed to implement it and test all possible cases, achieving 100% coverage.
+
+## My AVL
+Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MyAVLTree.java);
+
+This was by far the most challenging task for me. During the lectures, I thought I understood it, however I couldn't wrap my head around actual implementation.
+
+I have spent roughly 4 hours watching tutorials and asking majesty AI for help. I have encountered a video of a respective gentleman explaining AVL trees in a very simple way (like for kids).
+With his help I build up the structure, but still my rotations didn't work correctly and most of the time, random nodes just disappeared from the tree.
+
+I got stuck, until I then found a simple python implementation online, and tried to replicate it in Java and with my set up. It worked. 
+I have tested all the methods and achieved 100% coverage. I have tested it according to a video of a respective gentleman.
+
+Reference: [AVL Tree explanation](https://www.youtube.com/watch?v=jDM6_TnYIqE) (around minute 32)
 
 ## MyHashMap (Separate Chaining)
 Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MySpHashMap.java);

@@ -17,6 +17,11 @@ public class Entry<Key, Val> {
         return value;
     }
 
+    // TODO: TEST
+    public void setValue(Val value) {
+        this.value = value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
