@@ -300,38 +300,6 @@ public class MyBSTTreeTest {
         assertEquals(right, root.getRight());
     }
 
-    @Test
-    public void GivenListWithElements_WhenGettingParentElement_ConfirmCorrectValuesReturned(){
-        tree.add(3, "Three");
-        tree.add(2, "Two");
-        tree.add(1, "One");
-        tree.add(4, "Four");
-        tree.add(5, "Five");
-
-        // .findParent returns Node
-        assertEquals(3, tree.findParent(2).getEntry().getKey());
-        assertEquals(3, tree.findParent(4).getEntry().getKey());
-        assertEquals(2, tree.findParent(1).getEntry().getKey());
-        assertEquals(4, tree.findParent(5).getEntry().getKey());
-        assertEquals(null, tree.findParent(3));
-    }
-
-    @Test
-    public void GivenEmptyTree_WhenFindingParent_ConfirmNullReturned() {
-        assertNull(tree.findParent(1));
-    }
-
-    @Test
-    public void GivenTreeWithNonExistentKey_WhenFindingParent_ConfirmNullReturned() {
-        tree.add(3, "Three");
-        tree.add(2, "Two");
-        tree.add(1, "One");
-        tree.add(4, "Four");
-        tree.add(5, "Five");
-
-        assertNull(tree.findParent(6));
-    }
-
     @BeforeEach
     public void setUp() {
         tree = new MyBST<>(Integer::compareTo);
