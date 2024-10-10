@@ -56,6 +56,10 @@ public class MyBSTNode<K, V> {
         // 3. If the node has only one child, then replace the node with its child.
         // 4. If the node has two children, then find the minimum node in the right subtree of the node.
 
+        // CASE 1: Is it leaf?
+        // CASE 2: Does it have only one child?
+        // CASE 3: Does it have two children?
+
         if (comparator.compare(key, entry.getKey()) < 0) {
             // go left
             if (left != null) {
@@ -107,9 +111,9 @@ public class MyBSTNode<K, V> {
                 return oldValue;
             }
         }
+
         return null;
     }
-
 
     public V get(K key, Comparator<K> comparator) {
         // STEPS:

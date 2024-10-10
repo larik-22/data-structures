@@ -14,6 +14,15 @@ public class MyMinHeap<V extends Comparable<V>> implements SaxHeap<V> {
         this.comparator = comparator;
     }
 
+    public MyMinHeap(Comparator<V> comparator, MyArrayList<V> elements){
+        this.comparator = comparator;
+        heap = new MyArrayList<>();
+
+        for (V element : elements) {
+            enqueue(element);
+        }
+    }
+
     /**
      * Gets an index of a child node
      *
@@ -114,6 +123,7 @@ public class MyMinHeap<V extends Comparable<V>> implements SaxHeap<V> {
                 result += "  " + parent + " -> " + i + ";\n";
             }
         }
+        
         result += "}";
         return result;
     }

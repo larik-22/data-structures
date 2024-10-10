@@ -104,9 +104,25 @@ public class MyMinHeapTest {
         heap.enqueue(15);
         heap.enqueue(11);
         heap.enqueue(8);
+        heap.enqueue(8);
 
         // check on https://dreampuf.github.io/GraphvizOnline/ with the following input:
         System.out.println(heap.graphViz("b"));
+    }
+
+    @Test
+    public void GivenArrayOfElements_WhenConstructingHeap_ConfirmHeapProperty() {
+        MyArrayList<Integer> elements = new MyArrayList<>();
+        elements.addLast(30);
+        elements.addLast(10);
+        elements.addLast(20);
+        elements.addLast(15);
+        elements.addLast(11);
+        elements.addLast(8);
+
+        heap = new MyMinHeap<>(Integer::compareTo, elements);
+
+        assertEquals(8, heap.peek());
     }
 
     @BeforeEach

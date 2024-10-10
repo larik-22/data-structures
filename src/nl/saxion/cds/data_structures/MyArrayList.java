@@ -313,8 +313,8 @@ public class MyArrayList<V> implements SaxList<V>, SaxSearchable<V>, SaxSortable
      * @param end        right index
      * @return the current index of the pivot
      */
-    //TODO: dont forget to change back to private
-    public int splitInPlace(Comparator<V> comparator, int begin, int end) {
+    //Protected because I want to test it
+    protected int splitInPlace(Comparator<V> comparator, int begin, int end) {
         /*
         * We go all the way from the right to the left.
         * We are looking for an element that is smaller than the pivot.
@@ -322,7 +322,6 @@ public class MyArrayList<V> implements SaxList<V>, SaxSearchable<V>, SaxSortable
         * After loop, we still need to swap the pivot with the element at the current index.
         * */
         /*
-         * TODO: write in documentation about my implementation and ask if i am allowed to use it.
         **/
         V pivot = get(begin); // first element (at begin) as pivot
 

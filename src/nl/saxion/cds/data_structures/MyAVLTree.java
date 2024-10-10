@@ -8,7 +8,7 @@ public class MyAVLTree<K extends Comparable<K>, V> extends MyBST<K, V> {
     public MyAVLTree(Comparator<K> comparator) {
         super(comparator);
     }
-
+;
     @Override
     public void add(K key, V value) {
         this.setRoot(add(this.getRoot(), key, value));

@@ -69,8 +69,10 @@ public class MyBST<K extends Comparable<K>, V> implements SaxBinaryTree<K, V> {
         } else {
             value = root.remove(key, comparator, null);
         }
+
         keys.remove(key);
         size--;
+
         return value;
     }
 
