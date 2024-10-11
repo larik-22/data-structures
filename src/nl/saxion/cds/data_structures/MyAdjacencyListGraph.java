@@ -85,7 +85,66 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
 
     @Override
     public Iterator<V> iterator() {
-        return null;
+        MyQueue<V> toVisit = new MyQueue<>();
+        SaxList<V> visited = new MyArrayList<>();
+        SaxList<V> traversed = new MyArrayList<>();
+
+        if(!edges.isEmpty()) {
+            toVisit.enqueue(edges.getKeys().get(0));
+
+            while(!toVisit.isEmpty()){
+                V next = toVisit.dequeue();
+                if(!visited.contains(next)){
+                    visited.addLast(next);
+                    traversed.addLast(next);
+
+                    SaxList<DirectedEdge<V>> edges = getEdges(next);
+                    for (DirectedEdge<V> edge : edges) {
+                        if(!visited.contains(edge.to())){
+                            toVisit.enqueue(edge.to());
+                        }
+                    }
+                }
+            }
+
+            return traversed.iterator();
+        } else {
+            return null;
+        }
+
+
+        //breadth first search
+//        return new Iterator<V>() {
+//            private final MyQueue<V> toVisit = new MyQueue<>();
+//            private final SaxList<V> visited = new MyArrayList<>();
+//
+//            {
+//                if(!edges.isEmpty()) {
+//                    toVisit.enqueue(edges.getKeys().get(0));
+//                }
+//            }
+//
+//            @Override
+//            public boolean hasNext() {
+//                return !toVisit.isEmpty();
+//            }
+//
+//            @Override
+//            public V next() {
+//                V next = toVisit.dequeue();
+//                if(!visited.contains(next)){
+//                    visited.addLast(next);
+//                    SaxList<DirectedEdge<V>> edges = getEdges(next);
+//                    for (DirectedEdge<V> edge : edges) {
+//                        if(!visited.contains(edge.to()) && !toVisit.contains(edge.to())){
+//                            System.out.println("Adding " + edge.to());
+//                            toVisit.enqueue(edge.to());
+//                        }
+//                    }
+//                }
+//                return next;
+//            }
+//        };
     }
 
     @Override

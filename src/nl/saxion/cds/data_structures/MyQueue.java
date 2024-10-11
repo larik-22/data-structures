@@ -40,4 +40,8 @@ public class MyQueue<T> implements SaxQueue<T> {
     public String graphViz(String name) {
         return "";
     }
+    //TODO: FIX UGLY
+    public boolean contains(T v) {
+        return queue.contains(v);
+    }
 }
