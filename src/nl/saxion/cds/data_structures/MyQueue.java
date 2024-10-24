@@ -38,9 +38,22 @@ public class MyQueue<T> implements SaxQueue<T> {
 
     @Override
     public String graphViz(String name) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append("digraph ").append(name).append(" {\n");
+        sb.append("    rankdir=LR;\n");
+        int index = 0;
+        for (T item : queue) {
+            sb.append("    node").append(index).append(" [label=\"").append(item).append("\"];\n");
+            if (index > 0) {
+                sb.append("    node").append(index - 1).append(" -> node").append(index).append(";\n");
+            }
+            index++;
+        }
+        sb.append("}\n");
+        return sb.toString();
     }
-    //TODO: FIX UGLY
+
+    //Had to add this method to make breadthFirstSearch work
     public boolean contains(T v) {
         return queue.contains(v);
     }

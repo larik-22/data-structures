@@ -44,7 +44,8 @@ public class MyStackTest {
         testStack.push(1);
         testStack.push(2);
         testStack.push(3);
-        assertEquals(3, testStack.size());
+        testStack.push(4);
+        assertEquals(4, testStack.size());
     }
 
     @Test

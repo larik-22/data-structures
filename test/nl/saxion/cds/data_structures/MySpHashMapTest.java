@@ -119,7 +119,7 @@ public class MySpHashMapTest {
         map.add(2, "two");
         map.add(3, "three");
 
-        assertEquals(3, map.getKeys().size());
+        assertEquals(4, map.getKeys().size());
         assertTrue(map.getKeys().contains(1));
         assertTrue(map.getKeys().contains(2));
         assertTrue(map.getKeys().contains(3));

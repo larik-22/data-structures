@@ -52,7 +52,7 @@ public class MySpHashMap<K, V> implements SaxHashMap<K, V> {
     @Override
     public void add(K key, V value) throws DuplicateKeyException {
         if (contains(key)) {
-            throw new DuplicateKeyException("Key already exists: " + key);
+            throw new DuplicateKeyException("" + key);
         }
 
         if (getLoadFactor() >= MAX_LOAD_FACTOR) {
@@ -67,9 +67,10 @@ public class MySpHashMap<K, V> implements SaxHashMap<K, V> {
 
     }
 
+    /**
+     * Rehash the table when the load factor exceeds the maximum load factor
+     */
     private void rehash() {
-        System.out.printf("Rehashing: %d -> %d\n", table.length, table.length * 2);
-
         MyArrayList<Entry<K, V>>[] oldTable = table;
 
         table = new MyArrayList[oldTable.length * 2];
@@ -117,6 +118,17 @@ public class MySpHashMap<K, V> implements SaxHashMap<K, V> {
 
     @Override
     public String graphViz(String name) {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append("digraph ").append(name).append(" {\n");
+
+        for (int i = 0; i < table.length; i++) {
+            sb.append("  ").append(i).append(" [label=\"").append(i).append("\"];\n");
+            for (Entry<K, V> entry : table[i]) {
+                sb.append("  ").append(i).append(" -> \"").append(entry.getKey()).append(": ").append(entry.getValue()).append("\";\n");
+            }
+        }
+
+        sb.append("}\n");
+        return sb.toString();
     }
 }
