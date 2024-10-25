@@ -1,17 +1,26 @@
 package nl.saxion.cds.data_structures;
 
 import nl.saxion.cds.collection.DuplicateKeyException;
+import nl.saxion.cds.collection.SaxList;
 
 import java.util.Comparator;
 
 public class MyAVLTree<K extends Comparable<K>, V> extends MyBST<K, V> {
+    private int size;
+    private MyArrayList<K> keys;
+
     public MyAVLTree(Comparator<K> comparator) {
         super(comparator);
+
+        this.size = 0;
+        this.keys = new MyArrayList<>();
     }
-;
+
     @Override
     public void add(K key, V value) {
         this.setRoot(add(this.getRoot(), key, value));
+        this.keys.addLast(key);
+        this.size++;
     }
 
     private MyBSTNode<K, V> add(MyBSTNode<K, V> node, K key, V value) {
@@ -103,5 +112,20 @@ public class MyAVLTree<K extends Comparable<K>, V> extends MyBST<K, V> {
 
     public int getHeight() {
         return getHeight(this.getRoot());
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public SaxList<K> getKeys() {
+        return keys;
+    }
+
+    @Override
+    public boolean contains(K key) {
+        return keys.contains(key);
     }
 }

@@ -6,6 +6,7 @@ import nl.saxion.cds.collection.SaxBinaryTree;
 import nl.saxion.cds.collection.SaxList;
 
 import java.util.Comparator;
+import java.util.function.BiConsumer;
 
 public class MyBST<K extends Comparable<K>, V> implements SaxBinaryTree<K, V> {
     private MyBSTNode<K, V> root;
@@ -100,4 +101,5 @@ public class MyBST<K extends Comparable<K>, V> implements SaxBinaryTree<K, V> {
 
         return dotStr;
     }
+
 }

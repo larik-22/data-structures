@@ -1,19 +1,21 @@
 package nl.saxion.cds;
 
+import nl.saxion.cds.data_structures.MyAVLTree;
+import nl.saxion.cds.data_structures.MyAdjacencyListGraph;
 import nl.saxion.cds.data_structures.MyArrayList;
 import nl.saxion.cds.data_structures.MySpHashMap;
 import nl.saxion.cds.model.Station;
 import nl.saxion.cds.utils.LambdaReader;
+import nl.saxion.cds.utils.OptionSelector;
 
 import java.io.FileNotFoundException;
+import java.util.Comparator;
 
 public class StationManager {
-    private MyArrayList<Station> stationMyArrayList;
+    private MyArrayList<Station> stationsMyArrayList;
     private MySpHashMap<String, Station> stationMySpHashMap; // code / station
-
-    public MyArrayList<Station> getStationMyArrayList() {
-        return stationMyArrayList;
-    }
+    private MyAVLTree<String, Station> stationMyAVLTree; // name / station
+//    private MyAdjacencyListGraph<String>
 
     public StationManager() {
         loadStations();
@@ -26,6 +28,7 @@ public class StationManager {
     private void loadStations(){
         fillArrayList();
         fillHashMap();
+        fillTree();
     }
 
     /**
@@ -40,7 +43,7 @@ public class StationManager {
                     ","
             );
 
-            stationMyArrayList = lambdaReader.readObjects();
+            stationsMyArrayList = lambdaReader.readObjects();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -51,11 +54,25 @@ public class StationManager {
      * and value being the station object
      */
     private void fillHashMap(){
-        if(stationMyArrayList.isEmpty()) return;
+        if(stationsMyArrayList.isEmpty()) return;
 
         stationMySpHashMap = new MySpHashMap<>();
-        for (Station station : stationMyArrayList) {
+        for (Station station : stationsMyArrayList) {
             stationMySpHashMap.add(station.getCode(), station);
+        }
+    }
+
+    /**
+     * Fills the AVL tree with the stations, with key being the station name
+     * and value being the station object
+     */
+    private void fillTree(){
+        if(stationsMyArrayList.isEmpty()) return;
+
+        stationMyAVLTree = new MyAVLTree<>(String::compareTo);
+
+        for (Station station : stationsMyArrayList) {
+            stationMyAVLTree.add(station.getName(), station);
         }
     }
 
@@ -66,5 +83,39 @@ public class StationManager {
     public Station showStationByCode(String code) {
         code = code.toUpperCase();
         return stationMySpHashMap.get(code);
+    }
+
+    /**
+     * Shows the stations by part of the name.
+     * @param partOfName the part of the name to search for
+     */
+    public void showStationsByName(String partOfName) {
+        partOfName = partOfName.toLowerCase();
+        MyArrayList<Station> matchingStations = new MyArrayList<>();
+
+        for (Station station : stationsMyArrayList) {
+            if (station.getName().toLowerCase().contains(partOfName)) {
+                matchingStations.addLast(station);
+            }
+        }
+
+        if (matchingStations.isEmpty()) {
+            System.out.println("No stations found");
+        } else {
+            // We get station names to show to the user
+            MyArrayList<String> stationNames = new MyArrayList<>();
+            for (Station station : matchingStations) {
+                stationNames.addLast(station.getName());
+            }
+
+            // We sort the station names to show them in alphabetical order
+            stationNames.quickSort(String::compareTo);
+            matchingStations.quickSort(Comparator.comparing(Station::getName));
+
+            // We prompt user to select a station and show detailed information
+            int choice = OptionSelector.selectOption(stationNames);
+            System.out.println(matchingStations.get(choice - 1));
+
+        }
     }
 }

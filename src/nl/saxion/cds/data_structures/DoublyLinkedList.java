@@ -35,7 +35,7 @@ public class DoublyLinkedList<T> implements SaxList<T>, Iterable<T> {
             current = current.getNext();
         }
 
-        return false;
+        return current.getValue().equals(value);
     }
 
     /**

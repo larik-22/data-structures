@@ -36,7 +36,8 @@ public class Application {
                     }
                 }
                 case 2 -> {
-
+                    String partOfName = InputReader.askForNonBlankText("Enter part of the station name: ");
+                    stationManager.showStationsByName(partOfName);
                 }
                 case 3 -> {
 
@@ -45,7 +46,8 @@ public class Application {
 
                 }
                 case 5 -> {
-
+                    System.out.println("Goodbye!");
+                    return;
                 }
             }
         }

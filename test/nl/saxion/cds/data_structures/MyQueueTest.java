@@ -65,6 +65,25 @@ public class MyQueueTest {
         assertThrows(Exception.class, () -> testQueue.peek());
     }
 
+    @Test
+    public void GivenQueue_WhenGraphViz_ConfirmCorrectOutput() {
+        testQueue.enqueue(1);
+        testQueue.enqueue(2);
+        testQueue.enqueue(3);
+
+        // watch output online
+        System.out.println(testQueue.graphViz("test"));
+    }
+
+    @Test
+    public void GivenQueueWithElements_WhenCheckingIfContainsElement_ConfirmTrue(){
+        testQueue.enqueue(1);
+        testQueue.enqueue(2);
+
+        assertTrue(testQueue.contains(1));
+        assertTrue(testQueue.contains(2));
+    }
+
     @BeforeEach
     public void setUp() {
         testQueue = new MyQueue<>();

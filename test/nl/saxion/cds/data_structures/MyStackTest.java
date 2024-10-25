@@ -65,6 +65,15 @@ public class MyStackTest {
         assertThrows(Exception.class, () -> testStack.peek());
     }
 
+    @Test
+    public void GivenStack_ConfirmCorrectGraphVizOutput(){
+        testStack.push(1);
+        testStack.push(2);
+        testStack.push(3);
+
+        System.out.println(testStack.graphViz("Stack"));
+    }
+
     @BeforeEach
     public void setUp() {
         testStack = new MyStack<>();
