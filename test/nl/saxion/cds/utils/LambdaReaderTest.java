@@ -1,6 +1,6 @@
 package nl.saxion.cds.utils;
 
-import nl.saxion.cds.data_structures.MyArrayList;
+import nl.saxion.cds.solution.data_structures.MyArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

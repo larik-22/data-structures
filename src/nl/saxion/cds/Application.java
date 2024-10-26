@@ -1,7 +1,8 @@
 package nl.saxion.cds;
 
 import nl.saxion.cds.collection.KeyNotFoundException;
-import nl.saxion.cds.data_structures.MyArrayList;
+import nl.saxion.cds.solution.application.StationManager;
+import nl.saxion.cds.solution.data_structures.MyArrayList;
 import nl.saxion.cds.utils.InputReader;
 import nl.saxion.cds.utils.OptionSelector;
 
@@ -43,7 +44,15 @@ public class Application {
 
                 }
                 case 4 -> {
-
+                    String start = InputReader.askForNonBlankText("Enter start station code: ");
+                    String end = InputReader.askForNonBlankText("Enter end station code: ");
+                    new Thread(() -> {
+                        try {
+                            stationManager.aStarDemonstration(start, end);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Invalid station codes");
+                        }
+                    }).start();
                 }
                 case 5 -> {
                     System.out.println("Goodbye!");

@@ -1,8 +1,7 @@
 package nl.saxion.cds.utils;
 
-import nl.saxion.cds.data_structures.MyArrayList;
+import nl.saxion.cds.solution.data_structures.MyArrayList;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class InputReader {

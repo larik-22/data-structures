@@ -9,7 +9,7 @@ public class CoordinateConverter {
     private static final double RESIZED_MAP_HEIGHT = 780.0;
 
     // Known min/max latitude and longitude
-    private static final double MIN_LAT = 50.7500;
+    private static final double MIN_LAT = 50.78;
     private static final double MAX_LAT = 53.5000;
     private static final double MIN_LON = 3.3000;
     private static final double MAX_LON = 7.2000;
@@ -26,8 +26,7 @@ public class CoordinateConverter {
         this.latitudeScale = RESIZED_MAP_HEIGHT / (MAX_LAT - MIN_LAT);
         this.longitudeScale = RESIZED_MAP_WIDTH / (MAX_LON - MIN_LON);
 
-        // Adjust verticalOffset to move stations up or down
-        this.verticalOffset = 12.0;  // Adjust this value based on calibration needs
+        this.verticalOffset = 9.0;  // Adjust this value based on calibration needs
     }
 
     public Point2D.Double convertLatLonToPixel(double latitude, double longitude) {
@@ -38,14 +37,4 @@ public class CoordinateConverter {
         return new Point2D.Double(x, y);
     }
 
-    public static void main(String[] args) {
-        CoordinateConverter converter = new CoordinateConverter();
-
-        // Example usage
-        double latitude = 52.955276489258;
-        double longitude = 4.7611112594605;
-
-        Point2D.Double pixelPoint = converter.convertLatLonToPixel(latitude, longitude);
-        System.out.println("Pixel coordinates: (" + pixelPoint.x + ", " + pixelPoint.y + ")");
-    }
 }

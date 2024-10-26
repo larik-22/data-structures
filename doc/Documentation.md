@@ -1,7 +1,7 @@
 # Algorithms and classes
 
 ## MijnArrayList
-Implementation: [mijn implementatie](../src/nl/saxion/cds/data_structures/MyArrayList.java)
+Implementation: [mijn implementatie](../src/nl/saxion/cds/solution/data_structures/MyArrayList.java)
 
 As I started building my own utility Csv Reader, based on the ArrayList, I had to add one additional method `clear()`. 
 
@@ -9,7 +9,7 @@ This needed  as I had to clear my own list instance on every line read. Otherwis
 This method simply sets the size of the list to 0 and internal array to default minimum size.
 
 ## DoublyLinkedList
-Implementation: [my implementation](../src/nl/saxion/cds/data_structures/DoublyLinkedList.java);
+Implementation: [my implementation](../src/nl/saxion/cds/solution/data_structures/DoublyLinkedList.java);
 
 Implementing a doubly linked list was the assignment of the first week to get a fresh reminder of the basic data structures.
 In the last year, I was lucky to have taken a course "Introduction to Algorithms and Data Structures" where I already implemented both Singly, Doubly and Circular linked list structures, which helped me to get started quickly.
@@ -95,14 +95,14 @@ I have implemented insertion sort as well, as I wanted to try both sorting algor
 also with help of YouTube videos.
 
 ## My BST
-Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MyBST.java);
+Implementation: [my implementation](../src/nl/saxion/cds/solution/data_structures/MyBST.java);
 
 I have created a normal binary search tree (without balancing) first to refresh my memory on how it works.
 I have struggled the most with `.remove()` method and had to watch a couple of tutorials to get the concept right.
 At the end of the day, I have managed to implement it and test all possible cases, achieving 100% coverage.
 
 ## My AVL
-Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MyAVLTree.java);
+Implementation: [my implementation](../src/nl/saxion/cds/solution/data_structures/MyAVLTree.java);
 
 This was by far the most challenging task for me. During the lectures, I thought I understood it, however I couldn't wrap my head around actual implementation.
 
@@ -115,7 +115,7 @@ I have tested all the methods and achieved 100% coverage. I have tested it accor
 Reference: [AVL Tree explanation](https://www.youtube.com/watch?v=jDM6_TnYIqE) (around minute 32)
 
 ## MyHashMap (Separate Chaining)
-Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MySpHashMap.java);
+Implementation: [my implementation](../src/nl/saxion/cds/solution/data_structures/MySpHashMap.java);
 
 I have decided to pick separate chaining hash map as it is the most common and easiest to implement.
 I have tried doing the open addressing one with linear probing, but I have been struggling with implementing `rehash()` method properly.
@@ -129,7 +129,7 @@ I have spent an hour or so trying to test the inner class `Entry` and SPECIFICAL
 Implementation:
 
 ## MyQueue
-Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MyQueue.java);
+Implementation: [my implementation](../src/nl/saxion/cds/solution/data_structures/MyQueue.java);
 
 I have implemented queue with the help of `MyDoublyLinkedList`.
 I understand, that it might be slightly overkill to use doubly linked list for queue, and singly linked list would be enough. We don't actually move in two directions and all this extra functionality is not needed.
@@ -137,7 +137,7 @@ I understand, that it might be slightly overkill to use doubly linked list for q
 However, I have decided to use doubly linked list, as I have already implemented and it was fairly easy to adjust it to be used as a queue.
 
 ## MyStack
-Implementation: [my implementation](../src/nl/saxion/cds/data_structures/MyStack.java);
+Implementation: [my implementation](../src/nl/saxion/cds/solution/data_structures/MyStack.java);
 
 Same as with the queue, I have implemented stack with the help of `MyDoublyLinkedList`.
 Again, it might be not the best choice to use doubly linked list, but I have decided to use it, as I have already created it.
