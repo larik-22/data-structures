@@ -242,9 +242,9 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
      */
     class AStarNode {
         final DirectedEdge<V> edge;
-        final double g; // g is the cost from the startNode to this node
-        final double h; // h is the estimated cost to the endNode
-        final AStarNode parent; // parent is the node from which we came to this node
+        final double g;
+        final double h;
+        final AStarNode parent;
 
         public AStarNode(DirectedEdge<V> edge, double g, double h, AStarNode parent) {
             this.edge = edge;

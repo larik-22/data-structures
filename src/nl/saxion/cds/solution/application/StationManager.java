@@ -2,6 +2,7 @@ package nl.saxion.cds.solution.application;
 
 import nl.saxion.app.SaxionApp;
 import nl.saxion.cds.collection.KeyNotFoundException;
+import nl.saxion.cds.collection.SaxList;
 import nl.saxion.cds.solution.data_structures.MyAVLTree;
 import nl.saxion.cds.solution.data_structures.MyArrayList;
 import nl.saxion.cds.solution.data_structures.MySpHashMap;
@@ -17,6 +18,7 @@ public class StationManager {
     private MySpHashMap<String, Station> stationMySpHashMap; // code / station
     private MyAVLTree<String, Station> stationMyAVLTree; // name / station
 //    private MyAdjacencyListGraph<String>
+    private MySpHashMap<String, MyArrayList<Station>> stationTypeHashMap; // type / list of stations
 
     public StationManager() {
         loadStations();
@@ -28,7 +30,7 @@ public class StationManager {
      */
     private void loadStations(){
         fillArrayList();
-        fillHashMap();
+        fillHashMaps();
         fillTree();
     }
 
@@ -54,12 +56,24 @@ public class StationManager {
      * Fills the hashmap with the stations, with key being the station code
      * and value being the station object
      */
-    private void fillHashMap(){
+    private void fillHashMaps(){
         if(stationsMyArrayList.isEmpty()) return;
 
         stationMySpHashMap = new MySpHashMap<>();
+        stationTypeHashMap = new MySpHashMap<>();
+
         for (Station station : stationsMyArrayList) {
+            // fill the hash map representing the code and station
             stationMySpHashMap.add(station.getCode(), station);
+
+            // fill the hash map representing the type and list of stations
+            if(stationTypeHashMap.contains(station.getType())){
+                stationTypeHashMap.get(station.getType()).addLast(station);
+            } else {
+                MyArrayList<Station> stations = new MyArrayList<>();
+                stations.addLast(station);
+                stationTypeHashMap.add(station.getType(), stations);
+            }
         }
     }
 
@@ -82,6 +96,8 @@ public class StationManager {
      * Hashmap is the most efficient way to do this
      */
     public Station showStationByCode(String code) {
+        if (stationsMyArrayList.isEmpty()) return null;
+
         code = code.toUpperCase();
         return stationMySpHashMap.get(code);
     }
@@ -91,6 +107,8 @@ public class StationManager {
      * @param partOfName the part of the name to search for
      */
     public void showStationsByName(String partOfName) {
+        if(stationsMyArrayList.isEmpty()) return;
+
         partOfName = partOfName.toLowerCase();
         MyArrayList<Station> matchingStations = new MyArrayList<>();
 
@@ -120,6 +138,37 @@ public class StationManager {
         }
     }
 
+    /**
+     * Shows the stations sorted by type.
+     * Stations are sorted based on the station name
+     */
+    public void showSortedStationsByType(){
+        if (stationsMyArrayList.isEmpty()) return;
+
+        MyArrayList<String> types = (MyArrayList<String>) stationTypeHashMap.getKeys();
+        types.quickSort(String::compareTo);
+
+        // let the user select which type of station they want to see
+        int choice = OptionSelector.selectOption(types);
+
+        // sort the stations by name
+        MyArrayList<Station> stations = stationTypeHashMap.get(types.get(choice - 1));
+        stations.quickSort(Comparator.comparing(Station::getName));
+
+        // print the stations
+        StringBuilder sb = new StringBuilder();
+        for (Station station : stations) {
+            sb.append(station).append("\n");
+        }
+        System.out.println(sb.toString());
+    }
+
+    /**
+     * Demonstrates the A* algorithm using the given start and end station codes
+     * @param start the start station code
+     * @param end the end station code
+     ** @throws IllegalArgumentException if the station codes are invalid
+     */
     public void aStarDemonstration(String start, String end) {
         start = start.toUpperCase();
         end = end.toUpperCase();

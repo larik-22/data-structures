@@ -7,7 +7,6 @@ import nl.saxion.cds.utils.InputReader;
 import nl.saxion.cds.utils.OptionSelector;
 
 public class Application {
-    private static final OptionSelector OPTION_SELECTOR = new OptionSelector();
     private static final MyArrayList<String> MENU_OPTIONS = new MyArrayList<>();
     private final StationManager stationManager = new StationManager();
 
@@ -25,7 +24,7 @@ public class Application {
 
     public void run(){
         while (true){
-            int choice = promtMainMenu();
+            int choice = promptMainMenu();
             switch (choice){
                 case 1 -> {
                     String code = InputReader.askForNonBlankText("Enter station code: ");
@@ -41,7 +40,7 @@ public class Application {
                     stationManager.showStationsByName(partOfName);
                 }
                 case 3 -> {
-
+                    stationManager.showSortedStationsByType();
                 }
                 case 4 -> {
                     String start = InputReader.askForNonBlankText("Enter start station code: ");
@@ -62,8 +61,8 @@ public class Application {
         }
     }
 
-    public int promtMainMenu(){
-        return OPTION_SELECTOR.selectOption(MENU_OPTIONS);
+    public int promptMainMenu(){
+        return OptionSelector.selectOption(MENU_OPTIONS);
     }
 
 }

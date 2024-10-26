@@ -1,6 +1,7 @@
 package nl.saxion.cds.solution.application;
 
 import nl.saxion.app.SaxionApp;
+import nl.saxion.cds.collection.SaxGraph;
 import nl.saxion.cds.collection.SaxList;
 import nl.saxion.cds.solution.data_models.Station;
 import nl.saxion.cds.solution.data_models.Coordinate;
@@ -25,11 +26,11 @@ public class AStarDemo implements Runnable {
     private final static int DOT_SIZE = 4;
 
     private final CoordinateConverter converter = new CoordinateConverter();
-
     private final MySpHashMap<String, Station> stations;
     private final MyAdjacencyListGraph<String> tracks;
 
-    private String from,to;
+    private final String from;
+    private final String to;
 
     public static void main(String[] args) {
         SaxionApp.start(new AStarDemo("DV", "ES"), WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -140,23 +141,36 @@ public class AStarDemo implements Runnable {
     }
 
     private void drawShortestPath(){
-        SaxList<String> result = tracks.aStar(from, to, (current, goal) -> {
+        SaxList<SaxGraph.DirectedEdge<String>> shortestPathAStar = tracks.shortestPathAStar(from, to, (current, goal) -> {
             Station currentStation = stations.get(current);
             Station goalStation = stations.get(goal);
 
             return Coordinate.haversineDistance(currentStation.getCoordinate(), goalStation.getCoordinate());
         });
 
+        double totalDistance = 0;
+        for (SaxGraph.DirectedEdge<String> edge : shortestPathAStar) {
+            totalDistance += edge.weight();
+        }
+
         // List of codes, draw tracks between them with red
         SaxionApp.setBorderColor(SaxionApp.SAXION_PINK);
         SaxionApp.setBorderSize(3);
 
+        SaxList<String> result = tracks.convertEdgesToNodes(shortestPathAStar);
         int index = 0;
         while (index < result.size() - 1) {
             SaxionApp.sleep(0.15);
             drawTrack(result.get(index), result.get(index + 1));
             index++;
         }
+
+        SaxionApp.setTextDrawingColor(Color.WHITE);
+        SaxionApp.drawText("Shortest path from " + stations.get(from).getName() + " to " + stations.get(to).getName() + " is: ", 10, 8, 14);
+        SaxionApp.setTextDrawingColor(Color.ORANGE);
+        SaxionApp.drawText(String.format("%.1f", totalDistance), 10,  28, 14);
+        SaxionApp.setTextDrawingColor(Color.WHITE);
+        SaxionApp.drawText(" km long", 50, 28, 14);
     }
 
     private void drawTrack(String from, String to){
