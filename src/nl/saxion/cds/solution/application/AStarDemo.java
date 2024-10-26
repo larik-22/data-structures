@@ -22,7 +22,7 @@ public class AStarDemo implements Runnable {
     private final static int IMAGE_WIDTH = 1621;
     private final static int IMAGE_HEIGHT = 1920;
     private final static int BANNER_HEIGHT = 38;
-    private final static double SLEEP_TIME = 0.0005;
+    private final static double DRAW_SLEEP = 0.001;
     private final static int DOT_SIZE = 4;
 
     private final CoordinateConverter converter = new CoordinateConverter();
@@ -33,7 +33,7 @@ public class AStarDemo implements Runnable {
     private final String to;
 
     public static void main(String[] args) {
-        SaxionApp.start(new AStarDemo("DV", "ES"), WINDOW_WIDTH, WINDOW_HEIGHT);
+        SaxionApp.start(new AStarDemo("MT", "GN"), WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 
     public AStarDemo(String from, String to) {
@@ -80,7 +80,6 @@ public class AStarDemo implements Runnable {
         // Resize the window and draw the map
         SaxionApp.resize(mapWidth, mapHeight + BANNER_HEIGHT);
         SaxionApp.drawImage("resources/Nederland.png", 0, 0, mapWidth, mapHeight);
-        System.out.println("Map dimensions: " + mapWidth + "x" + mapHeight);
     }
 
     /**
@@ -102,21 +101,17 @@ public class AStarDemo implements Runnable {
         reader.close();
     }
 
-    private void drawStation(double lat, double lon) {
-        Point2D pixel = converter.convertLatLonToPixel(lat, lon);
-        int x = (int) (pixel.getX());
-        int y = (int) (pixel.getY());
-
-        SaxionApp.drawCircle(x, y, DOT_SIZE);
-    }
-
+    /**
+     * Draws all tracks on the map
+     * @throws FileNotFoundException if the file is not found
+     */
     private void drawAllTracks() throws FileNotFoundException {
         SaxionApp.setBorderColor(Color.decode("#f3f1b2"));
         CsvReader reader = new CsvReader("resources/tracks.csv", true);
         reader.setSeparator(",");
 
         while (reader.readLine()) {
-            SaxionApp.sleep(SLEEP_TIME);
+            SaxionApp.sleep(DRAW_SLEEP);
             String from = reader.readString(0);
             String to = reader.readString(1);
             tracks.addEdge(from, to, reader.readDouble(3));
@@ -127,6 +122,10 @@ public class AStarDemo implements Runnable {
         reader.close();
     }
 
+    /**
+     * Draws all stations on the map
+     * Only draws stations in the Netherlands
+     */
     private void drawStations(){
         SaxionApp.setBorderColor(Color.decode("#ebbd80"));
         SaxionApp.setFill(Color.decode("#FF4F00"));
@@ -134,12 +133,29 @@ public class AStarDemo implements Runnable {
             Station station = stations.get(stationCode);
 
             if(station.getCountry().equalsIgnoreCase("nl")){
-                SaxionApp.sleep(SLEEP_TIME);
+                SaxionApp.sleep(DRAW_SLEEP);
                 drawStation(station.getLatitude(), station.getLongitude());
             }
         }
     }
 
+    /**
+     * Draws a station on the map
+     * @param lat latitude
+     * @param lon longitude
+     */
+    private void drawStation(double lat, double lon) {
+        Point2D pixel = converter.convertLatLonToPixel(lat, lon);
+        int x = (int) (pixel.getX());
+        int y = (int) (pixel.getY());
+
+        SaxionApp.drawCircle(x, y, DOT_SIZE);
+    }
+
+    /**
+     * Draws the shortest path between two stations
+     * And prints the total distance of the path
+     */
     private void drawShortestPath(){
         SaxList<SaxGraph.DirectedEdge<String>> shortestPathAStar = tracks.shortestPathAStar(from, to, (current, goal) -> {
             Station currentStation = stations.get(current);
@@ -153,14 +169,14 @@ public class AStarDemo implements Runnable {
             totalDistance += edge.weight();
         }
 
-        // List of codes, draw tracks between them with red
         SaxionApp.setBorderColor(SaxionApp.SAXION_PINK);
         SaxionApp.setBorderSize(3);
 
+        // List of codes, draw tracks between them with red
         SaxList<String> result = tracks.convertEdgesToNodes(shortestPathAStar);
         int index = 0;
         while (index < result.size() - 1) {
-            SaxionApp.sleep(0.15);
+            SaxionApp.sleep(0.1);
             drawTrack(result.get(index), result.get(index + 1));
             index++;
         }
@@ -171,8 +187,25 @@ public class AStarDemo implements Runnable {
         SaxionApp.drawText(String.format("%.1f", totalDistance), 10,  28, 14);
         SaxionApp.setTextDrawingColor(Color.WHITE);
         SaxionApp.drawText(" km long", 50, 28, 14);
+
+        // additionally log information in the console
+        StringBuilder routeStr = new StringBuilder();
+        for (int i = 0; i < result.size(); i++) {
+            routeStr.append(stations.get(result.get(i)).getName());
+            if (i < result.size() - 1) {
+                routeStr.append(" -> ");
+            }
+        }
+
+        System.out.println("Shortest path: " + routeStr);
+        System.out.println("Total distance: " + totalDistance + " km");
     }
 
+    /**
+     * Draws a track between two stations
+     * @param from station code of origin
+     * @param to station code of destination
+     */
     private void drawTrack(String from, String to){
         Station fromStation = stations.get(from);
         Station toStation = stations.get(to);

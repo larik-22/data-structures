@@ -119,13 +119,13 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
      */
     @Override
     public SaxList<DirectedEdge<V>> shortestPathAStar(V startNode, V endNode, Estimator<V> estimator) {
-        MyPriorityQueue<AStarNode> openList = new MyPriorityQueue<>();
+        MyMinHeap<AStarNode> openList = new MyMinHeap<>(AStarNode::compareTo);
         MySpHashMap<V, AStarNode> closedList = new MySpHashMap<>();
         AStarNode start = new AStarNode(null, 0, estimator.estimate(startNode, endNode), null);
-        openList.enqueue(start, start.getF());
+        openList.enqueue(start);
 
         while (!openList.isEmpty()){
-            AStarNode currentNode = openList.dequeue().getValue();
+            AStarNode currentNode = openList.dequeue();
 
             // check if goal reached
             if (currentNode.edge != null && currentNode.edge.to().equals(endNode)){
@@ -150,7 +150,7 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
                 double neighborG = currentNode.g + neighborEdge.weight();
                 double neighborH = estimator.estimate(neighbor, endNode);
                 AStarNode neighborNode = new AStarNode(neighborEdge, neighborG, neighborH, currentNode);
-                openList.enqueue(neighborNode, neighborNode.getF());
+                openList.enqueue(neighborNode);
             }
         }
 
@@ -240,7 +240,7 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
     /**
      * A node in the A* algorithm.
      */
-    class AStarNode {
+    class AStarNode implements Comparable<AStarNode> {
         final DirectedEdge<V> edge;
         final double g;
         final double h;
@@ -255,6 +255,11 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
 
         public double getF() {
             return g + h;
+        }
+
+        @Override
+        public int compareTo(AStarNode other) {
+            return Double.compare(getF(), other.getF());
         }
     }
 }
