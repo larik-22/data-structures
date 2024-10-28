@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -152,56 +153,9 @@ public class MyAdjacencyListGraphTest {
     }
 
     @Test
-    public void AStarTest() {
-        MyAdjacencyListGraph<String> graph = new MyAdjacencyListGraph<>();
-
-        // Add nodes
-        String nodeA = "A";
-        String nodeB = "B";
-        String nodeC = "C";
-        String nodeD = "D";
-        String nodeE = "E";
-
-        // Add edges (undirected for this case, but can also be directed if needed)
-        graph.addEdge(nodeA, nodeB, 1);  // A -> B (weight 1)
-        graph.addEdge(nodeA, nodeC, 2);  // A -> C (weight 2)
-        graph.addEdge(nodeB, nodeC, 1);  // B -> C (weight 1)
-        graph.addEdge(nodeB, nodeD, 3);  // B -> D (weight 3)
-        graph.addEdge(nodeC, nodeD, 4);  // C -> D (weight 4)
-        graph.addEdge(nodeD, nodeE, 1);  // D -> E (weight 1)
-
-        SaxGraph.Estimator<String> estimator = (current, goal) -> {
-            return 1.0;
-        };
-
-        // Find the shortest path from node A to node E
-        SaxList<SaxGraph.DirectedEdge<String>> result = graph.shortestPathAStar(nodeA, nodeE, estimator);
-
-        // Verify the result - the expected path should be A -> B -> D -> E
-        assertNotNull(result); // Ensure the result is not null
-        assertEquals(3, result.size()); // 3 edges in the shortest path
-
-        // Verify the edges are correct
-        assertEquals(nodeA, result.get(0).from());
-        assertEquals(nodeB, result.get(0).to());
-
-        assertEquals(nodeB, result.get(1).from());
-        assertEquals(nodeD, result.get(1).to());
-
-        assertEquals(nodeD, result.get(2).from());
-        assertEquals(nodeE, result.get(2).to());
-
-        // Convert the result (edges) to a list of nodes
-        SaxList<String> nodeList = graph.aStar(nodeA, nodeE, estimator);
-
-        // Print the list of nodes
-        System.out.println("Shortest path (nodes): " + nodeList);
-    }
-
-    @Test
     public void GivenTwoStations_WhenUsingAStar_ConfirmShortestRouteIsDeterminedCorrectly() throws FileNotFoundException {
         MySpHashMap<String, SimpleStation> stations = readStations();
-        MyAdjacencyListGraph<String> graph = readTracks(stations);
+        MyAdjacencyListGraph<String> graph = readTracks();
 
         SaxGraph.Estimator<String> estimator = (current, goal) -> {
             SimpleStation currentStation = stations.get(current);
@@ -230,8 +184,7 @@ public class MyAdjacencyListGraphTest {
 
     @Test
     public void GivenTwoStations_WhenUsingDijkstra_ConfirmShortestRouteIsDeterminedCorrectly() throws FileNotFoundException {
-        MySpHashMap<String, SimpleStation> stations = readStations();
-        MyAdjacencyListGraph<String> graph = readTracks(stations);
+        MyAdjacencyListGraph<String> graph = readTracks();
 
         SaxList<String> dvToEs = graph.dijkstra(DEVENTER_CODE, ENSCHEDE_CODE);
         for (int i = 0; i < dvToEs.size(); i++) {
@@ -242,7 +195,40 @@ public class MyAdjacencyListGraphTest {
         for (int i = 0; i < expectedCodesAmsterdamDeventer.length; i++) {
             assertEquals(expectedCodesAmsterdamDeventer[i], amsToDv.get(i));
         }
+    }
 
+    @Test
+    public void GivenGraph_WhenUsingMinimumCostSpanningTree_ConfirmCorrectTotalWeight() {
+        // Create a more complex graph
+        graph.addEdge("A", "B", 1);
+        graph.addEdge("A", "C", 4);
+        graph.addEdge("B", "C", 2);
+        graph.addEdge("B", "D", 5);
+        graph.addEdge("C", "D", 3);
+        graph.addEdge("D", "E", 6);
+        graph.addEdge("C", "E", 7);
+        graph.addEdge("A", "E", 8);
+        graph.addEdge("B", "E", 9);
+
+        // check graphviz output before...
+        System.out.println(graph.graphViz("complexTest"));
+        SaxGraph<String> mst = graph.minimumCostSpanningTree();
+
+        // Expected total weight of the MST
+        // The MST should include edges (A-B, B-C, C-D, D-E)
+        // Total weight = 1 + 2 + 3 + 6 = 12
+        assertEquals(12, mst.getTotalWeight());
+
+        // Check graphviz output after...
+        System.out.println(mst.graphViz("complexTest"));
+    }
+
+    @Test
+    public void GivenEmptyListOfDirectedEdges_WhenConvertingEdgesToNodes_ConfirmEmptyList() {
+        SaxList<SaxGraph.DirectedEdge<String>> edges = new MyArrayList<>();
+        SaxList<String> path = graph.convertEdgesToNodes(edges);
+
+        assertTrue(path.isEmpty());
     }
 
     @BeforeEach
@@ -266,7 +252,7 @@ public class MyAdjacencyListGraphTest {
         return stations;
     }
 
-    private MyAdjacencyListGraph<String> readTracks(MySpHashMap<String, SimpleStation> stations) throws FileNotFoundException {
+    private MyAdjacencyListGraph<String> readTracks() throws FileNotFoundException {
         CsvReader reader = new CsvReader("resources/tracks.csv", true);
         reader.setSeparator(",");
 

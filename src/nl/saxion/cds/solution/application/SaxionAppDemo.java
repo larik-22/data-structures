@@ -15,6 +15,7 @@ import nl.saxion.cds.utils.LambdaReader;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.FileNotFoundException;
+import java.util.Iterator;
 
 public class SaxionAppDemo implements Runnable {
     private final MyArrayList<String> menuOptions;
@@ -108,6 +109,7 @@ public class SaxionAppDemo implements Runnable {
                 }
                 case 2 -> {
                     // mst
+                    determineMST();
                 }
                 case 3 -> {
                     SaxionApp.printLine("Goodbye!");
@@ -377,6 +379,53 @@ public class SaxionAppDemo implements Runnable {
         SaxionApp.drawText(" km long", 50, 28, 14);
     }
 
+    private void determineMST() {
+        MyAdjacencyListGraph<String> mst = (MyAdjacencyListGraph<String>) tracks.minimumCostSpanningTree();
+        MyAdjacencyListGraph<String> filteredMST = new MyAdjacencyListGraph<>();
+
+        double totalLength = 0;
+
+        for (SaxGraph.DirectedEdge<String> edge: mst.getVertices()){
+            if (stations.get(edge.from()).getCountry().equalsIgnoreCase("nl") && stations.get(edge.to()).getCountry().equalsIgnoreCase("nl")){
+                filteredMST.addEdge(edge.from(), edge.to(), edge.weight());
+                totalLength += edge.weight();
+            }
+        }
+
+        System.out.println("Total length of the MST: " + totalLength);
+        drawMST(filteredMST);
+        SaxionApp.pause();
+        // get the total length for NL
+    }
+
+    private void drawMST(MyAdjacencyListGraph<String> mst){
+        StringBuilder sb = new StringBuilder();
+        nlOnly = true;
+
+        SaxionApp.clear();
+        initMap();
+        drawStations();
+
+        SaxionApp.setBorderSize(3);
+        SaxionApp.setBorderColor(Color.BLUE);
+
+        double totalLength = 0;
+        for (SaxGraph.DirectedEdge<String> edge: mst.getVertices()){
+            SaxionApp.sleep(DRAW_SLEEP);
+            totalLength += edge.weight();
+            drawTrack(edge.from(), edge.to());
+            sb.append(stations.get(edge.from()).getName()).append(" -> ").append(stations.get(edge.to()).getName()).append(" ");
+        }
+
+        SaxionApp.setBorderColor(Color.WHITE);
+        SaxionApp.drawText("Total length of connections:", 10, 8, 14);
+        SaxionApp.setTextDrawingColor(Color.ORANGE);
+        SaxionApp.drawText(String.format("%.1f", totalLength), 10, 28, 14);
+
+        // print the path in console in case SaxionApp is not running
+        System.out.println("Minimum cost spanning tree is: ");
+        System.out.println(sb);
+    }
 
     /**
      * Prompt menu with given message and options

@@ -13,6 +13,19 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
         edges = new MySpHashMap<>();
     }
 
+    public SaxList<DirectedEdge<V>> getVertices(){
+        SaxList<DirectedEdge<V>> vertices = new MyArrayList<>();
+
+        for (V vertex : edges.getKeys()) {
+            SaxList<DirectedEdge<V>> vertexEdges = edges.get(vertex);
+            for (DirectedEdge<V> edge : vertexEdges) {
+                vertices.addLast(edge);
+            }
+        }
+
+        return vertices;
+    }
+
     /**
      * The JavaDoc in interface is contradicting itself.
      * It says that if a node doesn't exist, it is automatically added. Why the do we need an exception then?
@@ -196,6 +209,7 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
 
     /**
      * Convert a list of edges to a list of nodes
+     *
      * @param pathOfEdges the list of edges
      * @return the path of nodes from starting node to the goal node
      */
@@ -252,8 +266,9 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
 
     /**
      * Construct the path from the start node to the end node using Dijkstra's algorithm
+     *
      * @param startNode the start node
-     * @param endNode the end node
+     * @param endNode   the end node
      * @return the list of edges from the start node to the end node
      */
     public SaxList<DirectedEdge<V>> getDijkstraEdges(V startNode, V endNode) {
@@ -273,9 +288,10 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
     /**
      * Find the shortest path from the start node to the end node using Dijkstra's algorithm.
      * We first get the edges and convert them to nodes.
+     *
      * @param startNode the start node
-     * @param endNode the end node
-     * @return
+     * @param endNode   the end node
+     * @return the list of nodes from the start node to the end node
      */
     public SaxList<V> dijkstra(V startNode, V endNode) {
         SaxList<DirectedEdge<V>> pathOfEdges = getDijkstraEdges(startNode, endNode);
@@ -284,7 +300,52 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
 
     @Override
     public SaxGraph<V> minimumCostSpanningTree() {
-        return null;
+        // Prim's algorithm
+        SaxGraph<V> mst = new MyAdjacencyListGraph<>();
+        MyMinHeap<DirectedEdge<V>> edges = new MyMinHeap<>(DirectedEdge::compareTo);
+        MySpHashMap<V, Boolean> inMST = new MySpHashMap<>();
+
+        // Select any node as root (I select first one)
+        V startNode = this.edges.getKeys().get(0);
+        inMST.add(startNode, true);
+
+        // Fill the priority queue with edges from the start node
+        for (DirectedEdge<V> edge : getEdges(startNode)) {
+            edges.enqueue(edge);
+        }
+
+        // While there are still edges to consider
+        while (!edges.isEmpty()) {
+            DirectedEdge<V> edge = edges.dequeue();
+            V from = edge.from();
+            V to = edge.to();
+
+            // Check if both nodes have been already added
+            if (inMST.contains(to) && inMST.get(to)) {
+                continue;
+            }
+
+            // Add new edge
+            mst.addEdge(from, to, edge.weight());
+
+            // Mark the nodes as visited
+            if (!inMST.contains(from)) {
+                inMST.add(from, true);
+            }
+
+            if (!inMST.contains(to)) {
+                inMST.add(to, true);
+            }
+
+            // Add edges from the newly added node to the priority queue
+            for (DirectedEdge<V> neighborEdge : getEdges(to)) {
+                if (!inMST.contains(neighborEdge.to())) {
+                    edges.enqueue(neighborEdge);
+                }
+            }
+        }
+
+        return mst;
     }
 
     @Override
@@ -327,5 +388,4 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
             return Double.compare(getF(), other.getF());
         }
     }
-
 }
