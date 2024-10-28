@@ -14,7 +14,7 @@ public class Application {
         MENU_OPTIONS.addLast("Show station by code");
         MENU_OPTIONS.addLast("Show station by part of the name");
         MENU_OPTIONS.addLast("Show stations by type sorted by name");
-        MENU_OPTIONS.addLast("A-Star Demonstration");
+        MENU_OPTIONS.addLast("Graph algorithm demonstration (A-star, Dijkstra)");
         MENU_OPTIONS.addLast("Exit");
     }
 
@@ -43,15 +43,15 @@ public class Application {
                     stationManager.showSortedStationsByType();
                 }
                 case 4 -> {
-                    String start = InputReader.askForNonBlankText("Enter start station code: ");
-                    String end = InputReader.askForNonBlankText("Enter end station code: ");
-                    new Thread(() -> {
-                        try {
-                            stationManager.aStarDemonstration(start, end);
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Invalid station codes");
-                        }
-                    }).start();
+//                    String start = InputReader.askForNonBlankText("Enter start station code: ");
+//                    String end = InputReader.askForNonBlankText("Enter end station code: ");
+//                    new Thread(() -> {
+//                        try {
+//                            stationManager.aStarDemonstration(start, end);
+//                        } catch (IllegalArgumentException e) {
+//                            System.out.println("Invalid station codes");
+//                        }
+//                    }).start();
                 }
                 case 5 -> {
                     System.out.println("Goodbye!");

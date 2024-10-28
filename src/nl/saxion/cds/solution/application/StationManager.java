@@ -172,15 +172,15 @@ public class StationManager {
         start = start.toUpperCase();
         end = end.toUpperCase();
 
-        try {
-            stationMySpHashMap.get(start);
-            stationMySpHashMap.get(end);
-
-            // run a runnable with those args
-            SaxionAppDemo aStarDemo = new SaxionAppDemo(start, end);
-            SaxionApp.start(aStarDemo, SaxionAppDemo.WINDOW_WIDTH, SaxionAppDemo.WINDOW_HEIGHT);
-        } catch (KeyNotFoundException e){
-            throw new IllegalArgumentException("Invalid station codes");
-        }
+//        try {
+//            stationMySpHashMap.get(start);
+//            stationMySpHashMap.get(end);
+//
+//            // run a runnable with those args
+//            SaxionAppDemo aStarDemo = new SaxionAppDemo(start, end);
+//            SaxionApp.start(aStarDemo, SaxionAppDemo.WINDOW_WIDTH, SaxionAppDemo.WINDOW_HEIGHT);
+//        } catch (KeyNotFoundException e){
+//            throw new IllegalArgumentException("Invalid station codes");
+//        }
     }
 }

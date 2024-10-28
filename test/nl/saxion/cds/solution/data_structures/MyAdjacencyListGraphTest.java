@@ -22,6 +22,9 @@ public class MyAdjacencyListGraphTest {
     private static final String DEVENTER_CODE = "DV";
     private static final String ENSCHEDE_CODE = "ES";
 
+//    private static final double DEVENTER_ENSCHEDE_DISTANCE = 59.8;
+//    private static final double AMSTERDAM_DEVENTER_DISTANCE = 98.2;
+
     @Test
     public void GivenEmptyGraph_WhenAddingEdges_ConfirmCorrectSizeAndWeight() {
         graph.addEdge("A", "B", 1);

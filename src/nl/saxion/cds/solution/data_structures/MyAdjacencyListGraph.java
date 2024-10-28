@@ -196,7 +196,6 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
 
     /**
      * Convert a list of edges to a list of nodes
-     *
      * @param pathOfEdges the list of edges
      * @return the path of nodes from starting node to the goal node
      */
@@ -252,55 +251,36 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
     }
 
     /**
-     * Find the shortest path from the start node to the end node using the Dijkstra algorithm.
-     * We traverse the graph to reconstruct the shortest path from the end node to the start node.
+     * Construct the path from the start node to the end node using Dijkstra's algorithm
      * @param startNode the start node
      * @param endNode the end node
-     * @return the shortest path of nodes from the start node to the end node
+     * @return the list of edges from the start node to the end node
      */
-    public SaxList<V> dijkstra(V startNode, V endNode) {
+    public SaxList<DirectedEdge<V>> getDijkstraEdges(V startNode, V endNode) {
         SaxGraph<V> result = shortestPathsDijkstra(startNode);
+        SaxList<DirectedEdge<V>> path = new MyArrayList<>();
+        V currentNode = endNode;
 
-        // traverse from endNode to startNode, checking the weight. If weight decreases we are on the right path.
-        // When we reached 0.0 node, we are at the startNode
-        SaxList<V> path = new MyArrayList<>();
-        path.addLast(endNode);
+        while (!currentNode.equals(startNode)) {
+            DirectedEdge<V> edge = result.getEdges(currentNode).get(0);
+            path.addFirst(new DirectedEdge<>(edge.to(), edge.from(), edge.weight()));
 
-        V current = endNode;
-        while (!result.getEdges(current).isEmpty()) {
-            SaxList<DirectedEdge<V>> edges = result.getEdges(current);
-            double minWeight = Double.MAX_VALUE;
-            V next = null;
-
-            for (DirectedEdge<V> edge : edges) {
-                if (edge.weight() < minWeight) {
-                    minWeight = edge.weight();
-                }
-            }
-
-            for (DirectedEdge<V> edge : edges) {
-                if (edge.weight() == minWeight) {
-                    next = edge.to();
-                }
-            }
-
-            if (next == startNode) {
-                path.addLast(next);
-                break;
-            }
-
-            path.addLast(next);
-            current = next;
+            currentNode = edge.to();
         }
-
-        // reverse the path
-        SaxList<V> reversedPath = new MyArrayList<>();
-        for (int i = path.size() - 1; i >= 0; i--) {
-            reversedPath.addLast(path.get(i));
-        }
-        return reversedPath;
+        return path;
     }
 
+    /**
+     * Find the shortest path from the start node to the end node using Dijkstra's algorithm.
+     * We first get the edges and convert them to nodes.
+     * @param startNode the start node
+     * @param endNode the end node
+     * @return
+     */
+    public SaxList<V> dijkstra(V startNode, V endNode) {
+        SaxList<DirectedEdge<V>> pathOfEdges = getDijkstraEdges(startNode, endNode);
+        return convertEdgesToNodes(pathOfEdges);
+    }
 
     @Override
     public SaxGraph<V> minimumCostSpanningTree() {
