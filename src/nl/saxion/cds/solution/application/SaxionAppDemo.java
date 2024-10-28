@@ -15,7 +15,6 @@ import nl.saxion.cds.utils.LambdaReader;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.FileNotFoundException;
-import java.util.Iterator;
 
 public class SaxionAppDemo implements Runnable {
     private final MyArrayList<String> menuOptions;
@@ -40,7 +39,7 @@ public class SaxionAppDemo implements Runnable {
         SaxionApp.start(new SaxionAppDemo(), WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 
-    public SaxionAppDemo(){
+    public SaxionAppDemo() {
         try {
             readStations();
             readTracks();
@@ -50,7 +49,7 @@ public class SaxionAppDemo implements Runnable {
 
         menuOptions = new MyArrayList<>();
         menuOptions.addLast("Shortest path");
-        menuOptions.addLast("Minimum cost spanning tree");
+        menuOptions.addLast("Minimum cost spanning tree [Prim]");
         menuOptions.addLast("Exit");
 
         pathAlgorithms = new MyArrayList<>();
@@ -80,7 +79,6 @@ public class SaxionAppDemo implements Runnable {
      * @throws FileNotFoundException if the station file is not found
      */
     private void initApplication() throws FileNotFoundException {
-        // prompt menu
         while (true) {
             SaxionApp.clear();
             int choice = promptMenu("Select an option", menuOptions);
@@ -201,6 +199,7 @@ public class SaxionAppDemo implements Runnable {
      * Unfortunately, I need to read tracks once again to draw them,
      * cause there is no way to draw the tracks in the correct sequence without reading them again.
      * When traversing the graph, the order of the edges is not guaranteed and therefore the tracks are not drawn correctly.
+     *
      * @throws FileNotFoundException if the file is not found
      */
     private void drawTracks() throws FileNotFoundException {
@@ -233,7 +232,7 @@ public class SaxionAppDemo implements Runnable {
         Point2D fromPixel = converter.convertLatLonToPixel(fromStation.getLatitude(), fromStation.getLongitude());
         Point2D toPixel = converter.convertLatLonToPixel(toStation.getLatitude(), toStation.getLongitude());
 
-        if(nlOnly){
+        if (nlOnly) {
             if (stations.get(from).getCountry().equalsIgnoreCase("nl") && stations.get(to).getCountry().equalsIgnoreCase("nl")) {
                 SaxionApp.drawLine((int) fromPixel.getX(), (int) fromPixel.getY(), (int) toPixel.getX(), (int) toPixel.getY());
             }
@@ -254,7 +253,7 @@ public class SaxionAppDemo implements Runnable {
         for (String stationCode : stations.getKeys()) {
             Station station = stations.get(stationCode);
 
-            if(nlOnly){
+            if (nlOnly) {
                 if (station.getCountry().equalsIgnoreCase("nl")) {
                     SaxionApp.sleep(DRAW_SLEEP);
                     drawStation(station.getLatitude(), station.getLongitude());
@@ -309,6 +308,12 @@ public class SaxionAppDemo implements Runnable {
                     return Coordinate.haversineDistance(currentStation.getCoordinate(), goalStation.getCoordinate());
                 });
 
+                if(shortestPathEdges == null) {
+                    SaxionApp.printLine("No path found between the stations", Color.RED);
+                    SaxionApp.pause();
+                    return;
+                }
+
                 // calculate total distance
                 for (SaxGraph.DirectedEdge<String> edge : shortestPathEdges) {
                     totalDistance += edge.weight();
@@ -319,6 +324,12 @@ public class SaxionAppDemo implements Runnable {
                 // dijkstra
                 shortestPathEdges = tracks.getDijkstraEdges(from, to);
 
+                if (shortestPathEdges.isEmpty()) {
+                    SaxionApp.printLine("No path found between the stations", Color.RED);
+                    SaxionApp.pause();
+                    return;
+                }
+
                 // total distance is the weight of the last edge
                 totalDistance = shortestPathEdges.get(shortestPathEdges.size() - 1).weight();
             }
@@ -326,7 +337,11 @@ public class SaxionAppDemo implements Runnable {
 
         // convert edges to nodes and draw them
         shortestPathNodes = tracks.convertEdgesToNodes(shortestPathEdges);
+
+        // Pick color based on the algorithm
         Color color = algorithm.equals("A*") ? SaxionApp.SAXION_PINK : Color.GREEN;
+
+        // Draw the shortest path
         drawShortestPath(shortestPathNodes, color);
 
         // print total distance
@@ -341,7 +356,9 @@ public class SaxionAppDemo implements Runnable {
                 System.out.print(stations.get(node).getName() + " -> ");
             }
         }
+
         System.out.println("\nTotal distance: " + totalDistance + " km");
+
         // Wait for user to continue
         SaxionApp.pause();
     }
@@ -379,50 +396,72 @@ public class SaxionAppDemo implements Runnable {
         SaxionApp.drawText(" km long", 50, 28, 14);
     }
 
-    private void determineMST() {
+    /**
+     * Determines the minimum cost spanning tree and draws it on the map
+     * Only draws stations and tracks in the Netherlands
+     */
+    private void determineMST() throws FileNotFoundException {
         MyAdjacencyListGraph<String> mst = (MyAdjacencyListGraph<String>) tracks.minimumCostSpanningTree();
         MyAdjacencyListGraph<String> filteredMST = new MyAdjacencyListGraph<>();
 
         double totalLength = 0;
-        for (SaxGraph.DirectedEdge<String> edge: mst.getVertices()){
-            if (stations.get(edge.from()).getCountry().equalsIgnoreCase("nl") && stations.get(edge.to()).getCountry().equalsIgnoreCase("nl")){
+        for (SaxGraph.DirectedEdge<String> edge : mst.getVertices()) {
+            if (stations.get(edge.from()).getCountry().equalsIgnoreCase("nl") && stations.get(edge.to()).getCountry().equalsIgnoreCase("nl")) {
                 filteredMST.addEdge(edge.from(), edge.to(), edge.weight());
                 totalLength += edge.weight();
             }
         }
 
-        System.out.println("Total length of the MST: " + totalLength);
         drawMST(filteredMST);
+        System.out.println("Total length of the MST: " + totalLength);
         SaxionApp.pause();
     }
 
-    private void drawMST(MyAdjacencyListGraph<String> mst){
+    /**
+     * Draws the minimum cost spanning tree on the map.
+     * Only draws stations and tracks in the Netherlands.
+     * Additionally, prints the total length of the connections.
+     * @param mst the minimum cost spanning tree
+     */
+    private void drawMST(MyAdjacencyListGraph<String> mst) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
         nlOnly = true;
 
-        SaxionApp.clear();
-        initMap();
-        drawStations();
+        // Draw tracks before MST
+        clearAndDrawMap();
+        drawTracks();
+        SaxionApp.setBorderColor(Color.WHITE);
+        SaxionApp.drawText("Tracks before MST algorithm", 10, 8, 14);
 
+        // Wait for user to click
+        SaxionApp.pause();
+
+        // Draw MST
+        clearAndDrawMap();
         SaxionApp.setBorderSize(3);
         SaxionApp.setBorderColor(Color.BLUE);
 
-        double totalLength = 0;
-        for (SaxGraph.DirectedEdge<String> edge: mst.getVertices()){
+        for (SaxGraph.DirectedEdge<String> edge : mst.getVertices()) {
             SaxionApp.sleep(DRAW_SLEEP);
-            totalLength += edge.weight();
             drawTrack(edge.from(), edge.to());
             sb.append(stations.get(edge.from()).getName()).append(" -> ").append(stations.get(edge.to()).getName()).append(" ");
         }
 
+        double totalLength = mst.getTotalWeight();
         SaxionApp.setBorderColor(Color.WHITE);
-        SaxionApp.drawText("Total length of connections:", 10, 8, 14);
+        SaxionApp.drawText("Track connections after MST", 10, 8, 14);
+        SaxionApp.drawText("Total length of connections:", 10, 28, 14);
         SaxionApp.setTextDrawingColor(Color.ORANGE);
-        SaxionApp.drawText(String.format("%.1f", totalLength), 10, 28, 14);
+        SaxionApp.drawText(String.format("%.1f", totalLength), 10, 48, 14);
 
         // print the path in console in case SaxionApp is not running
-        System.out.println("Minimum cost spanning tree is: ");
-        System.out.println(sb);
+        System.out.println("Minimum cost spanning tree of stations ONLY in Netherlands:  \n" + sb);
+    }
+
+    private void clearAndDrawMap() {
+        SaxionApp.clear();
+        initMap();
+        drawStations();
     }
 
     /**

@@ -15,8 +15,6 @@ import java.util.Comparator;
 public class StationManager {
     private MyArrayList<Station> stationsMyArrayList;
     private MySpHashMap<String, Station> stationMySpHashMap; // code / station
-    private MyAVLTree<String, Station> stationMyAVLTree; // name / station
-//    private MyAdjacencyListGraph<String>
     private MySpHashMap<String, MyArrayList<Station>> stationTypeHashMap; // type / list of stations
 
     public StationManager() {
@@ -30,7 +28,6 @@ public class StationManager {
     private void loadStations(){
         fillArrayList();
         fillHashMaps();
-        fillTree();
     }
 
     /**
@@ -73,20 +70,6 @@ public class StationManager {
                 stations.addLast(station);
                 stationTypeHashMap.add(station.getType(), stations);
             }
-        }
-    }
-
-    /**
-     * Fills the AVL tree with the stations, with key being the station name
-     * and value being the station object
-     */
-    private void fillTree(){
-        if(stationsMyArrayList.isEmpty()) return;
-
-        stationMyAVLTree = new MyAVLTree<>(String::compareTo);
-
-        for (Station station : stationsMyArrayList) {
-            stationMyAVLTree.add(station.getName(), station);
         }
     }
 
@@ -162,6 +145,9 @@ public class StationManager {
         System.out.println(sb);
     }
 
+    /**
+     * Launches the demonstration of all algorithms
+     */
     public void aStarDemonstration() {
         new Thread(() -> {
             SaxionAppDemo app = new SaxionAppDemo();

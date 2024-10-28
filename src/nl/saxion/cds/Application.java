@@ -14,7 +14,7 @@ public class Application {
         MENU_OPTIONS.addLast("Show station by code");
         MENU_OPTIONS.addLast("Show station by part of the name");
         MENU_OPTIONS.addLast("Show stations by type sorted by name");
-        MENU_OPTIONS.addLast("Graph algorithm demonstration (A-star, Dijkstra)");
+        MENU_OPTIONS.addLast("Graph algorithm demonstration (A-star, Dijkstra, MST [Prim] )");
         MENU_OPTIONS.addLast("Exit");
     }
 
