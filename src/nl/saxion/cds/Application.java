@@ -43,15 +43,13 @@ public class Application {
                     stationManager.showSortedStationsByType();
                 }
                 case 4 -> {
-//                    String start = InputReader.askForNonBlankText("Enter start station code: ");
-//                    String end = InputReader.askForNonBlankText("Enter end station code: ");
-//                    new Thread(() -> {
-//                        try {
-//                            stationManager.aStarDemonstration(start, end);
-//                        } catch (IllegalArgumentException e) {
-//                            System.out.println("Invalid station codes");
-//                        }
-//                    }).start();
+                    new Thread(() -> {
+                        try {
+                            stationManager.aStarDemonstration();
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Invalid station codes");
+                        }
+                    }).start();
                 }
                 case 5 -> {
                     System.out.println("Goodbye!");

@@ -162,25 +162,10 @@ public class StationManager {
         System.out.println(sb);
     }
 
-    /**
-     * Demonstrates the A* algorithm using the given start and end station codes
-     * @param start the start station code
-     * @param end the end station code
-     ** @throws IllegalArgumentException if the station codes are invalid
-     */
-    public void aStarDemonstration(String start, String end) {
-        start = start.toUpperCase();
-        end = end.toUpperCase();
-
-//        try {
-//            stationMySpHashMap.get(start);
-//            stationMySpHashMap.get(end);
-//
-//            // run a runnable with those args
-//            SaxionAppDemo aStarDemo = new SaxionAppDemo(start, end);
-//            SaxionApp.start(aStarDemo, SaxionAppDemo.WINDOW_WIDTH, SaxionAppDemo.WINDOW_HEIGHT);
-//        } catch (KeyNotFoundException e){
-//            throw new IllegalArgumentException("Invalid station codes");
-//        }
+    public void aStarDemonstration() {
+        new Thread(() -> {
+            SaxionAppDemo app = new SaxionAppDemo();
+            SaxionApp.start(app, SaxionAppDemo.WINDOW_WIDTH, SaxionAppDemo.WINDOW_HEIGHT);
+        }).start();
     }
 }

@@ -39,9 +39,13 @@ public class SaxionAppDemo implements Runnable {
         SaxionApp.start(new SaxionAppDemo(), WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 
-    public SaxionAppDemo() throws FileNotFoundException {
-        readStations();
-        readTracks();
+    public SaxionAppDemo(){
+        try {
+            readStations();
+            readTracks();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         menuOptions = new MyArrayList<>();
         menuOptions.addLast("Shortest path");
@@ -326,6 +330,16 @@ public class SaxionAppDemo implements Runnable {
         // print total distance
         printShortestRouteOverview(stations.get(from).getName(), stations.get(to).getName(), totalDistance);
 
+        // print the path in console in case SaxionApp is not running
+        System.out.println("Shortest path from " + stations.get(from).getName() + " to " + stations.get(to).getName() + " is: ");
+        for (String node : shortestPathNodes) {
+            if (node.equals(shortestPathNodes.get(shortestPathNodes.size() - 1))) {
+                System.out.print(stations.get(node).getName());
+            } else {
+                System.out.print(stations.get(node).getName() + " -> ");
+            }
+        }
+        System.out.println("\nTotal distance: " + totalDistance + " km");
         // Wait for user to continue
         SaxionApp.pause();
     }
