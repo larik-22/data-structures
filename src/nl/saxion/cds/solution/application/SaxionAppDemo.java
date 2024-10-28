@@ -16,9 +16,10 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.FileNotFoundException;
 
-public class AStarDemo implements Runnable {
+public class SaxionAppDemo implements Runnable {
     public final static int WINDOW_WIDTH = 1020;
     public final static int WINDOW_HEIGHT = 818;
+
     private final static int IMAGE_WIDTH = 1621;
     private final static int IMAGE_HEIGHT = 1920;
     private final static int BANNER_HEIGHT = 38;
@@ -33,10 +34,10 @@ public class AStarDemo implements Runnable {
     private final String to;
 
     public static void main(String[] args) {
-        SaxionApp.start(new AStarDemo("MT", "GN"), WINDOW_WIDTH, WINDOW_HEIGHT);
+        SaxionApp.start(new SaxionAppDemo("MT", "GN"), WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 
-    public AStarDemo(String from, String to) {
+    public SaxionAppDemo(String from, String to) {
         stations = new MySpHashMap<>();
         tracks = new MyAdjacencyListGraph<>();
 
@@ -53,10 +54,10 @@ public class AStarDemo implements Runnable {
         }
     }
 
-    public void initApplication() throws FileNotFoundException {
+    private void initApplication() throws FileNotFoundException {
         initMap();
         readStations();
-        drawAllTracks();
+        readAndDrawTracks();
         drawStations();
         drawShortestPath();
     }
@@ -65,7 +66,7 @@ public class AStarDemo implements Runnable {
      * Draws a map and resizes it to fit
      * the window while maintaining the aspect ratio.
      */
-    public void initMap() {
+    private void initMap() {
         double aspectRatio = (double) IMAGE_WIDTH / IMAGE_HEIGHT;
 
         // Calculate the new dimensions to fit the image within the window while maintaining the aspect ratio
@@ -80,6 +81,15 @@ public class AStarDemo implements Runnable {
         // Resize the window and draw the map
         SaxionApp.resize(mapWidth, mapHeight + BANNER_HEIGHT);
         SaxionApp.drawImage("resources/Nederland.png", 0, 0, mapWidth, mapHeight);
+    }
+
+
+    //TODO: finish
+    /**
+     * Clear the screen and re-draws the map with tracks and stations
+     */
+    private void clearScreen(){
+        SaxionApp.clear();
     }
 
     /**
@@ -102,10 +112,12 @@ public class AStarDemo implements Runnable {
     }
 
     /**
-     * Draws all tracks on the map
+     * Read tracks from the CSV file.
+     * If I were to save them into graph and draw them on the map, I would need
+     * to traverse them, which breaks the order of the tracks and the drawing result.
      * @throws FileNotFoundException if the file is not found
      */
-    private void drawAllTracks() throws FileNotFoundException {
+    private void readAndDrawTracks() throws FileNotFoundException {
         SaxionApp.setBorderColor(Color.decode("#f3f1b2"));
         CsvReader reader = new CsvReader("resources/tracks.csv", true);
         reader.setSeparator(",");
@@ -120,6 +132,23 @@ public class AStarDemo implements Runnable {
         }
 
         reader.close();
+    }
+
+    /**
+     * Draws a track between two stations
+     * @param from station code of origin
+     * @param to station code of destination
+     */
+    private void drawTrack(String from, String to){
+        Station fromStation = stations.get(from);
+        Station toStation = stations.get(to);
+
+        Point2D fromPixel = converter.convertLatLonToPixel(fromStation.getLatitude(), fromStation.getLongitude());
+        Point2D toPixel = converter.convertLatLonToPixel(toStation.getLatitude(), toStation.getLongitude());
+
+        if(stations.get(from).getCountry().equalsIgnoreCase("nl") && stations.get(to).getCountry().equalsIgnoreCase("nl")){
+            SaxionApp.drawLine((int) fromPixel.getX(), (int) fromPixel.getY(), (int) toPixel.getX(), (int) toPixel.getY());
+        }
     }
 
     /**
@@ -156,7 +185,7 @@ public class AStarDemo implements Runnable {
      * Draws the shortest path between two stations
      * And prints the total distance of the path
      */
-    private void drawShortestPath(){
+    public void drawShortestPath(){
         SaxList<SaxGraph.DirectedEdge<String>> shortestPathAStar = tracks.shortestPathAStar(from, to, (current, goal) -> {
             Station currentStation = stations.get(current);
             Station goalStation = stations.get(goal);
@@ -201,20 +230,4 @@ public class AStarDemo implements Runnable {
         System.out.println("Total distance: " + totalDistance + " km");
     }
 
-    /**
-     * Draws a track between two stations
-     * @param from station code of origin
-     * @param to station code of destination
-     */
-    private void drawTrack(String from, String to){
-        Station fromStation = stations.get(from);
-        Station toStation = stations.get(to);
-
-        Point2D fromPixel = converter.convertLatLonToPixel(fromStation.getLatitude(), fromStation.getLongitude());
-        Point2D toPixel = converter.convertLatLonToPixel(toStation.getLatitude(), toStation.getLongitude());
-
-        if(stations.get(from).getCountry().equalsIgnoreCase("nl") && stations.get(to).getCountry().equalsIgnoreCase("nl")){
-            SaxionApp.drawLine((int) fromPixel.getX(), (int) fromPixel.getY(), (int) toPixel.getX(), (int) toPixel.getY());
-        }
-    }
 }

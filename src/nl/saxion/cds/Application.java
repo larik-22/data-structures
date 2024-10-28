@@ -13,7 +13,7 @@ public class Application {
     public Application() {
         MENU_OPTIONS.addLast("Show station by code");
         MENU_OPTIONS.addLast("Show station by part of the name");
-        MENU_OPTIONS.addLast("Show sorted stations by type");
+        MENU_OPTIONS.addLast("Show stations by type sorted by name");
         MENU_OPTIONS.addLast("A-Star Demonstration");
         MENU_OPTIONS.addLast("Exit");
     }

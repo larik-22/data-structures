@@ -24,7 +24,7 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
     @Override
     public void addEdge(V fromValue, V toValue, double weight) throws KeyNotFoundException {
         SaxList<DirectedEdge<V>> fromEdges = getOrCreateVertex(fromValue);
-        getOrCreateVertex(toValue); // Ensure that the toValue exists
+        getOrCreateVertex(toValue);
         DirectedEdge<V> edge = new DirectedEdge<>(fromValue, toValue, weight);
         fromEdges.addLast(edge);
     }
@@ -112,6 +112,7 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
 
     /**
      * This is the pseudocode from the sheets
+     *
      * @param startNode the node to start searching
      * @param endNode   the target node
      * @param estimator a (handler) function to estimate the distance (weight) between two nodes
@@ -124,13 +125,13 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
         AStarNode start = new AStarNode(null, 0, estimator.estimate(startNode, endNode), null);
         openList.enqueue(start);
 
-        while (!openList.isEmpty()){
+        while (!openList.isEmpty()) {
             AStarNode currentNode = openList.dequeue();
 
             // check if goal reached
-            if (currentNode.edge != null && currentNode.edge.to().equals(endNode)){
+            if (currentNode.edge != null && currentNode.edge.to().equals(endNode)) {
                 // return the path from start to end
-                return reconstructPath(currentNode);
+                return reconstructAStarPath(currentNode);
             }
 
             V current = (currentNode.edge == null) ? startNode : currentNode.edge.to();
@@ -160,8 +161,9 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
     /**
      * Find the shortest path from the start node to the end node using the A* algorithm
      * Returns a list of nodes from the start node to the end node
+     *
      * @param startNode the start node
-     * @param endNode the end node
+     * @param endNode   the end node
      * @param estimator the heuristic function to estimate the cost from a node to the end node
      * @return the list of nodes from the start node to the end node
      */
@@ -172,12 +174,14 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
         // Convert the edges to a list of nodes
         return convertEdgesToNodes(edgeList);
     }
+
     /**
      * Reconstruct the path from the goal node to the start node
+     *
      * @param goalNode the goal node
      * @return the path from the start node to the goal node as a list of edges
      */
-    private SaxList<DirectedEdge<V>> reconstructPath(AStarNode goalNode) {
+    private SaxList<DirectedEdge<V>> reconstructAStarPath(AStarNode goalNode) {
         SaxList<DirectedEdge<V>> path = new MyArrayList<>();
         AStarNode currentNode = goalNode;
 
@@ -192,6 +196,7 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
 
     /**
      * Convert a list of edges to a list of nodes
+     *
      * @param pathOfEdges the list of edges
      * @return the path of nodes from starting node to the goal node
      */
@@ -214,8 +219,88 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
 
     @Override
     public SaxGraph<V> shortestPathsDijkstra(V startNode) {
-        return null;
+        SaxGraph<V> result = new MyAdjacencyListGraph<>();
+        MyMinHeap<SaxGraph.DirectedEdge<V>> openList = new MyMinHeap<>(SaxGraph.DirectedEdge::compareTo);
+        MySpHashMap<V, SaxGraph.DirectedEdge<V>> closedList = new MySpHashMap<>();
+
+        SaxGraph.DirectedEdge<V> startEdge = new SaxGraph.DirectedEdge<>(startNode, startNode, 0);
+        openList.enqueue(startEdge);
+
+        while (!openList.isEmpty()) {
+            SaxGraph.DirectedEdge<V> currentNode = openList.dequeue();
+
+            if (!closedList.contains(currentNode.from())) {
+                // mark as visited
+                closedList.add(currentNode.from(), currentNode);
+
+                // add edge
+                result.addEdge(currentNode.from(), currentNode.to(), currentNode.weight());
+
+                // Explore neighboring edges
+                for (SaxGraph.DirectedEdge<V> neighborEdge : getEdges(currentNode.from())) {
+                    // Only consider unvisited neighbors
+                    if (!closedList.contains(neighborEdge.to())) {
+                        // Add the neighborEdge with updated weight to the queue
+                        SaxGraph.DirectedEdge<V> neighborNode = new SaxGraph.DirectedEdge<>(neighborEdge.to(), currentNode.from(), neighborEdge.weight() + currentNode.weight());
+                        openList.enqueue(neighborNode);
+                    }
+                }
+            }
+        }
+
+        return result;
     }
+
+    /**
+     * Find the shortest path from the start node to the end node using the Dijkstra algorithm.
+     * We traverse the graph to reconstruct the shortest path from the end node to the start node.
+     * @param startNode the start node
+     * @param endNode the end node
+     * @return the shortest path of nodes from the start node to the end node
+     */
+    public SaxList<V> dijkstra(V startNode, V endNode) {
+        SaxGraph<V> result = shortestPathsDijkstra(startNode);
+
+        // traverse from endNode to startNode, checking the weight. If weight decreases we are on the right path.
+        // When we reached 0.0 node, we are at the startNode
+        SaxList<V> path = new MyArrayList<>();
+        path.addLast(endNode);
+
+        V current = endNode;
+        while (!result.getEdges(current).isEmpty()) {
+            SaxList<DirectedEdge<V>> edges = result.getEdges(current);
+            double minWeight = Double.MAX_VALUE;
+            V next = null;
+
+            for (DirectedEdge<V> edge : edges) {
+                if (edge.weight() < minWeight) {
+                    minWeight = edge.weight();
+                }
+            }
+
+            for (DirectedEdge<V> edge : edges) {
+                if (edge.weight() == minWeight) {
+                    next = edge.to();
+                }
+            }
+
+            if (next == startNode) {
+                path.addLast(next);
+                break;
+            }
+
+            path.addLast(next);
+            current = next;
+        }
+
+        // reverse the path
+        SaxList<V> reversedPath = new MyArrayList<>();
+        for (int i = path.size() - 1; i >= 0; i--) {
+            reversedPath.addLast(path.get(i));
+        }
+        return reversedPath;
+    }
+
 
     @Override
     public SaxGraph<V> minimumCostSpanningTree() {
@@ -262,4 +347,5 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
             return Double.compare(getF(), other.getF());
         }
     }
+
 }

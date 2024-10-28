@@ -2,7 +2,6 @@ package nl.saxion.cds.solution.application;
 
 import nl.saxion.app.SaxionApp;
 import nl.saxion.cds.collection.KeyNotFoundException;
-import nl.saxion.cds.collection.SaxList;
 import nl.saxion.cds.solution.data_structures.MyAVLTree;
 import nl.saxion.cds.solution.data_structures.MyArrayList;
 import nl.saxion.cds.solution.data_structures.MySpHashMap;
@@ -160,7 +159,7 @@ public class StationManager {
         for (Station station : stations) {
             sb.append(station).append("\n");
         }
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 
     /**
@@ -178,8 +177,8 @@ public class StationManager {
             stationMySpHashMap.get(end);
 
             // run a runnable with those args
-            AStarDemo aStarDemo = new AStarDemo(start, end);
-            SaxionApp.start(aStarDemo, AStarDemo.WINDOW_WIDTH, AStarDemo.WINDOW_HEIGHT);
+            SaxionAppDemo aStarDemo = new SaxionAppDemo(start, end);
+            SaxionApp.start(aStarDemo, SaxionAppDemo.WINDOW_WIDTH, SaxionAppDemo.WINDOW_HEIGHT);
         } catch (KeyNotFoundException e){
             throw new IllegalArgumentException("Invalid station codes");
         }

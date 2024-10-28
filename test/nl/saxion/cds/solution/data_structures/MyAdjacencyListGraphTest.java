@@ -16,6 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MyAdjacencyListGraphTest {
     private MyAdjacencyListGraph<String> graph;
 
+    private static final String[] expectedCodesDeventerEnschede = {"DV", "DVC", "HON", "RSN", "WDN", "AML", "AMRI", "BN", "HGL", "ESK", "ES"};
+    private static final String[] expectedCodesAmsterdamDeventer = {"ASD", "ASDM", "ASSP", "DMN", "WP", "NDB", "BSMZ", "HVSM", "HVS", "BRN", "AMF", "HVL", "APD", "APDO", "TWL", "DV"};
+    private static final String AMSTERDAM_CODE = "ASD";
+    private static final String DEVENTER_CODE = "DV";
+    private static final String ENSCHEDE_CODE = "ES";
+
     @Test
     public void GivenEmptyGraph_WhenAddingEdges_ConfirmCorrectSizeAndWeight() {
         graph.addEdge("A", "B", 1);
@@ -190,64 +196,95 @@ public class MyAdjacencyListGraphTest {
     }
 
     @Test
-    public void AStarTracks() throws FileNotFoundException {
-        // read tracks.csv and construct a graph;
-        // read stations.csv to get coordinates for estimation
-        // link station code to station name and coordinates
-        // get a-star the shortest path
-        // print the path
-        class aStarStation {
-            String code;
-            String name;
-            Coordinate coordinate;
-
-            public aStarStation(String code, String name, Coordinate coordinate) {
-                this.code = code;
-                this.name = name;
-                this.coordinate = coordinate;
-            }
-        }
-
-        CsvReader tracksReader = new CsvReader("resources/tracks.csv", true);
-        CsvReader stationsReader = new CsvReader("resources/stations.csv", true);
-        tracksReader.setSeparator(",");
-        stationsReader.setSeparator(",");
-
-        MyAdjacencyListGraph<String> graph = new MyAdjacencyListGraph<>();
-        MySpHashMap<String, aStarStation> stations = new MySpHashMap<>();
-
-        while (tracksReader.readLine()) {
-            graph.addEdge(tracksReader.readString(0), tracksReader.readString(1), tracksReader.readDouble(3));
-        }
-
-        while (stationsReader.readLine()) {
-            Coordinate coordinate = new Coordinate(stationsReader.readDouble(4), stationsReader.readDouble(5));
-            aStarStation station = new aStarStation(stationsReader.readString(0), stationsReader.readString(1), coordinate);
-
-            stations.add(station.code, station);
-        }
+    public void GivenTwoStations_WhenUsingAStar_ConfirmShortestRouteIsDeterminedCorrectly() throws FileNotFoundException {
+        MySpHashMap<String, SimpleStation> stations = readStations();
+        MyAdjacencyListGraph<String> graph = readTracks(stations);
 
         SaxGraph.Estimator<String> estimator = (current, goal) -> {
-            aStarStation currentStation = stations.get(current);
-            aStarStation goalStation = stations.get(goal);
+            SimpleStation currentStation = stations.get(current);
+            SimpleStation goalStation = stations.get(goal);
 
             return Coordinate.haversineDistance(currentStation.coordinate, goalStation.coordinate);
         };
 
-        SaxList<String> result = graph.aStar("ASD", "DV", estimator);
+        // TEST 1: Amsterdam to Deventer
+        SaxList<String> amsToDv = graph.aStar(AMSTERDAM_CODE, DEVENTER_CODE, estimator);
 
-        // convert codes to names
-        SaxList<String> names = new MyArrayList<>();
-        for (String code : result) {
-            names.addLast(stations.get(code).name);
+        // Verify the result
+        for (int i = 0; i < amsToDv.size(); i++) {
+            assertEquals(expectedCodesAmsterdamDeventer[i], amsToDv.get(i));
         }
 
-        System.out.println("Shortest path (codes): " + result);
-        System.out.println("Shortest path (stations): " + names);
+        // TEST 2: Deventer to Enschede
+        SaxList<String> dvToEs = graph.aStar(DEVENTER_CODE, ENSCHEDE_CODE, estimator);
+
+        // Verify the result
+        for (int i = 0; i < dvToEs.size(); i++) {
+            assertEquals(expectedCodesDeventerEnschede[i], dvToEs.get(i));
+        }
+
+    }
+
+    @Test
+    public void GivenTwoStations_WhenUsingDijkstra_ConfirmShortestRouteIsDeterminedCorrectly() throws FileNotFoundException {
+        MySpHashMap<String, SimpleStation> stations = readStations();
+        MyAdjacencyListGraph<String> graph = readTracks(stations);
+
+        SaxList<String> dvToEs = graph.dijkstra(DEVENTER_CODE, ENSCHEDE_CODE);
+        for (int i = 0; i < dvToEs.size(); i++) {
+            assertEquals(expectedCodesDeventerEnschede[i], dvToEs.get(i));
+        }
+
+        SaxList<String> amsToDv = graph.dijkstra(AMSTERDAM_CODE, DEVENTER_CODE);
+        for (int i = 0; i < expectedCodesAmsterdamDeventer.length; i++) {
+            assertEquals(expectedCodesAmsterdamDeventer[i], amsToDv.get(i));
+        }
+
     }
 
     @BeforeEach
     public void setUp() {
         graph = new MyAdjacencyListGraph<>();
+    }
+
+    private MySpHashMap<String, SimpleStation> readStations() throws FileNotFoundException {
+        CsvReader reader = new CsvReader("resources/stations.csv", true);
+        reader.setSeparator(",");
+
+        MySpHashMap<String, SimpleStation> stations = new MySpHashMap<>();
+
+        while (reader.readLine()) {
+            Coordinate coordinate = new Coordinate(reader.readDouble(4), reader.readDouble(5));
+            SimpleStation station = new SimpleStation(reader.readString(0), reader.readString(1), coordinate);
+
+            stations.add(station.code, station);
+        }
+
+        return stations;
+    }
+
+    private MyAdjacencyListGraph<String> readTracks(MySpHashMap<String, SimpleStation> stations) throws FileNotFoundException {
+        CsvReader reader = new CsvReader("resources/tracks.csv", true);
+        reader.setSeparator(",");
+
+        MyAdjacencyListGraph<String> graph = new MyAdjacencyListGraph<>();
+
+        while (reader.readLine()) {
+            graph.addEdge(reader.readString(0), reader.readString(1), reader.readDouble(3));
+        }
+
+        return graph;
+    }
+
+    static class SimpleStation {
+        String code;
+        String name;
+        Coordinate coordinate;
+
+        public SimpleStation(String code, String name, Coordinate coordinate) {
+            this.code = code;
+            this.name = name;
+            this.coordinate = coordinate;
+        }
     }
 }
