@@ -384,7 +384,6 @@ public class SaxionAppDemo implements Runnable {
         MyAdjacencyListGraph<String> filteredMST = new MyAdjacencyListGraph<>();
 
         double totalLength = 0;
-
         for (SaxGraph.DirectedEdge<String> edge: mst.getVertices()){
             if (stations.get(edge.from()).getCountry().equalsIgnoreCase("nl") && stations.get(edge.to()).getCountry().equalsIgnoreCase("nl")){
                 filteredMST.addEdge(edge.from(), edge.to(), edge.weight());
@@ -395,7 +394,6 @@ public class SaxionAppDemo implements Runnable {
         System.out.println("Total length of the MST: " + totalLength);
         drawMST(filteredMST);
         SaxionApp.pause();
-        // get the total length for NL
     }
 
     private void drawMST(MyAdjacencyListGraph<String> mst){

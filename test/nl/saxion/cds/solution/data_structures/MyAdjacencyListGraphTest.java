@@ -152,6 +152,7 @@ public class MyAdjacencyListGraphTest {
         assertEquals(intList, possibleList);
     }
 
+    // main test
     @Test
     public void GivenTwoStations_WhenUsingAStar_ConfirmShortestRouteIsDeterminedCorrectly() throws FileNotFoundException {
         MySpHashMap<String, SimpleStation> stations = readStations();
@@ -182,6 +183,16 @@ public class MyAdjacencyListGraphTest {
 
     }
 
+    @Test
+    public void GivenGraphWithNoPath_WhenUsingAStar_ConfirmEmptyList() {
+        graph.addEdge("A", "B", 1);
+        graph.addEdge("C", "D", 1);
+
+        SaxGraph.Estimator<String> estimator = (current, goal) -> 0.0;
+        assertNull(graph.shortestPathAStar("A", "D", estimator));
+    }
+
+    // main test
     @Test
     public void GivenTwoStations_WhenUsingDijkstra_ConfirmShortestRouteIsDeterminedCorrectly() throws FileNotFoundException {
         MyAdjacencyListGraph<String> graph = readTracks();
@@ -229,6 +240,21 @@ public class MyAdjacencyListGraphTest {
         SaxList<String> path = graph.convertEdgesToNodes(edges);
 
         assertTrue(path.isEmpty());
+    }
+
+    @Test
+    public void GivenGraphWithEdges_WhenGettingVertices_ConfirmCorrectVertices() {
+        graph.addEdge("A", "B", 1);
+
+        SaxList<SaxGraph.DirectedEdge<String>> vertices = graph.getVertices();
+        assertEquals("A", vertices.get(0).from());
+        assertEquals("B", vertices.get(0).to());
+    }
+
+    @Test
+    public void GivenGraphWithNoEdges_WhenGettingIterator_ConfirmEmptyIterator() {
+        Iterator<String> iterator = graph.iterator();
+        assertNull(iterator);
     }
 
     @BeforeEach
