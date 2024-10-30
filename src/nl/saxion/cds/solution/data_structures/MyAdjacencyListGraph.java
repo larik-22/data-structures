@@ -13,6 +13,10 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
         edges = new MySpHashMap<>();
     }
 
+    /**
+     * Get all the vertices in the graph
+     * @return a list of directed edges
+     */
     public SaxList<DirectedEdge<V>> getVertices(){
         SaxList<DirectedEdge<V>> vertices = new MyArrayList<>();
 
@@ -39,6 +43,12 @@ public class MyAdjacencyListGraph<V> implements SaxGraph<V> {
         SaxList<DirectedEdge<V>> fromEdges = getOrCreateVertex(fromValue);
         getOrCreateVertex(toValue);
         DirectedEdge<V> edge = new DirectedEdge<>(fromValue, toValue, weight);
+
+        // I am not sure if we need to check for duplicate connections...
+//        if (fromEdges.contains(edge)) {
+//            throw new IllegalArgumentException("Such connection already exists");
+//        }
+
         fromEdges.addLast(edge);
     }
 

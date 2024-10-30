@@ -404,16 +404,13 @@ public class SaxionAppDemo implements Runnable {
         MyAdjacencyListGraph<String> mst = (MyAdjacencyListGraph<String>) tracks.minimumCostSpanningTree();
         MyAdjacencyListGraph<String> filteredMST = new MyAdjacencyListGraph<>();
 
-        double totalLength = 0;
         for (SaxGraph.DirectedEdge<String> edge : mst.getVertices()) {
             if (stations.get(edge.from()).getCountry().equalsIgnoreCase("nl") && stations.get(edge.to()).getCountry().equalsIgnoreCase("nl")) {
                 filteredMST.addEdge(edge.from(), edge.to(), edge.weight());
-                totalLength += edge.weight();
             }
         }
 
         drawMST(filteredMST);
-        System.out.println("Total length of the MST: " + totalLength);
         SaxionApp.pause();
     }
 
@@ -430,8 +427,8 @@ public class SaxionAppDemo implements Runnable {
         // Draw tracks before MST
         clearAndDrawMap();
         drawTracks();
-        SaxionApp.setBorderColor(Color.WHITE);
-        SaxionApp.drawText("Tracks before MST algorithm", 10, 8, 14);
+        SaxionApp.setBorderColor(Color.ORANGE);
+        SaxionApp.drawText("Track connections before MST algorithm (Click to proceed)", 10, 8, 14);
 
         // Wait for user to click
         SaxionApp.pause();
@@ -441,21 +438,25 @@ public class SaxionAppDemo implements Runnable {
         SaxionApp.setBorderSize(3);
         SaxionApp.setBorderColor(Color.BLUE);
 
+        int numberOfConnections = 0;
         for (SaxGraph.DirectedEdge<String> edge : mst.getVertices()) {
             SaxionApp.sleep(DRAW_SLEEP);
             drawTrack(edge.from(), edge.to());
             sb.append(stations.get(edge.from()).getName()).append(" -> ").append(stations.get(edge.to()).getName()).append(" ");
+            numberOfConnections++;
         }
 
         double totalLength = mst.getTotalWeight();
-        SaxionApp.setBorderColor(Color.WHITE);
+        SaxionApp.setBorderColor(Color.ORANGE);
         SaxionApp.drawText("Track connections after MST", 10, 8, 14);
-        SaxionApp.drawText("Total length of connections:", 10, 28, 14);
-        SaxionApp.setTextDrawingColor(Color.ORANGE);
-        SaxionApp.drawText(String.format("%.1f", totalLength), 10, 48, 14);
+        SaxionApp.setBorderColor(Color.WHITE);
+        SaxionApp.drawText("Number of connections: " + numberOfConnections, 10, 28, 14);
+        SaxionApp.drawText("Total length of connections: " + String.format("%.1f", totalLength) + "km", 10, 48, 14);
 
         // print the path in console in case SaxionApp is not running
         System.out.println("Minimum cost spanning tree of stations ONLY in Netherlands:  \n" + sb);
+        System.out.println("Number of connections: " + numberOfConnections);
+        System.out.println("Total length of the MST: " + totalLength + " km");
     }
 
     private void clearAndDrawMap() {
