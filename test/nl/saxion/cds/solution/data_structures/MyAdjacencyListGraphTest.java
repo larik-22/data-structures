@@ -207,6 +207,35 @@ public class MyAdjacencyListGraphTest {
     }
 
     @Test
+    public void GivenGraphFromSheet_WhenUsingDijkstra_ConfirmCorrectOutput(){
+        graph.addEdgeBidirectional("a", "b", 1);
+        graph.addEdgeBidirectional("a", "c", 4);
+        graph.addEdgeBidirectional("b", "c", 2);
+        graph.addEdgeBidirectional("b", "d", 3);
+        graph.addEdgeBidirectional("b", "e", 10);
+        graph.addEdgeBidirectional("c", "d", 6);
+        graph.addEdgeBidirectional("c", "g", 3);
+        graph.addEdgeBidirectional("e", "d", 5);
+        graph.addEdgeBidirectional("e", "g", 2);
+        graph.addEdgeBidirectional("e", "f", 7);
+        graph.addEdgeBidirectional("g", "d", 1);
+        graph.addEdgeBidirectional("g", "f", 5);
+
+        MyAdjacencyListGraph<String> dijkstra = (MyAdjacencyListGraph<String>) graph.shortestPathsDijkstra("a");
+
+        // It should be f -> g -> d -> b -> a
+        System.out.println(dijkstra.graphViz("test"));
+
+        assertEquals(0, dijkstra.getEdges("a").get(0).weight());
+        assertEquals(1, dijkstra.getEdges("b").get(0).weight());
+        assertEquals(3, dijkstra.getEdges("c").get(0).weight());
+        assertEquals(4, dijkstra.getEdges("d").get(0).weight());
+        assertEquals(5, dijkstra.getEdges("g").get(0).weight());
+        assertEquals(7, dijkstra.getEdges("e").get(0).weight());
+        assertEquals(10, dijkstra.getEdges("f").get(0).weight());
+    }
+
+    @Test
     public void GivenGraph_WhenUsingMinimumCostSpanningTree_ConfirmCorrectTotalWeight() {
         // Create a more complex graph
         graph.addEdge("A", "B", 1);
