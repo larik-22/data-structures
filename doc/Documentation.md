@@ -254,6 +254,7 @@ Classification:
 **Implementation:** [my implementation](../src/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraph.java);
 
 It is part of `iterator` method in `MyAdjacencyListGraph` class.
+I have implemented the breadth first search algorithm by using the pseudo code from the sheets. 
 
 #### Explanation
 The breadth first search algorithm works by visiting all the neighbors of the start vertex, then visiting all the neighbors of the neighbors and so on.
@@ -267,17 +268,55 @@ It is tested within the `MyAdjacencyListGraph` class
 ### My Dijkstra algorithm
 Classification: 
 
-Implementation:
+**Implementation:** [my implementation](../src/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraph.java);
+
+It is part of `shortestPathDijkstra()` method in `MyAdjacencyListGraph` class.
+
+I have created my own method `dijsktra()` in the `MyAdjacencyListGraph` class. It simply calls the defined in the interface method `shortestPathDijkstra()` and finds the shortest path between two vertices in the respective graph.
+
+#### Explanation
+The algorithm works by creating a priority queue (MinHeap) to store the edges. We start with the start node and add it to the open list. Then we iterate over the open list and explore the neighboring edges. If the neighbor is not visited, we add it to the open list with the updated weight, which is the sum of the weight of the current node and the weight of the edge to the neighbor.
+We repeat this process until the open list is empty.
+
+#### Testing
+**Test file:** [MyAdjacencyListGraphTest](../test/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraphTest.java)
+
+It is tested within the `MyAdjacencyListGraph` class
 
 ### My A* algorithm
 Classification: 
 
-Implementation:
+Implementation: [my implementation](../src/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraph.java);
+
+It is part of `shortestPathAStar()` method in `MyAdjacencyListGraph` class.
+
+The pseudocode for A* algorithm was provided in the sheets, so I have implemented it accordingly.
+I have created my own method `aStar()` in the `MyAdjacencyListGraph` class. It calls the defined in the interface method `shortestPathAStar()` and converts the list of directed edges into list of nodes.
+
+#### Explanation
+I have created an inner class `AStarNode`, which is used to store the edge, the g and h cost and a parent reference. The g cost is the cost from the start node to the current node and the h cost is the heuristic (estimation) cost from the current node to the goal node. The f cost is the sum of the g and h cost.
+The algorithm works by creating a priority queue (MinHeap) to store the edges. We start with the start node and add it to the open list. Then we iterate over the open list and explore the neighboring edges. If the neighbor is not visited, we add it to the open list with the updated weight, which is the sum of the weight of the current node and the weight of the edge to the goal node.
+We repeat this process until the open list is empty. If the goal node is reached, we reconstruct the path from the start node to the goal node using helper method, otherwise we return null.
+
+#### Testing
+**Test file:** [MyAdjacencyListGraphTest](../test/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraphTest.java)
 
 ### My MCST algorithm  
 Classification:
 
-Implementation:
+Implementation: [my implementation](../src/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraph.java);
+
+It is part of `minimumCostSpanningTree()` method in `MyAdjacencyListGraph` class.
+
+#### Explanation
+We start with the first node and add it to the minimum spanning tree. Then we add all the edges from the first node to the priority queue (Min Heap).
+We iterate over the edges in the priority queue and add the edge to the minimum spanning tree if the node is not already in the tree. Then we mark the node as visited and add the edges from the node to the priority queue.
+We repeat this process until there are no more edges in the priority queue.
+
+#### Testing
+**Test file:** [MyAdjacencyListGraphTest](../test/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraphTest.java)
+
+It is tested within the `MyAdjacencyListGraph` class
 
 # Technical design My Application
 

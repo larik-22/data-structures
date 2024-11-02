@@ -238,6 +238,19 @@ public class MyAdjacencyListGraphTest {
     }
 
     @Test
+    public void GivenGraphWithNoPossiblePath_WhenUsingDijkstra_ConfirmEmptyList() {
+        // disconnected graph
+        graph.addEdge("A", "B", 1);
+        graph.addEdge("C", "D", 1);
+        graph.addEdge("F", "K", 1);
+        graph.addEdge("G", "H", 1);
+
+        // only possible path is A -> B, so Dijkstra should return a list with only 2 elements
+        SaxGraph<String> dijkstra = graph.shortestPathsDijkstra("A");
+        assertEquals(2, dijkstra.size());
+    }
+
+    @Test
     public void GivenGraph_WhenUsingMinimumCostSpanningTree_ConfirmCorrectTotalWeight() {
         // Create a more complex graph
         graph.addEdge("A", "B", 1);
