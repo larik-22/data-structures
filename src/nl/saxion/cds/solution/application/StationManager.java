@@ -1,8 +1,6 @@
 package nl.saxion.cds.solution.application;
 
 import nl.saxion.app.SaxionApp;
-import nl.saxion.cds.collection.KeyNotFoundException;
-import nl.saxion.cds.solution.data_structures.MyAVLTree;
 import nl.saxion.cds.solution.data_structures.MyArrayList;
 import nl.saxion.cds.solution.data_structures.MySpHashMap;
 import nl.saxion.cds.solution.data_models.Station;
@@ -148,7 +146,7 @@ public class StationManager {
     /**
      * Launches the demonstration of all algorithms
      */
-    public void aStarDemonstration() {
+    public void visualDemontration() {
         new Thread(() -> {
             SaxionAppDemo app = new SaxionAppDemo();
             SaxionApp.start(app, SaxionAppDemo.WINDOW_WIDTH, SaxionAppDemo.WINDOW_HEIGHT);

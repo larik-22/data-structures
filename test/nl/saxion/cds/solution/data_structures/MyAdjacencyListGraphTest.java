@@ -221,6 +221,8 @@ public class MyAdjacencyListGraphTest {
         graph.addEdgeBidirectional("g", "d", 1);
         graph.addEdgeBidirectional("g", "f", 5);
 
+        System.out.println(graph.graphViz("test"));
+
         MyAdjacencyListGraph<String> dijkstra = (MyAdjacencyListGraph<String>) graph.shortestPathsDijkstra("a");
 
         // It should be f -> g -> d -> b -> a

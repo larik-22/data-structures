@@ -35,7 +35,6 @@ public class MySpHashMap<K, V> implements SaxHashMap<K, V> {
         return keys.contains(key);
     }
 
-    //TODO: Explain in docs why exception is thrown
     @Override
     public V get(K key) throws KeyNotFoundException {
         int index = Math.abs(key.hashCode() % table.length);

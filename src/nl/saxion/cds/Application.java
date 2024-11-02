@@ -45,7 +45,7 @@ public class Application {
                 case 4 -> {
                     new Thread(() -> {
                         try {
-                            stationManager.aStarDemonstration();
+                            stationManager.visualDemontration();
                         } catch (IllegalArgumentException e) {
                             System.out.println("Invalid station codes");
                         }

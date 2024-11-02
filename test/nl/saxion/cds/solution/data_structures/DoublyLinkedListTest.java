@@ -328,24 +328,6 @@ public class DoublyLinkedListTest {
         assertFalse(testStringList.contains(""));
     }
 
-//    @Test
-//    public void GivenListWithValues_WhenRemovingAllElementInstances_ConfirmElementIsRemovedFromEverywhere(){
-//        testStringList.addLast("Hello");
-//        testStringList.addLast("World");
-//        testStringList.addLast("World");
-//        testStringList.addLast("World");
-//        testStringList.addLast("Hello");
-//        testStringList.addLast("Hello");
-//        testStringList.addLast("Hello");
-//        testStringList.addLast("World");
-//        testStringList.addLast("World");
-//        testStringList.addLast("World");
-//        testStringList.addLast("Hello");
-//
-//        testStringList.removeAll("Hello");
-//        testStringList.print();
-//    }
-
     @Test
     public void givenEmptyList_WhenUsingIterator_ConfirmHasNextIsFalse(){
         // Case 1: List is empty
