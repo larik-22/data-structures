@@ -55,12 +55,13 @@ We keep dividing the array in half until we find the element or the array is emp
 
 #### Testing
 Method is tested within the `MyArrayList` class
+
 **Test file:** [MyArrayListTest](../test/nl/saxion/cds/solution/data_structures/MyArrayListTest.java)
 
 ## My linear search algorithm
 **Classification:** `O(N)`
 
-It is O(N) because it has to go through the whole input N to find the element.
+It is `O(N)` because it has to go through the whole input N to find the element.
 
 The linear search was already implemented in the `MyArrayList` class, so I didn't have to implement it again.
 It is by far the simplest search algorithm and I have used it many times before.
@@ -70,6 +71,7 @@ The linear search algorithm works by iterating over the whole array and checking
 
 #### Testing
 Method is tested within the `MyArrayList` class
+
 **Test file:** [MyArrayListTest](../test/nl/saxion/cds/solution/data_structures/MyArrayListTest.java)
 
 ## My QuickSort algorithm
@@ -92,6 +94,7 @@ The pivot is then in its final position. This process is repeated for the left a
 
 #### Testing
 Method is tested within the `MyArrayList` class
+
 **Test file:** [MyArrayListTest](../test/nl/saxion/cds/solution/data_structures/MyArrayListTest.java)
 
 ## My selectionSort algorithm
@@ -105,11 +108,14 @@ Another loop to compare that element with every other Array element
 We were given a choice to implement either selection or insertion sort. I have decided to try both.
 It was fairly easy, but I still had to watch explanatory video on YouTube to get the concept right.
 
+Reference: [Selection Sort](https://youtu.be/g-PGLbMth_g?si=FS91ra395-UM67TB)
+
 #### Explanation
 The selection sort algorithm works by selecting the smallest element from the array and swapping it with the first element. Then it selects the second smallest element and swaps it with the second element, and so on.
 
 #### Testing
 Method is tested within the `MyArrayList` class
+
 **Test file:** [MyArrayListTest](../test/nl/saxion/cds/solution/data_structures/MyArrayListTest.java)
 
 ## My insertionSort algorithm
@@ -123,11 +129,14 @@ Another loop to compare that element with the already sorted elements in the arr
 I have implemented insertion sort as well, as I wanted to try both sorting algorithms. It was a bit more challenging to me than selection sort, but I have managed to implement it 
 also with help of YouTube videos.
 
+Reference: [Insertion Sort](https://youtu.be/JU767SDMDvA?si=_ftKuSO_CVTybp-Q)
+
 #### Explanation
 The insertion sort algorithm works by selecting the first element and comparing it with the second element. If the second element is smaller, it is swapped with the first element. Then the third element is compared with the first and second element and so on.
 
 #### Testing
 Method is tested within the `MyArrayList` class
+
 **Test file:** [MyArrayListTest](../test/nl/saxion/cds/solution/data_structures/MyArrayListTest.java)
 
 ## My BST
@@ -393,7 +402,7 @@ Method reference: `showStationByName()`
 
 ## Show stations sorted alphabetically based on type
 For this method, I decided to create another hashmap, where key is being the type of the station and the value is being the SaxList of all stations with the given type.
-First, the user is prompted to select the station type. Getting the respective station type is O(1) operation, as I simply get the value from the hashmap. Then I sort the list alphabetically using `quickSort()`, which is `O(NlogN)` and print the stations to the user. I allow user to select station and show full information about it.
+First, the user is prompted to select the station type. Getting the respective station type is O(1) operation, as I simply get the value from the hashmap. Then I sort the list alphabetically using `quickSort()`, which is `O(NlogN)` and print the stations to the user.
 
 Method reference: `showSortedStationsByType()`
 

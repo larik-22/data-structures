@@ -1,7 +1,7 @@
 package nl.saxion.cds.solution.data_models;
 
 public class Entry<Key, Val> {
-    private Key key;
+    private final Key key;
     private Val value;
 
     public Entry(Key key, Val value) {
@@ -17,7 +17,6 @@ public class Entry<Key, Val> {
         return value;
     }
 
-    // TODO: TEST
     public void setValue(Val value) {
         this.value = value;
     }

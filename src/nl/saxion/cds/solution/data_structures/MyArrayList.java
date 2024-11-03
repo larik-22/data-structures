@@ -36,7 +36,6 @@ public class MyArrayList<V> implements SaxList<V>, SaxSearchable<V>, SaxSortable
         return false;
     }
 
-    //TODO: write a test for this method and write in docs about it.
     /**
      * Clear all elements from the list and set the size to 0.
      */

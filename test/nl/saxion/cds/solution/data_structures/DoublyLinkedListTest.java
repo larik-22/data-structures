@@ -243,7 +243,6 @@ public class DoublyLinkedListTest {
         });
     }
 
-    /*** Todo: Write about it in docs //// AAAAASK IF YOU SHOULD USE OTHER EXCEPTION ***/
     @Test
     public void givenEmptyList_WhenRemovingItemByValue_ExceptionIsThrown(){
         assertThrows(ValueNotFoundException.class, () -> {

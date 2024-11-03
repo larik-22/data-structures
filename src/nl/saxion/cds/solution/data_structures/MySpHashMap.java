@@ -11,7 +11,7 @@ public class MySpHashMap<K, V> implements SaxHashMap<K, V> {
     private final int MAX_LOAD_FACTOR = 70;
 
     private MyArrayList<Entry<K, V>>[] table;
-    private MyArrayList<K> keys;
+    private final MyArrayList<K> keys;
 
     public MySpHashMap(int length) {
         table = new MyArrayList[length];

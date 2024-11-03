@@ -3,8 +3,6 @@ package nl.saxion.cds.solution.data_structures;
 import nl.saxion.cds.collection.EmptyCollectionException;
 import nl.saxion.cds.collection.SaxStack;
 
-import java.util.HashMap;
-
 public class MyStack<T> implements SaxStack<T> {
     private final DoublyLinkedList<T> stack;
 

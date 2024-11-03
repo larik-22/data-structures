@@ -1,9 +1,7 @@
 package nl.saxion.cds.utils;
 
-import nl.saxion.cds.utils.CsvReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.csv.Csv;
 
 import java.io.FileNotFoundException;
 import java.util.HashSet;

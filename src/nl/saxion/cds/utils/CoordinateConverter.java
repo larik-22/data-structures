@@ -1,6 +1,5 @@
 package nl.saxion.cds.utils;
 
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 public class CoordinateConverter {

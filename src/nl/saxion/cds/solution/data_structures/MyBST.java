@@ -9,8 +9,8 @@ import java.util.Comparator;
 
 public class MyBST<K extends Comparable<K>, V> implements SaxBinaryTree<K, V> {
     private MyBSTNode<K, V> root;
-    private Comparator<K> comparator;
-    private MyArrayList<K> keys;
+    private final Comparator<K> comparator;
+    private final MyArrayList<K> keys;
     private int size;
 
     public MyBST(Comparator<K> comparator) {

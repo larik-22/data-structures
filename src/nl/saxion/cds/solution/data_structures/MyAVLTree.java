@@ -7,7 +7,7 @@ import java.util.Comparator;
 
 public class MyAVLTree<K extends Comparable<K>, V> extends MyBST<K, V> {
     private int size;
-    private MyArrayList<K> keys;
+    private final MyArrayList<K> keys;
 
     public MyAVLTree(Comparator<K> comparator) {
         super(comparator);

@@ -4,10 +4,8 @@ import nl.saxion.app.SaxionApp;
 import nl.saxion.cds.solution.data_structures.MyArrayList;
 import nl.saxion.cds.solution.data_structures.MySpHashMap;
 import nl.saxion.cds.solution.data_models.Station;
-import nl.saxion.cds.utils.LambdaReader;
 import nl.saxion.cds.utils.OptionSelector;
 
-import java.io.FileNotFoundException;
 import java.util.Comparator;
 
 public class StationManager {
@@ -122,7 +120,7 @@ public class StationManager {
         // print the stations
         StringBuilder sb = new StringBuilder();
         for (Station station : stations) {
-            sb.append(station).append("\n");
+            sb.append(station.getName()).append("\n");
         }
 
         System.out.println(sb);
