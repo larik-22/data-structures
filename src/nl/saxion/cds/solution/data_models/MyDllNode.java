@@ -1,4 +1,4 @@
-package nl.saxion.cds.solution.data_structures;
+package nl.saxion.cds.solution.data_models;
 
 import java.util.Objects;
 

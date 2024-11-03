@@ -59,7 +59,7 @@ public class Application {
         }
     }
 
-    public int promptMainMenu(){
+    private int promptMainMenu(){
         return OptionSelector.selectOption(MENU_OPTIONS);
     }
 

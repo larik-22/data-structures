@@ -10,7 +10,6 @@ import nl.saxion.cds.solution.data_structures.MyArrayList;
 import nl.saxion.cds.solution.data_structures.MySpHashMap;
 import nl.saxion.cds.utils.CoordinateConverter;
 import nl.saxion.cds.utils.CsvReader;
-import nl.saxion.cds.utils.LambdaReader;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -107,7 +106,7 @@ public class SaxionAppDemo implements Runnable {
                 }
                 case 2 -> {
                     // mst
-                    determineMST();
+                    determineMCST();
                 }
                 case 3 -> {
                     SaxionApp.printLine("Goodbye!");
@@ -146,7 +145,7 @@ public class SaxionAppDemo implements Runnable {
     /**
      * Clear the screen and re-draws the map with tracks and stations
      */
-    private void initializeScreen() throws FileNotFoundException {
+    private void initScreen() throws FileNotFoundException {
         SaxionApp.clear();
         initMap();
         drawTracks();
@@ -159,20 +158,12 @@ public class SaxionAppDemo implements Runnable {
      * @throws FileNotFoundException if the file is not found
      */
     private void readStations() throws FileNotFoundException {
+        MyArrayList<Station> stationList = Station.readStations();
         stations = new MySpHashMap<>();
-        LambdaReader<Station> reader = new LambdaReader<>(
-                "resources/stations.csv",
-                true,
-                Station::parseStation,
-                ","
-        );
-        MyArrayList<Station> stationList = reader.readObjects();
 
         for (Station station : stationList) {
             stations.add(station.getCode(), station);
         }
-
-        reader.close();
     }
 
     /**
@@ -288,7 +279,7 @@ public class SaxionAppDemo implements Runnable {
      * @throws FileNotFoundException if the file is not found
      */
     private void determineShortestPath(String from, String to, String algorithm) throws FileNotFoundException {
-        initializeScreen();
+        initScreen();
 
         from = from.toUpperCase();
         to = to.toUpperCase();
@@ -301,37 +292,38 @@ public class SaxionAppDemo implements Runnable {
         switch (algorithm) {
             case "A*" -> {
                 // a*
-                shortestPathEdges = tracks.shortestPathAStar(from, to, (current, goal) -> {
-                    Station currentStation = stations.get(current);
-                    Station goalStation = stations.get(goal);
+                try {
+                    shortestPathEdges = tracks.shortestPathAStar(from, to, (current, goal) -> {
+                        Station currentStation = stations.get(current);
+                        Station goalStation = stations.get(goal);
 
-                    return Coordinate.haversineDistance(currentStation.getCoordinate(), goalStation.getCoordinate());
-                });
+                        return Coordinate.haversineDistance(currentStation.getCoordinate(), goalStation.getCoordinate());
+                    });
 
-                if(shortestPathEdges == null) {
+                    // calculate total distance
+                    for (SaxGraph.DirectedEdge<String> edge : shortestPathEdges) {
+                        totalDistance += edge.weight();
+                    }
+                } catch (Exception e) {
                     SaxionApp.printLine("No path found between the stations", Color.RED);
+                    System.out.println("No path found between the stations");
                     SaxionApp.pause();
                     return;
-                }
-
-                // calculate total distance
-                for (SaxGraph.DirectedEdge<String> edge : shortestPathEdges) {
-                    totalDistance += edge.weight();
                 }
             }
 
             case "Dijkstra" -> {
                 // dijkstra
-                shortestPathEdges = tracks.getDijkstraEdges(from, to);
-
-                if (shortestPathEdges.isEmpty()) {
+                try {
+                    shortestPathEdges = tracks.getDijkstraEdges(from, to);
+                    // total distance is the weight of the last edge
+                    totalDistance = shortestPathEdges.get(shortestPathEdges.size() - 1).weight();
+                } catch (Exception e) {
                     SaxionApp.printLine("No path found between the stations", Color.RED);
+                    System.out.println("No path found between the stations");
                     SaxionApp.pause();
                     return;
                 }
-
-                // total distance is the weight of the last edge
-                totalDistance = shortestPathEdges.get(shortestPathEdges.size() - 1).weight();
             }
         }
 
@@ -400,7 +392,7 @@ public class SaxionAppDemo implements Runnable {
      * Determines the minimum cost spanning tree and draws it on the map
      * Only draws stations and tracks in the Netherlands
      */
-    private void determineMST() throws FileNotFoundException {
+    private void determineMCST() throws FileNotFoundException {
         MyAdjacencyListGraph<String> mst = (MyAdjacencyListGraph<String>) tracks.minimumCostSpanningTree();
         MyAdjacencyListGraph<String> filteredMST = new MyAdjacencyListGraph<>();
 
@@ -410,7 +402,7 @@ public class SaxionAppDemo implements Runnable {
             }
         }
 
-        drawMST(filteredMST);
+        drawMCST(filteredMST);
         SaxionApp.pause();
     }
 
@@ -420,7 +412,7 @@ public class SaxionAppDemo implements Runnable {
      * Additionally, prints the total length of the connections.
      * @param mst the minimum cost spanning tree
      */
-    private void drawMST(MyAdjacencyListGraph<String> mst) throws FileNotFoundException {
+    private void drawMCST(MyAdjacencyListGraph<String> mst) throws FileNotFoundException {
         StringBuilder sb = new StringBuilder();
         nlOnly = true;
 
@@ -428,7 +420,7 @@ public class SaxionAppDemo implements Runnable {
         clearAndDrawMap();
         drawTracks();
         SaxionApp.setBorderColor(Color.ORANGE);
-        SaxionApp.drawText("Track connections before MST algorithm (Click to proceed)", 10, 8, 14);
+        SaxionApp.drawText("Track connections before MCST algorithm (Click to proceed)", 10, 8, 14);
 
         // Wait for user to click
         SaxionApp.pause();

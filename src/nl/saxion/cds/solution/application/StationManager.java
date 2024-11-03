@@ -20,38 +20,22 @@ public class StationManager {
     }
 
     /**
-     * Load stations from the CSV file using the LambdaReader
-     * @throws RuntimeException if the file is not found
+     * Fills up all data structures with the stations
      */
     private void loadStations(){
-        fillArrayList();
+        stationsMyArrayList = Station.readStations();
         fillHashMaps();
     }
 
     /**
-     * Fill the stationMyArrayList with the stations from the CSV file
-     */
-    private void fillArrayList(){
-        try {
-            LambdaReader<Station> lambdaReader = new LambdaReader<Station>(
-                    "resources/stations.csv",
-                    true,
-                    Station::parseStation,
-                    ","
-            );
-
-            stationsMyArrayList = lambdaReader.readObjects();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Fills the hashmap with the stations, with key being the station code
-     * and value being the station object
+     * Fills two hashmaps:
+     * - one representing the code and station
+     * - one representing the type and list of stations
+     * Filling is not done if the list of stations is empty
+     * @throws IllegalStateException if the list of stations is empty
      */
     private void fillHashMaps(){
-        if(stationsMyArrayList.isEmpty()) return;
+        if(stationsMyArrayList.isEmpty()) throw new IllegalStateException("No stations found");
 
         stationMySpHashMap = new MySpHashMap<>();
         stationTypeHashMap = new MySpHashMap<>();
@@ -140,11 +124,12 @@ public class StationManager {
         for (Station station : stations) {
             sb.append(station).append("\n");
         }
+
         System.out.println(sb);
     }
 
     /**
-     * Launches the demonstration of all algorithms
+     * Launches the demonstration of all algorithms in a new thread
      */
     public void visualDemontration() {
         new Thread(() -> {

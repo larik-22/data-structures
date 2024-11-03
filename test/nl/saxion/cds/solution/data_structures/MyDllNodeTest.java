@@ -1,5 +1,6 @@
 package nl.saxion.cds.solution.data_structures;
 
+import nl.saxion.cds.solution.data_models.MyDllNode;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

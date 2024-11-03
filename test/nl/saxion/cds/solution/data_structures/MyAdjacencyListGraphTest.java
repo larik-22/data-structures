@@ -109,7 +109,7 @@ public class MyAdjacencyListGraphTest {
     }
 
     @Test
-    public void GivenGraphWithStringElements_WhenIterating_ConfirmCorrectOrder() {
+    public void GivenGraphWithEdges_ConfirmCorrectIterator() {
         graph.addEdge("A", "B", 1);
         graph.addEdge("A", "C", 2);
         graph.addEdge("A", "E", 3);
@@ -193,6 +193,9 @@ public class MyAdjacencyListGraphTest {
     @Test
     public void GivenTwoStations_WhenUsingDijkstra_ConfirmShortestRouteIsDeterminedCorrectly() throws FileNotFoundException {
         MyAdjacencyListGraph<String> graph = readTracks();
+
+        SaxGraph<String> dijkstra = graph.shortestPathsDijkstra(AMSTERDAM_CODE);
+        System.out.println(dijkstra.graphViz("test"));
 
         SaxList<String> dvToEs = graph.dijkstra(DEVENTER_CODE, ENSCHEDE_CODE);
 

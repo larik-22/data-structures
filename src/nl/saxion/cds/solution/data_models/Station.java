@@ -1,6 +1,9 @@
 package nl.saxion.cds.solution.data_models;
 
 import nl.saxion.cds.solution.data_structures.MyArrayList;
+import nl.saxion.cds.utils.LambdaReader;
+
+import java.io.FileNotFoundException;
 
 public class Station {
     private final String code, name, country, type;
@@ -55,6 +58,26 @@ public class Station {
 
     public static Station parseStation(MyArrayList<String> data){
         return new Station(data.get(0), data.get(1), data.get(2), data.get(3), Double.parseDouble(data.get(4)), Double.parseDouble(data.get(5)));
+    }
+
+    /**
+     * Reads the stations from the CSV file
+     * @return a list of stations
+     * @throws RuntimeException if the file is not found
+     */
+    public static MyArrayList<Station> readStations(){
+        try {
+            LambdaReader<Station> lambdaReader = new LambdaReader<Station>(
+                    "resources/stations.csv",
+                    true,
+                    Station::parseStation,
+                    ","
+            );
+
+             return lambdaReader.readObjects();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

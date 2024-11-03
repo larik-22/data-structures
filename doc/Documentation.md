@@ -1,6 +1,9 @@
 # Algorithms and classes
 
 ## MijnArrayList
+**Class Diagram:**
+Teacher implemented this class for us, so I didn't have to create it myself.
+
 **Implementation:** [mijn implementatie](../src/nl/saxion/cds/solution/data_structures/MyArrayList.java)
 
 As I started building my own utility Csv Reader, based on the ArrayList, I had to add one additional method `clear()`.
@@ -11,6 +14,11 @@ This method simply sets the size of the list to 0 and internal array to default 
 **Test file:** [MyArrayListTest](../test/nl/saxion/cds/solution/data_structures/MyArrayListTest.java)
 
 ## DoublyLinkedList
+
+**Class Diagram:**
+
+![MyDLL](../resources/docs/dll_diagram.png)
+
 **Implementation:** [my implementation](../src/nl/saxion/cds/solution/data_structures/DoublyLinkedList.java);
 
 Implementing a doubly linked list was the assignment of the first week to get a fresh reminder of the basic data structures.
@@ -24,7 +32,7 @@ I stumbled upon a [stack overflow post](https://stackoverflow.com/questions/7044
 After that I have used chatGPT to achieve getting same script output based on elements inside my list.
 
 #### Explanation
-By using a `Node` class, it is possible to create connections between nodes and form a list. We track head, tail and size of the list. In methods `addFirst()`, `addLast()` and `remove()` we adjust the pointers accordingly.
+By using a `MyDLLNode` class, it is possible to create connections between nodes and form a list. We track head, tail and size of the list. In methods `addFirst()`, `addLast()` and `remove()` we adjust the pointers accordingly.
 
 #### Testing
 **Test file:** [DoublyLinkedListTest](../test/nl/saxion/cds/solution/data_structures/DoublyLinkedListTest.java)
@@ -123,6 +131,11 @@ Method is tested within the `MyArrayList` class
 **Test file:** [MyArrayListTest](../test/nl/saxion/cds/solution/data_structures/MyArrayListTest.java)
 
 ## My BST
+
+**Class Diagram**: 
+
+![MyBST](../resources/docs/bst_diagram.png)
+
 **Implementation:** [my implementation](../src/nl/saxion/cds/solution/data_structures/MyBST.java);
 
 I have created a normal binary search tree (without balancing) first to refresh my memory on how it works.
@@ -136,6 +149,10 @@ The binary search tree works by inserting elements in a sorted order. If the ele
 **Test file:** [MyBSTTest](../test/nl/saxion/cds/solution/data_structures/MyBSTTreeTest.java)
 
 ## My AVL
+**Class Diagram**:
+
+![MyAVL](../resources/docs/avl_diagram.png)
+
 **Implementation:** [my implementation](../src/nl/saxion/cds/solution/data_structures/MyAVLTree.java);
 
 This was by far the most challenging task for me. During the lectures, I thought I understood it, however I couldn't wrap my head around actual implementation.
@@ -158,6 +175,10 @@ The AVL tree is `O(log(N))` for all operations, because it is always perfectly b
 **Test file:** [MyAVLTreeTest](../test/nl/saxion/cds/solution/data_structures/MyAVLTreeTest.java)
 
 ## MyHashMap (Separate Chaining)
+**Class Diagram**: 
+
+![MyHashMap](../resources/docs/hashmap_diagram.png)
+
 **Implementation:** [my implementation](../src/nl/saxion/cds/solution/data_structures/MySpHashMap.java);
 
 I have decided to pick separate chaining hash map as it is the most common and easiest to implement.
@@ -178,6 +199,11 @@ We also keep track of the load factor, which is number of elements divided by th
 **Test file:** [MySpHashMapTest](../test/nl/saxion/cds/solution/data_structures/MySpHashMapTest.java)
 
 ## My MinHeap
+
+**Class Diagram:**
+
+![MyMinHeap](../resources/docs/minheap_diagram.png)
+
 **Implementation:** [my implementation](../src/nl/saxion/cds/solution/data_structures/MyMinHeap.java);
 
 My heap implementation uses a `MyArrayList` class as a base structure. I have decided to create a Min Heap, since it also works as a priority queue, which is used in Graph algorithms later.
@@ -192,6 +218,11 @@ If the parent is greater, we swap the elements. When we remove an element, we re
 **Test file:** [MyMinHeapTest](../test/nl/saxion/cds/solution/data_structures/MyMinHeapTest.java)
 
 ## MyQueue
+
+**Class Diagram:**
+
+![MyQueue](../resources/docs/queue_diagram.png)
+
 **Implementation:** [my implementation](../src/nl/saxion/cds/solution/data_structures/MyQueue.java);
 
 I have implemented queue with the help of `MyDoublyLinkedList`.
@@ -206,6 +237,11 @@ The queue works by adding elements to the end of the list and removing elements 
 **Test file:** [MyQueueTest](../test/nl/saxion/cds/solution/data_structures/MyQueueTest.java)
 
 ## MyStack
+
+**Class Diagram:**
+
+![MyStack](../resources/docs/stack_diagram.png)
+
 **Implementation:** [my implementation](../src/nl/saxion/cds/solution/data_structures/MyStack.java);
 
 Same as with the queue, I have implemented stack with the help of `MyDoublyLinkedList`.
@@ -234,6 +270,10 @@ This class is basically a CsvReader, but more advanced. It is useful, when you n
 I learned this technique during the SDP course and had implementation ready, however I also adjusted it to use `MyArrayList` instead of `ArrayList`.
 
 ## My Graph
+**Class Diagram**:
+
+![MyGraph](../resources/docs/graph_diagram.png)
+
 **Implementation:** [my implementation](../src/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraph.java);
 
 I have decided to implement graph as an adjacency list, as it is the most common and easiest to implement. I had to create additional methods, such as `getVertices()` to make use of them in my Application with visual representation.
@@ -266,7 +306,10 @@ My implementation is a little bit strange, as I first create an arraylist and ad
 It is tested within the `MyAdjacencyListGraph` class
 
 ### My Dijkstra algorithm
-Classification: 
+**Classification:**
+`O((V + E) log V)` with a priority queue, where `V` represents the number of vertices and `E` represents the number of edges in the graph.
+
+References: [Geeks for Geeks](https://www.geeksforgeeks.org/time-and-space-complexity-of-dijkstras-algorithm/), [Wiki](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
 
 **Implementation:** [my implementation](../src/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraph.java);
 
@@ -284,9 +327,12 @@ We repeat this process until the open list is empty.
 It is tested within the `MyAdjacencyListGraph` class
 
 ### My A* algorithm
-Classification: 
+**Classification:** 
+The overall time complexity of the algorithm is `(O(E \ log V))`, where `(E)` is the number of edges and `(V)` is the number of vertices in the graph. Priority queue operations and graph traversal are the main operations in the algorithm. 
 
-Implementation: [my implementation](../src/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraph.java);
+References: [Geeks for Geeks](https://www.geeksforgeeks.org/a-search-algorithm/), [Wiki](https://en.wikipedia.org/wiki/A*_search_algorithm)
+
+**Implementation:** [my implementation](../src/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraph.java);
 
 It is part of `shortestPathAStar()` method in `MyAdjacencyListGraph` class.
 
@@ -302,9 +348,14 @@ We repeat this process until the open list is empty. If the goal node is reached
 **Test file:** [MyAdjacencyListGraphTest](../test/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraphTest.java)
 
 ### My MCST algorithm  
-Classification:
+**Classification:**
+`O(VlogV + ElogV) = O(ElogV)`
 
-Implementation: [my implementation](../src/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraph.java);
+Where V is the number of vertices and E is the number of edges in the graph.  
+
+Reference: [University of Michigan](https://www.eecs.umich.edu/courses/eecs380/ALG/prim.html#:~:text=The%20time%20complexity%20is%20O,O(E%20%2B%20logV).)
+
+**Implementation:** [my implementation](../src/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraph.java);
 
 It is part of `minimumCostSpanningTree()` method in `MyAdjacencyListGraph` class.
 
@@ -321,16 +372,30 @@ It is tested within the `MyAdjacencyListGraph` class
 # Technical design My Application
 
 ## Class diagram and reading the data
+![MyApp](../resources/docs/app_diagram.png)
+
+- As you can see, `Application` class is the main class, which contains the main method. It is responsible for running the application and displaying the menu to the user. However the application logic is distributed among `StationManager` and `SaxionAppDemo`. First is being responsible for handling methods fulfilling main requirements. The later one, as the naming implies, is used for graph algorithms visualization. It has it's own menu and allows user to see output of three different algorithms (Dijkstra, A*, Prim's MCST)
+- Reading the data related for stations is done using `LambdaReader` utility class. It reads the data from `stations.csv` file and creates a list of `Station` objects. This method is static and placed in the `Station` class. Other data structures are read based on the previously read stations data. 
 
 ## Station search by station code
 To implement this feature, I store the data in a hash map, where the key is the station code and the value is the station class.
 When the user enters the station code, I simply get the value from the hash map and return it. It is O(1) operation, which is the best case scenario. Storing data in arrayList would be O(N) operation, as we would have to iterate over the whole list to find the station.
 If the station code is not found, respective message is printed.
 
+Method reference: `showStationByCode()`
+
 ## Station search based on the beginning of the name
 This feature is a little bit more tricky. I had an idea of constructing an AVL tree with substrings of each station name. This would allow me to search for the station name in O(log(N)) time, since the tree would be perfectly balanced.
 However, the problem with this approach, is that you cannot store each substring alphabetically. Therefore, my search is a O(N) operation, as I iterate through the `MyArrayList` list instance and check for matches with the given substring.
 If there are multiple matches, I store them in a list and print the names to the user to choose from. After user chooses the station, I show full information about it.
+
+Method reference: `showStationByName()`
+
+## Show stations sorted alphabetically based on type
+For this method, I decided to create another hashmap, where key is being the type of the station and the value is being the SaxList of all stations with the given type.
+First, the user is prompted to select the station type. Getting the respective station type is O(1) operation, as I simply get the value from the hashmap. Then I sort the list alphabetically using `quickSort()`, which is `O(NlogN)` and print the stations to the user. I allow user to select station and show full information about it.
+
+Method reference: `showSortedStationsByType()`
 
 ## Implementation shortest route
 I have implemented a separate Runnable `SaxionAppDemo`, which demonstrates graph algorithms. For shortest route specifically, I prompt user to select two stations and select which algorithm to use (Dijkstra or A*).
@@ -343,14 +408,18 @@ The approach is similar for Dijkstra algorithm, but I don't use the Estimator cl
 
 Apart from visual representation of the path, I also print the path and total length to the console.
 
+Method reference: `determineShortestPath()`
+
 ## Implementation minimum cost spanning tree 
 Also being a part of the `SaxionAppDemo`, I have implemented the MCST algorithm. I have used the Prim's algorithm, as it is easier to implement and understand.
 I use the same graph, which was read from `tracks.csv` and run the algorithm on it. Then, as the assignment requires, I filter the graph to only contain Dutch stations.
 After that I show user the track connections before and after the algorithm is run, and print the total length of the MCST and number of connections.
 
+Method reference: `determineMCST()`
+
 ## Implementation graphic representation(s)
 For the graphic representation of graph algorithms, I have created separate runnable `SaxionAppDemo`, which can be invoked from the main menu.
 It also contains a menu, to allow user to select which algorithm to see. The graphical representation is done with the help of `SaxionApp` library. The biggest challenge was conversion of the GPS coordinates to pixel values. I have tried all sorts of approaches, but couldn't make it most accurate.
-Therefore, some stations are not placed correctly on the map. 
+Therefore, some stations are not placed correctly on the map. My conversion logic happens in a separate static utility `CoordinateConverter` class.
 
 When visualizing the shortest path, I also allow user to select whether they want to see all tracks and stations, or just Netherlands.
