@@ -13,6 +13,8 @@ This method simply sets the size of the list to 0 and internal array to default 
 #### Testing
 **Test file:** [MyArrayListTest](../test/nl/saxion/cds/solution/data_structures/MyArrayListTest.java)
 
+Tests include core methods from the `MyArrayList` class, for adding, removing and getting data. I have tested every method with multiple test cases, including edge cases.
+
 ## DoublyLinkedList
 
 **Class Diagram:**
@@ -34,10 +36,11 @@ After that I have used chatGPT to achieve getting same script output based on el
 #### Explanation
 By using a `MyDLLNode` class, it is possible to create connections between nodes and form a list. We track head, tail and size of the list. In methods `addFirst()`, `addLast()` and `remove()` we adjust the pointers accordingly.
 
+
 #### Testing
 **Test file:** [DoublyLinkedListTest](../test/nl/saxion/cds/solution/data_structures/DoublyLinkedListTest.java)
 
-When it comes to testing, I have tested every method with multiple test cases, including edge cases.
+I have tested every method with multiple test cases, including edge cases. I tested adding, removing, setting, getting and clearing the list.
 I went a bit overboard and tested every method with multiple test cases.
 I have achieved 100% coverage just out of curiosity, but I believe it was a good practice to do so.
 
@@ -157,6 +160,7 @@ The binary search tree works by inserting elements in a sorted order. If the ele
 #### Testing
 **Test file:** [MyBSTTest](../test/nl/saxion/cds/solution/data_structures/MyBSTTreeTest.java)
 
+I test adding elements and ensure correct order. I test removing elements and all possible cases, including removing the root, removing leaf, removing node with one child and removing node with two children. I test adding duplicate keys and ensure that the correct exception is thrown.
 ## My AVL
 **Class Diagram**:
 
@@ -183,6 +187,8 @@ The AVL tree is `O(log(N))` for all operations, because it is always perfectly b
 #### Testing
 **Test file:** [MyAVLTreeTest](../test/nl/saxion/cds/solution/data_structures/MyAVLTreeTest.java)
 
+Most of the testing is focused on adding and ensuring correct balance factors and overall sequence of elements. I have test, where all possible rotations are invoked when adding an element.
+
 ## MyHashMap (Separate Chaining)
 **Class Diagram**: 
 
@@ -207,6 +213,8 @@ We also keep track of the load factor, which is number of elements divided by th
 #### Testing
 **Test file:** [MySpHashMapTest](../test/nl/saxion/cds/solution/data_structures/MySpHashMapTest.java)
 
+Testing includes correct adding, getting and removing elements. `rehash()` method is invoked during tests and ensured that the map is correctly resized and all elements are in the correct buckets.
+
 ## My MinHeap
 
 **Class Diagram:**
@@ -225,6 +233,8 @@ If the parent is greater, we swap the elements. When we remove an element, we re
 
 #### Testing
 **Test file:** [MyMinHeapTest](../test/nl/saxion/cds/solution/data_structures/MyMinHeapTest.java)
+
+The testing is focused on adding and removing elements and ensuring that the heap property is maintained, e.g. the parent is always smaller than its children.
 
 ## MyQueue
 
@@ -245,6 +255,8 @@ The queue works by adding elements to the end of the list and removing elements 
 #### Testing
 **Test file:** [MyQueueTest](../test/nl/saxion/cds/solution/data_structures/MyQueueTest.java)
 
+Testing is focused on adding and removing elements and ensuring that the queue works correctly. I check if the queue properties are maintained, e.g. the first element is removed first and the last element is removed last. First in, first out. Last in, last out.
+
 ## MyStack
 
 **Class Diagram:**
@@ -262,6 +274,8 @@ We use `DoublyLinkedList` under the hood to store the elements.
 
 #### Testing
 **Test file:** [MyStackTest](../test/nl/saxion/cds/solution/data_structures/MyStackTest.java)
+
+Same as queue, testing is focused on adding and removing elements and ensuring that the stack works correctly. I check if the stack properties are maintained, e.g. the last element is removed first and the first element is removed last. Last in, first out. First in, last out.
 
 ## Utilities
 
@@ -296,6 +310,8 @@ When `addEdge()` is invoked with vertices that are not in the graph, they are cr
 
 #### Testing
 **Test file:** [MyAdjacencyListGraphTest](../test/nl/saxion/cds/solution/data_structures/MyAdjacencyListGraphTest.java)
+
+Apart from testing correct algorithms' behaviour, I have tested adding and removing vertices and edges and check if the connections are correct. 
 
 ### My iterative breadth first search algorithm
 Classification: 
@@ -384,6 +400,8 @@ It is tested within the `MyAdjacencyListGraph` class
 ![MyApp](../resources/docs/app_diagram.png)
 
 - As you can see, `Application` class is the main class, which contains the main method. It is responsible for running the application and displaying the menu to the user. However the application logic is distributed among `StationManager` and `SaxionAppDemo`. First is being responsible for handling methods fulfilling main requirements. The later one, as the naming implies, is used for graph algorithms visualization. It has it's own menu and allows user to see output of three different algorithms (Dijkstra, A*, Prim's MCST)
+- The main method in `Application` is `run()` which is responsible for displaying the main menu and handling user input. It is a loop, which runs until the user decides to exit the application.
+- `SaxionAppDemo` has a similar structure, but it is used for graph algorithms visualization. 
 - Reading the data related for stations is done using `LambdaReader` utility class. It reads the data from `stations.csv` file and creates a list of `Station` objects. This method is static and placed in the `Station` class. Other data structures are read based on the previously read stations data. 
 
 ## Station search by station code
@@ -403,6 +421,7 @@ Method reference: `showStationByName()`
 ## Show stations sorted alphabetically based on type
 For this method, I decided to create another hashmap, where key is being the type of the station and the value is being the SaxList of all stations with the given type.
 First, the user is prompted to select the station type. Getting the respective station type is O(1) operation, as I simply get the value from the hashmap. Then I sort the list alphabetically using `quickSort()`, which is `O(NlogN)` and print the stations to the user.
+I can't think of a better setup for this feature. If I were to use just `MyArrayList`, I would have to iterate over the whole list and check for the type, which would be O(N) operation, as we would have to process the whole list.
 
 Method reference: `showSortedStationsByType()`
 
@@ -413,7 +432,8 @@ For both algorithms, I use tracks and stations, which I store in Graph and HashM
 When it comes to A*, after two stations are selected, I create an Estimator instance based on coordinates of start and goal station. After that, I use a helper method, which converts the list of directed edges into list of nodes (stations codes).
 This allows me to draw the path visually, by simple getting the coordinates of each station from hashmap and drawing a line between them.
 
-The approach is similar for Dijkstra algorithm, but I don't use the Estimator class, as it is not needed. 
+The approach is similar for Dijkstra algorithm, but I don't use the Estimator class, as it is not needed. The `tracks` graph is used to find the shortest path between two stations.
+For both algorithms, I convert the list of directed edges into list of nodes and draw the path on the map.
 
 Apart from visual representation of the path, I also print the path and total length to the console.
 
